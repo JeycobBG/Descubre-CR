@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Lista Albums</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <section>
+            <h3>Lista de Albums</h3>
+            
+            <table border="1">
+            <tr>
+                <th>Nombre del Autor</th>
+                <th>Nombre del Lugar</th>
+                <th>Enlace al album</th>
+                <th>Opciones</th>
+            </tr>
+            <tr th:each="temp:${albums}"> 
+                <td th:text="${temp.nombreAutor}"></td>
+                <td th:text="${temp.nombreLugar}"></td>
+                <td><a th:href="@{${temp.id}}">Enlace</a></td>
+                
+                <td><a th:href="@{'editar/'+${temp.id}}">Editar </a>
+                    &nbsp;
+                    &nbsp;
+                    <a th:href="@{'eliminar/'+${temp.id}}">Eliminar</a></td>
+            </tr>
+        </table>
+        </section>
+        
+        <footer>   
+            <h4>
+                CopyRight 2024
+            </h4>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Escribir Artículo</title>
+    <link href="/CSS/escribirStyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="/" class="btn">
+    <img src="/CSS/LOGO.png" alt="Volver al Inicio" style="width: 100px; height: 70px;">
+</a>
+
+<h2>Escribir un nuevo artículo</h2>
+<form action="/articulos/guardar-articulo" method="post">
+
+    <label for="identificador">Identificador:</label><br>
+    <input type="text" id="identificador" name="identificador" required><br>
+    
+    <label for="titulo">Título:</label><br>
+    <input type="text" id="titulo" name="titulo" required><br>
+    
+    <label for="tema">Tema:</label><br>
+    <input type="text" id="tema" name="tema" required><br>
+    
+    <label for="nombreAutor">Nombre del autor:</label><br>
+    <input type="text" id="nombreAutor" name="nombreAutor" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Por favor, ingresa solo letras" required><br>
+    
+    <label for="fecha">Fecha:</label><br>
+    <input type="date" id="fecha" name="fecha" required><br>
+    <script>
+    var fechaActual = new Date().toISOString().split('T')[0];
+
+    document.getElementById('fecha').setAttribute('max', fechaActual);
+
+    function validarFecha() {
+        var fechaSeleccionada = document.getElementById('fecha').value;
+        if (fechaSeleccionada > fechaActual) {
+            alert('La fecha seleccionada debe ser anterior a la fecha actual.');
+            document.getElementById('fecha').value = '';
+            return false;
+        }
+        return true;
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (!validarFecha()) {
+            event.preventDefault(); 
+        }
+    });
+</script>
+    <label for="acercaDelAutor">Acerca del autor:</label><br>
+    <textarea id="acercaDelAutor" name="acercaDelAutor" rows="4" cols="50" required></textarea><br>
+
+    <label for="textoArticulo">Texto del artículo:</label><br>
+    <textarea id="textoArticulo" name="textoArticulo" rows="10" cols="50" required></textarea><br>
+    
+    <input type="submit" value="Guardar">
+</form>
+</body>
+</html>
+

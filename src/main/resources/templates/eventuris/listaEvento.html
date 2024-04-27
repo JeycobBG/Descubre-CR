@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Eventos Turísticos</title>
+    <link rel="stylesheet" th:href="@{/CSS/listaStyle.css}" />
+</head>
+<body>
+    <a href="/" class="btn">
+        <img src="/CSS/LOGO.png" alt="Volver al Inicio" style="width: 100px; height: 70px;">
+    </a>
+    <h2>Lista de Eventos Turísticos</h2>
+
+    <div th:each="evento : ${eventos}">
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; background-color: #f9f9f9;">
+            <h3 th:text="${evento.titulo}"></h3>
+            <p><strong>Código:</strong> <span th:text="${evento.codigo}"></span></p>
+            <p><strong>Nombre del Evento:</strong> <span th:text="${evento.nombreEvento}"></span></p>
+            <p><strong>Descripción:</strong> <span th:text="${evento.descripcion}"></span></p>
+            <p><strong>Organizador:</strong> <span th:text="${evento.nombreAutor}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${evento.fecha}"></span></p>
+            <p><strong>Hora Inicial:</strong> <span th:text="${evento.horaInicial}"></span></p>
+            <p><strong>Hora Final:</strong> <span th:text="${evento.horaFinal}"></span></p>
+            <p><strong>Ubicación:</strong> <span th:text="${evento.ubicacion}"></span></p>
+            <p><strong>Etiquetas:</strong> <span th:text="${evento.etiquetasAsociadas}"></span></p>
+        </div>
+    </div>
+</body>
+</html>

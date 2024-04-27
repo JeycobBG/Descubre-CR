@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+<head>
+    <title>Formulario de usuario</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/form_user.css">
+</head>
+<body>
+    <div>Modificar usuario</div>
+    
+    <form method="post" th:action="@{/usuarios/modificar}">
+        <input type="hidden" name="cedula" th:value="${usuario.cedula}" />
+        Nombre: <input type="text" name="nombre" th:value="${usuario.nombre}" /><br />
+        Apellido: <input type="text" name="apellido" th:value="${usuario.apellido}" /><br />
+        Idioma: <input type="text" name="idioma" th:value="${usuario.idioma}" /><br />
+        Nacionalidad: <input type="text" name="nacionalidad" th:value="${usuario.nacionalidad}" /><br />
+        Fecha Nacimiento: <input type="date" name="fechaNacimiento" th:value="${usuario.fechaNacimiento}" /><br />
+        Teléfono: <input type="text" name="telefono" th:value="${usuario.telefono}" /><br />
+        Nombre Usuario: <input type="text" name="nombreUsuario" th:value="${usuario.nombreUsuario}" /><br />
+        Contraseña: <input type="text" name="contraseña" th:value="${usuario.contraseña}" /><br />
+        Tipo Usuario: 
+        <select name="tipoUsuario" th:value="${usuario.tipoUsuario}">
+            <option value="administrador">Administrador</option>
+            <option value="colaborador">Colaborador</option>
+            <option value="invitado">Invitado </option>
+        </select><br />
+        Correo: <input type="text" name="correo" th:value="${usuario.correo}" /><br />
+        Cantón: <input type="text" name="canton" th:value="${usuario.canton}" /><br />
+        Provincia: <input type="text" name="provincia" th:value="${usuario.provincia}" /><br />
+        Fecha Registro: <input type="date" name="fechaRegistro" th:value="${usuario.fechaRegistro}" /><br />
+        <input type="submit" value="Guardar cambios">
+    </form>
+</body>
+</html>

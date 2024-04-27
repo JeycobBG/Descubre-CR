@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Gestión de Artículos</title>
+ <link href="/CSS/administrarStyle.css" rel="stylesheet" type="text/css"/>
+<script>
+function seleccionarFila() {
+    var tabla = document.getElementById("tablaArticulos");
+    var filas = tabla.getElementsByTagName("tr");
+    for (var i = 1; i < filas.length; i++) { // Comienza en 1 para omitir la fila del encabezado
+        filas[i].onclick = function() {
+            // Remover la clase 'selected' de todas las filas
+            for (var j = 0; j < filas.length; j++) {
+                filas[j].classList.remove("selected");
+            }
+            // Agregar la clase 'selected' a la fila clickeada
+            this.classList.add("selected");
+            // Obtener el ID sin espacios ni etiquetas HTML
+            var idArticulo = this.cells[0].textContent.trim();
+             console.log("ID Artículo seleccionado:", idArticulo); 
+            // Actualizar el formulario de acción de actualizar con el id del artículo seleccionado
+            document.getElementById("actualizarForm").action = '/articulos/actualizar/' + idArticulo;
+
+            // Habilitar los botones
+            document.getElementById("btnEliminar").disabled = false;
+            document.getElementById("btnActualizar").disabled = false;
+
+            // Actualizar el campo oculto para eliminación
+            document.getElementById("idEliminar").value = idArticulo;
+        };
+    }
+}
+
+window.onload = function() {
+    seleccionarFila();
+};
+</script>
+
+<style>
+.selected {
+    background-color: #f0f0f0;
+}
+</style>
+</head>
+<body>
+<h2>Gestión de Artículos</h2>
+<a href="/articulos/agregar" class="create-button">Crear Artículo</a>
+<table id="tablaArticulos" border="1">
+    <thead>
+        <tr>
+            <th class="invisible">ID</th>
+            <th>Identificador</th>
+            <th>Título</th>
+            <th>Tema</th>
+            <th>Autor</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody th:each="articulo : ${articulos}">
+        <tr>
+            <td class="invisible" th:text="${articulo.idArticulo}"></td>
+            <td th:text="${articulo.identificador}"></td>
+            <td th:text="${articulo.titulo}"></td>
+            <td th:text="${articulo.tema}"></td>
+            <td th:text="${articulo.nombreAutor}"></td>
+            <td th:text="${articulo.fecha}"></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form action="/articulos/eliminar-articulo" method="post">
+    <input type="hidden" name="idArticulo" id="idEliminar" value=""/>
+    <input type="submit" value="Eliminar" id="btnEliminar" disabled/>
+</form>
+
+<form id="actualizarForm" action="" method="get">
+    <input type="submit" value="Actualizar" id="btnActualizar" disabled/>
+</form>
+</body>

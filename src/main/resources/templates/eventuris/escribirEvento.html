@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrar Evento Turístico</title>
+    <link href="/CSS/escribirStyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="/" class="btn">
+    <img src="/CSS/LOGO.png" alt="Volver al Inicio" style="width: 100px; height: 70px;">
+</a>
+
+<h2>Registrar un nuevo evento turístico</h2>
+<form action="/eventos/guardar-evento" method="post">
+
+    <label for="codigo">Código:</label><br>
+    <input type="text" id="codigo" name="codigo" required><br>
+    
+    <label for="nombreEvento">Nombre del evento:</label><br>
+    <input type="text" id="nombreEvento" name="nombreEvento" required><br>
+    
+    <label for="descripcion">Descripción:</label><br>
+    <input type="text" id="descripcion" name="descripcion" required><br>
+    
+    <label for="nombreAutor">Nombre del organizador:</label><br>
+    <input type="text" id="nombreAutor" name="nombreAutor" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Por favor, ingresa solo letras" required><br>
+    
+    <label for="fecha">Fecha del evento:</label><br>
+    <input type="date" id="fecha" name="fecha" required><br>
+    
+    <label for="ubicacion">Ubicación:</label><br>
+    <input type="text" id="ubicacion" name="ubicacion" required><br>
+
+    <label for="titulo">Título del evento:</label><br>
+    <input type="text" id="titulo" name="titulo" required><br>
+
+    <label for="horaInicial">Hora inicial:</label><br>
+    <input type="time" id="horaInicial" name="horaInicial" required><br>
+
+    <label for="horaFinal">Hora final:</label><br>
+    <input type="time" id="horaFinal" name="horaFinal" required><br>
+
+    <label for="etiquetasAsociadas">Etiquetas asociadas (separadas por comas):</label><br>
+    <input type="text" id="etiquetasAsociadas" name="etiquetasAsociadas"><br>
+
+    <input type="submit" value="Registrar Evento">
+</form>
+</body>
+</html>

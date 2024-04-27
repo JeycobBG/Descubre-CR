@@ -1,0 +1,82 @@
+/* General body styles */
+body {
+    font-family: "SF Pro Text", sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Style for headings */
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Hover effect for rows */
+tr:hover {
+    background-color: #ddd;
+}
+
+/* Styles for selected row */
+.selected {
+    background-color: #f0f0f0 !important; /* Overriding any other background */
+}
+
+/* Form styles */
+form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.invisible {
+    display: none;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #5cb85c;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="submit"]:disabled {
+    background-color: #cccccc;
+}
+
+@media (max-width: 600px) {
+    th, td {
+        padding: 8px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #555;
+    transition: color 0.3s ease;
+}

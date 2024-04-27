@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Album</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <div th:each="temp:${album}">
+            
+            <h2>Album de fotos</h2>
+            
+            <p id="nombreAutor"><strong>Nombre del autor:</strong> <tr th:text="${temp.nombreAutor}"></tr></p>
+            <p id="provincia"><strong>Procedencia:</strong>
+                <td th:switch="${temp.provincia}">
+                    <span th:case="'1'">Alajuela</span>
+                    <span th:case="'2'">Heredia</span>
+                    <span th:case="'3'">Cartago</span>
+                    <span th:case="'4'">San José</span>
+                    <span th:case="'5'">Puntarenas</span>
+                    <span th:case="'6'">Limón</span>
+                    <span th:case="'7'">Guanacaste</span>
+                </td>
+            </p>
+            <p id="nombreLugar"><strong>Nombre del Lugar:</strong> <tr th:text="${temp.nombreLugar}"></tr></p>
+            <p id="descripcion"><strong>Descripcion:</strong></p><tr th:text="${temp.descripcion}"></tr><br>
+            <p id="etiquetas"><strong><tr th:text="${temp.etiquetasAsociadas}"></tr></strong></p>
+            
+            <!-- Queda pendiente hacer el cuadro con las imágenes que tiene la lista del album
+            <img alt="" th:src="@{'data:image/jpeg;base64,'+${temp.imagenes}}" style="width: 200px;height: 200px;"><br>
+            -->
+            <div class="container" th:each="imagen:${imagenes}">
+                        <div class="imagenes">
+                            <a th:href="@{${imagen.id}}">
+                                <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}">
+                            </a>
+                        </div>
+                    </div>
+            <div th:if="${imagenes.empty}">No hay imágenes asociadas</div>
+        </div>
+        
+        <footer>
+            <h4>
+                Copyright 2024
+            </h4>
+        </footer>
+    </body>
+</html>

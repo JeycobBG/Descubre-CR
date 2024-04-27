@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Módulo Lugar</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/css/listar.css"> 
+    </head>
+    <body>
+        <h3 class="catalogo-titulo">CATÁLOGO de lugares</h3>
+        <div>
+            <ul class="catalogo">
+                <li th:each="temp : ${lugares}" class="lugar">
+                    <img th:src="@{'/imagenes/' + ${temp.imagen}}" th:alt="${temp.imagen}">
+                    
+                    <div class="info">   
+                        <h4 th:text="${temp.nombre}"></h4>
+                        <p><strong>Código:</strong> <span th:text="${temp.codigo}"></span></p>
+                        <p><strong>Descripción:</strong> <span th:text="${temp.descripcion}"></span></p>
+                        <p><strong>Categoría:</strong> <span th:text="${temp.categoria}"></span></p>
+                        <p><strong>Días abiertos:</strong> <span th:text="${temp.dias_horario}"></span></p>
+                        <p><strong>Horario de apertura:</strong> <span th:text="${temp.hora_apertura}"></span></p>
+                        <p><strong>Horario de cierre:</strong> <span th:text="${temp.hora_cierre}"></span></p>
+                        <p><strong>Precio de la entrada:</strong> <span th:text="${temp.precio_entrada}"></span></p>
+                        <p><strong>Cantón:</strong> <span th:text="${temp.canton}"></span></p>
+                        <p><strong>Distrito:</strong> <span th:text="${temp.distrito}"></span></p>
+                        <p><strong>Calidad de la recepción telefónica:</strong> <span th:text="${temp.calidad_recepcion_telefonica}"></span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Actualizar Artículo</title>
+    <link href="/CSS/actualizarStyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="/" class="btn">
+    <img src="/CSS/LOGO.png" alt="Volver ano se  Inicio" style="width: 100px; height: 70px;">
+</a>
+    <h2>Actualizar Artículo</h2>
+    <form action="/articulos/actualizar-articulo" method="post">
+         
+        <label for="idArticulo" class="hidden">idArticulo</label><br>
+        <input type="text" name="idArticulo" th:value="${articulo.idArticulo}" class="hidden" />
+           
+        <label for="identificador">Identificador</label><br>
+        <input type="text" id="identificador" th:field="${articulo.identificador}"><br>
+        
+        <label for="titulo">Título:</label><br>
+        <input type="text" id="titulo" th:field="${articulo.titulo}"><br>
+
+        <label for="tema">Tema:</label><br>
+        <input type="text" id="tema" th:field="${articulo.tema}"><br>
+
+        <label for="nombreAutor">Nombre del autor:</label><br>
+        <input type="text" id="nombreAutor" th:field="${articulo.nombreAutor}"><br>
+
+        <label for="fecha">Fecha:</label><br>
+        <input type="date" id="fecha" th:value="${articulo.fecha}" name="fecha"><br>
+
+        <label for="acercaDelAutor">Acerca del autor:</label><br>
+        <textarea id="acercaDelAutor" th:field="${articulo.acercaDelAutor}" rows="4" cols="50"></textarea><br>
+ 
+        <label for="textoArticulo">Texto del artículo:</label><br>
+        <textarea id="textoArticulo" th:field="${articulo.textoArticulo}" rows="10" cols="50"></textarea><br>
+
+        <input type="submit" value="Actualizar">
+    </form>
+</body>
+</html>

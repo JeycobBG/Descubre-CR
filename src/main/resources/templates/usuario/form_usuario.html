@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Form de usuario</title>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/form_user.css">
+    </head>
+    <body>
+        <div>Agregar usuario</div>
+        
+        <form method="get" th:action="@{/usuarios/registrar}">
+            Nombre:<input required="" type="text" name="nombre"><br />
+            Apellido: <input required="" type="text"  name="apellido"><br />
+            Cedúla <input required="" type="text" name="cedula"><br />
+            Idioma: 
+                <select name="idioma">
+                    <option value="español">Español</option>
+                    <option value="ingles">Inglés</option>
+                </select><br />
+            Nacionalidad: <input required="" type="text"  name="nacionalidad"><br />
+            Fecha Nacimiento: <input required="" type="date" name="fechaNacimiento"><br />
+            Telefono: <input required="" type="text" name="telefono"><br />
+            Nombre usuario: <input required="" type="text"  name="nombreUsuario"><br />
+            Contraseña: <input required="" class="input" type="password" name="password" id="password">
+            Tipo usuario: 
+                <select name="tipoUsuario">
+                    <option value="administrador">Administrador</option>
+                    <option value="colaborador">Colaborador</option>
+                    <option value="invitado">Invitado </option>
+                </select><br />
+            Correo: <input required="" type="text" name="correo"><br />
+            Provincia: 
+                <select name="provincia">
+                    <option value="San José">San José</option>
+                    <option value="Alajuela">Alajuela</option>
+                    <option value="Cartago">Cartago</option>
+                    <option value="Heredia">Heredia</option>
+                    <option value="Guanacaste">Guanacaste</option>
+                    <option value="Puntarenas">Puntarenas</option>
+                    <option value="Limón">Limón</option>
+                </select><br />
+            Canton: <input required="" type="text" name="canton"><br />
+            <input type="submit" value="Registrarse">
+        </form>
+    </body>
+</html>

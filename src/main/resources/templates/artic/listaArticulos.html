@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Revista de Artículos</title>
+    <link rel="stylesheet" th:href="@{/CSS/listaStyle.css}" />
+</head>
+<body>
+    <a href="/" class="btn">
+        <img src="/CSS/LOGO.png" alt="Volver al Inicio" style="width: 100px; height: 70px;">
+    </a>
+    <h2>Revista de Artículos</h2>
+
+    <form action="/articulos/busquedaUsuario" method="GET">
+        <label for="identificador">Buscar por identificador</label>
+        <input type="text" id="identificador" name="identificador" placeholder="Ingrese el identificador">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div th:each="articulo : ${articulos}">
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+            <h3 th:text="${articulo.titulo}"></h3>
+            <p><strong>Identificador:</strong> <span th:text="${articulo.identificador}"></span></p>
+            <p><strong>Tema:</strong> <span th:text="${articulo.tema}"></span></p>
+            <p><strong>Nombre del autor:</strong> <span th:text="${articulo.nombreAutor}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${articulo.fecha}"></span></p>
+            <p><strong>Acerca del autor:</strong> <span th:text="${articulo.acercaDelAutor}"></span></p>
+            <p><strong>Texto del artículo:</strong></p>
+            <p th:text="${articulo.textoArticulo}"></p>
+        </div>
+    </div>
+</body>
+</html>

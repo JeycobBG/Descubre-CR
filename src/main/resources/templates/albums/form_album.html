@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Descubre CR</title>
+    </head>
+    <body>
+        
+        <header>
+            <h2 id="titulo">Creación de Album</h2>
+            <p>Crea y comparte un album con lo mejor de tus experiencias.</p>
+        </header>
+        
+        <script>
+            var textArea1 = document.getElementById('descripcion').value;
+            
+        </script>
+        
+        <section>
+            <form th:action="@{/albums/guardar}" method="POST" enctype="multipart/form-data">
+                <div>
+                    <p><strong>Acerca del autor</strong></p>
+                    <label for="nombreAutor">Nombre de Autor:</label>
+                    <input type="text" id="nombreAutor" name="nombreAutor" placeholder="Autor del collage" required minlength="2" maxlength="12"/><br>
+                    <p>Selecione su provincia de procedencia:</p>
+                    <label><strong>Provincia:</strong></label><br>
+                    <select id="provincia" name="provincia">
+                        <option value="1" selected>Alajuela</option>
+                        <option value="2">Heredia</option>
+                        <option value="3">Cartago</option>
+                        <option value="4">San José</option>
+                        <option value="5">Puntarenas</option>
+                        <option value="6">Limón</option>
+                        <option value="7">Guanacaste</option>
+                    </select>                    
+                </div>
+                <div>
+                    <p><strong>Acerca del lugar</strong></p>
+                    <label for="nombreLugar">Nombre del lugar:</label>
+                    <input type="text" id="nombreLugar" name="nombreLugar" placeholder="Lugar turístico" required minlength="3" /><br>
+                    <label for="descripcion">Descripcion del lugar</label><br>
+                    <textarea cols="60" rows="3" id="descripcion" name="descripcion" placeholder="Un pacífico lugar..." required minlength="10" maxlength="255"></textarea><br>  
+                    <p>Digita las #etiquetas que te gustaría asociar con tu collage</p>
+                    <textarea cols="60" rows="2" id="etiquetas" name="etiquetas" placeholder="#naturaleza #mar #volcán #spa #familiar..." required minlength="4" maxlength="100"></textarea><br>
+                
+                <!-- Aquí viene la parte de las imágenes asociadas 
+                        Pieso hacerlo con un drag and drop de arcivos... Pendiente
+                        En cuanto a la fecha, creo que es mejor calcularla a nivel interno con un LocalDateTime
+                -->
+                    <label for="imagenes">Porfavor seleccione las imágenes que desea agregar a su album</label><br>
+                    <input type="file" id="imagenes" name="imagenes" accept="image/png,image/jpeg" multiple="multiple" required/>
+                    <input type="submit" name="guardar" value="Aceptar" onclick="alert('Registro exitoso!!')">
+                    <input type="button" name="volver" value="volver" onclick="regresarInicio()">
+                </div>
+            </form>
+        </section>
+        
+        <footer>
+            <h4>
+                CopyRight 2024
+            </h4>
+        </footer>
+        
+        <script>
+            function regresarInicio(){
+                window.location='/';
+            }
+        </script>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+    </body>
+</html>

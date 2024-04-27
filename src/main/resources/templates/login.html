@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    
+    <div class="container">
+        <div class="heading">Iniciar sesión</div>
+        <form method="get" th:action="@{/usuarios/login}" class="form">
+          <input required="" class="input" type="usuario" name="usuario" id="usuario" placeholder="Usuario">
+          <input required="" class="input" type="password" name="password" id="password" placeholder="Contraseña">
+          <input class="login-button" type="submit" value="Iniciar sesión">
+
+        </form>
+    </div>

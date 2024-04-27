@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>MODULO LUGAR</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/css/form_actualizar.css"> 
+    </head>
+    <body>
+        <div class="container">
+            <div>
+                <h3>Editar Información del Lugar</h3>
+                <form method="post" th:action="@{/lugares/actualizar}" enctype="multipart/form-data">
+                    <input type="hidden" name="codigo" required th:value="${lugar.codigo}" />
+
+                    <label for="nombre"><b>Nombre:</b></label>
+                    <input type="text" name="nombre" required th:value="${lugar.nombre}" style="width:250px"><br />
+
+                    <label for="descripcion"><b>Descripción:</b></label>
+                    <input type="text" name="descripcion" required th:value="${lugar.descripcion}" style="width:250px"><br />
+
+                    <label for="categoria"><b>Categoría:</b></label>
+                    <input type="text" name="categoria" required th:value="${lugar.categoria}" style="width:250px"><br />
+
+                    <!-- Días de Apertura -->
+                    <p><b>Días de Apertura:</b></p>
+                    <input type="checkbox" id="lunes" name="diasHorario[]" value="Lunes">
+                    <label for="lunes">Lunes</label><br>
+                    <input type="checkbox" id="martes" name="diasHorario[]" value="Martes">
+                    <label for="martes">Martes</label><br>
+                    <input type="checkbox" id="miercoles" name="diasHorario[]" value="Miércoles">
+                    <label for="miercoles">Miércoles</label><br>
+                    <input type="checkbox" id="jueves" name="diasHorario[]" value="Jueves">
+                    <label for="jueves">Jueves</label><br>
+                    <input type="checkbox" id="viernes" name="diasHorario[]" value="Viernes">
+                    <label for="viernes">Viernes</label><br>
+                    <input type="checkbox" id="sabado" name="diasHorario[]" value="Sábado">
+                    <label for="sabado">Sábado</label><br>
+                    <input type="checkbox" id="domingo" name="diasHorario[]" value="Domingo">
+                    <label for="domingo">Domingo</label><br><br>
+
+                    <label for="hora_apertura"><b>Hora de apertura:</b></label>
+                    <input type="time" id="hora_apertura" name="hora_apertura" required th:value="${lugar.hora_apertura}"><br />
+
+                    <label for="hora_cierre"><b>Hora de cierre:</b></label>
+                    <input type="time" id="hora_cierre" name="hora_cierre" required th:value="${lugar.hora_cierre}"><br />
+
+                    <label for="precio_entr"><b>Precio de entrada:</b></label>
+                    <input type="number" name="precio_entr" required th:value="${lugar.precio_entrada}" style="width:250px"><br />
+
+                    <label for="canton"><b>Cantón:</b></label>
+                    <input type="text" name="canton" required th:value="${lugar.canton}" style="width:250px"><br />
+
+                    <label for="distrito"><b>Distrito:</b></label>
+                    <input type="text" name="distrito"required  th:value="${lugar.distrito}" style="width:250px"><br />
+
+                    <label for="calidad_recep"><b>Calidad de la recepción telefónica:</b></label>
+                    <select name="calidad_recep" required th:value="${lugar.calidad_recepcion_telefonica}">
+                        <option value="Mala">Mala</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Buena">Buena</option>
+                    </select><br />
+
+                    <p><b>Imagen:</b></p>
+                    <input type="file" name="imagen"><br><br>
+                    <input type="submit" value="Guardar">
+                    <input type="reset" value="Reiniciar">
+                </form>
+            </div>
+        </div>
+        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
+    </body>
+</html>

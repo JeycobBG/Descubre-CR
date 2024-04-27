@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Descubre CR</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <section th:each="temp:${album}">
+            <form th:action="@{'/albums/editar/'+${temp.id}}" method="POST" enctype="multipart/form-data">
+                <div>
+                    <p><strong>Acerca del autor</strong></p>
+                    <label for="nombreAutor">Nombre de Autor:</label>
+                    <input th:value="${temp.nombreAutor}" id="nombreAutor" name="nombreAutor" placeholder="Autor del collage"/><br>
+                    <p>Selecione su provincia de procedencia:</p>
+                    <label><strong>Provincia:</strong></label><br>
+                    <select id="provincia" name="provincia">
+                        <option th:selected="${temp.provincia==1}" value="1">Alajuela</option>
+                        <option th:selected="${temp.provincia==2}" value="2">Heredia</option>
+                        <option th:selected="${temp.provincia==3}" value="3">Cartago</option>
+                        <option th:selected="${temp.provincia==4}" value="4">San José</option>
+                        <option th:selected="${temp.provincia==5}" value="5">Puntarenas</option>
+                        <option th:selected="${temp.provincia==6}" value="6">Limón</option>
+                        <option th:selected="${temp.provincia==7}" value="7">Guanacaste</option>
+                    </select>                    
+                </div>
+                <div>
+                    <p><strong>Acerca del lugar</strong></p>
+                    <label for="nombreLugar">Nombre del lugar:</label>
+                    <input th:value="${temp.nombreLugar}" id="nombreLugar" name="nombreLugar" placeholder="Lugar turístico"/><br>
+                    <label for="descripcion">Descripcion del lugar</label><br>
+                    <textarea th:text="${temp.descripcion}" cols="60" rows="3" id="descripcion" name="descripcion" placeholder="Un pacífico lugar..."></textarea><br>  
+                    <p>Digita las #etiquetas que te gustaría asociar con tu collage</p>
+                    <textarea th:text="${temp.etiquetasAsociadas}" cols="60" rows="2" id="etiquetas" name="etiquetas" placeholder="#naturaleza #mar #volcán #spa #familiar..."></textarea><br>
+                
+                    <label>Imágenes asociadas:</label><br>
+                    <label>Haga click sobre cualquier imagen para eliminarla de su album</label><br>
+                    <!-- Necesito desplegar en forma de un album con JS y CSS-->
+                    <div class="container" th:each="imagen:${imagenes}">
+                        <div class="imagenes">
+                            <a th:href="@{'/imagenes/eliminar/' + ${imagen.id}}" onmouseenter="alert('dentro')"> <!-- con esta linea al seleccionar cualquier imagen obtengo su id -->
+                                <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}">
+                            </a>
+                        </div>
+                    </div>
+                    <div th:if="${imagenes.empty}">No hay imágenes asociadas</div>
+
+                    <label for="imagenes">Porfavor seleccione las imágenes que desea agregar a su album</label><br>
+                    <input type="file" id="imagenes" name="imagenes" accept="image/png,image/jpeg" multiple="multiple"/>
+                    
+                    
+                    <input type="submit" name="actualizar" value="Actualizar">
+                </div>
+            </form>
+            <footer>
+                <h4>
+                    CopyRight 2024
+                </h4>
+            </footer>
+        </section>
+    </body>
+</html>
