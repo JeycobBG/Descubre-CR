@@ -1,7 +1,10 @@
 package cr.ac.una.DescubreCR.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.service.ServiciosLugar;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +13,6 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 /**
  *
@@ -37,7 +39,6 @@ public class ControllerLugar {
     @GetMapping("/form_registrar")
     public String registrar(Model modelo){
         modelo.addAttribute("categorias", ServiciosLugar.getCategorias());
-        modelo.addAttribute("provincias", ServiciosLugar.getProvincias());
         
         return "lugar/form_registrar";
     }
@@ -58,11 +59,11 @@ public class ControllerLugar {
               @RequestParam(name="imagen", required=false) MultipartFile imagen,
               RedirectAttributes flash) throws SQLException {
 
-        if(ServiciosLugar.consultarPorCodigo(codigo).getCodigo()!=null){
-            flash.addFlashAttribute("error", "Ya  existe un lugar con el codigo ingresado");
+        if(ServiciosLugar.consultarEspPorCodigo(codigo).getCodigo()!=null){
+            flash.addFlashAttribute("error", "Ya existe un lugar con el codigo ingresado.");
         }
         else if(LocalTime.parse(hora_aperturaStr).isAfter(LocalTime.parse(hora_cierreStr))){
-            flash.addFlashAttribute("error", "La hora de apertura es posterior a la hora de cierre. Corrija los datos");
+            flash.addFlashAttribute("error", "La hora de apertura es posterior a la hora de cierre. Corrija los datos.");
         }
         else{
             Lugar lugar = new Lugar();
@@ -97,16 +98,34 @@ public class ControllerLugar {
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
             
             ServiciosLugar.insertar(lugar);
-            flash.addFlashAttribute("exito", "El lugar se ha guardado con exito!");
+            flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
         
         return "redirect:form_registrar";
     }
     
     @GetMapping("/listar")
-    public String listar(Model modelo) throws SQLException{
-        LinkedList<Lugar> lugares = ServiciosLugar.listar();
-        modelo.addAttribute("lugares", lugares);
+    public String listar(@PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
+        Page<Lugar> pagina = ServiciosLugar.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        modelo.addAttribute("pagina", pagina);
+        List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
+        
+        var paginasTotal = pagina.getTotalPages();
+        var paginaActual = pagina.getNumber();
+        var inicio = Math.max(1, paginaActual);
+        var termina = Math.min(paginaActual + 5, paginasTotal);
+        
+        if(paginasTotal > 0){
+            List<Integer> numPaginas = new ArrayList<>();
+            for(int i=inicio; i<=termina; i++){
+                numPaginas.add(i);
+            }
+            
+            modelo.addAttribute("numPaginas", numPaginas);
+        }
+        
+        modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+        
         
         return "lugar/listar";
     }
@@ -117,7 +136,7 @@ public class ControllerLugar {
         modelo.addAttribute("pagina", pagina);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
         
-         var paginasTotal = pagina.getTotalPages();
+        var paginasTotal = pagina.getTotalPages();
         var paginaActual = pagina.getNumber();
         var inicio = Math.max(1, paginaActual);
         var termina = Math.min(paginaActual + 5, paginasTotal);
@@ -140,27 +159,44 @@ public class ControllerLugar {
     public String eliminar(@RequestParam("codigo") String codigo, RedirectAttributes flash) throws SQLException{
         
         if(ServiciosLugar.eliminar(codigo)){
-            flash.addFlashAttribute("exito", "Se ha eliminado el lugar con codigo " + codigo);
+            flash.addFlashAttribute("exito", "Se ha eliminado el lugar con código " + codigo + ".");
         } else {
-            flash.addFlashAttribute("error", "No existe el lugar con codigo " + codigo);
+            flash.addFlashAttribute("error", "No existe el lugar con código " + codigo + ".");
         }
         
         return "redirect:listar_admin";
     }
     
     @GetMapping("/consulta_actualizar")
-    public String formularioActualizar(@RequestParam("codigo") String codigo, Model modelo, RedirectAttributes flash) throws SQLException{
-        Lugar lugar_editar = ServiciosLugar.consultarPorCodigo(codigo);
+    public String formularioActualizar(@RequestParam("codigo") String codigo, Model modelo, RedirectAttributes flash) throws SQLException, JsonProcessingException{
+        Lugar lugar_editar = ServiciosLugar.consultarEspPorCodigo(codigo);
+        modelo.addAttribute("categorias", ServiciosLugar.getCategorias());
         
         if(lugar_editar.getCodigo()!=null){
+            Lugar lugarParaJson = new Lugar();
+            lugarParaJson.setProvincia(lugar_editar.getProvincia());
+            lugarParaJson.setCanton(lugar_editar.getCanton());
+            lugarParaJson.setDistrito(lugar_editar.getDistrito());
+            lugarParaJson.setDias_horario(lugar_editar.getDias_horario());
+            ObjectMapper objectMapper = new ObjectMapper();
+            
+            String lugarJson = objectMapper.writeValueAsString(lugarParaJson);
             modelo.addAttribute("lugar", lugar_editar);
+            modelo.addAttribute("lugarJson", lugarJson);
+            
             return "lugar/form_actualizar";
         }
         else{
-            flash.addFlashAttribute("error", "No existe el lugar con codigo " + codigo);
-            return "redirect:/listar_admin";
+            flash.addFlashAttribute("error", "No existe el lugar con código " + codigo);
+            return "redirect:listar_admin";
         }
       
+    }
+    
+    @GetMapping("/consulta_verDetalles")
+    @ResponseBody
+    public Lugar obtenerDetallesLugar(@RequestParam("codigo") String codigo) throws SQLException, JsonProcessingException {
+        return ServiciosLugar.consultarEspPorCodigo(codigo);
     }
     
     @PostMapping("/actualizar")
@@ -180,7 +216,7 @@ public class ControllerLugar {
               RedirectAttributes flash) throws SQLException {
        
         if(LocalTime.parse(hora_aperturaStr).isAfter(LocalTime.parse(hora_cierreStr))){
-            flash.addFlashAttribute("error", "La hora de apertura es posterior a la hora de cierre. Corrija los datos");
+            flash.addFlashAttribute("error", "La hora de apertura es posterior a la hora de cierre. Corrija los datos.");
         }
         else{
             Lugar lugar = new Lugar();
@@ -215,17 +251,68 @@ public class ControllerLugar {
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
 
             ServiciosLugar.reguardar(lugar);
-            flash.addFlashAttribute("exito", "El lugar se ha actualizado con exito!");
+            flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }
         
         return "redirect:/";
     }
     
     @GetMapping("/consulta_buscar")
-    public String buscar(@RequestParam("nombre") String nombre, Model modelo) throws SQLException{
-        modelo.addAttribute("lugares", ServiciosLugar.consultarPorNombre(nombre));
+    public String buscar(@PageableDefault(size=5, page=0) Pageable pageable, @RequestParam("nombre") String nombre, Model modelo) throws SQLException{
+        Page<Lugar> pagina = ServiciosLugar.consultarPorNombre(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), nombre);
+        modelo.addAttribute("pagina", pagina);
+        modelo.addAttribute("nombre", nombre);
+        List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
         
-        return "/lugar/listar_admin";
+        var paginasTotal = pagina.getTotalPages();
+        var paginaActual = pagina.getNumber();
+        var inicio = Math.max(1, paginaActual);
+        var termina = Math.min(paginaActual + 5, paginasTotal);
+        
+        if(paginasTotal > 0){
+            List<Integer> numPaginas = new ArrayList<>();
+            for(int i=inicio; i<=termina; i++){
+                numPaginas.add(i);
+            }
+            
+            modelo.addAttribute("numPaginas", numPaginas);
+        }
+        
+        modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+        
+        return "lugar/listar";
     }
     
+    @GetMapping("/consulta_buscarAdmin")
+    public String buscarAdmin(@PageableDefault(size=5, page=0) Pageable pageable, @RequestParam("nombre") String nombre, Model modelo) throws SQLException{
+        Page<Lugar> pagina = ServiciosLugar.consultarPorNombre(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), nombre);
+        modelo.addAttribute("pagina", pagina);
+        modelo.addAttribute("nombre", nombre);
+        List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
+        
+        var paginasTotal = pagina.getTotalPages();
+        var paginaActual = pagina.getNumber();
+        var inicio = Math.max(1, paginaActual);
+        var termina = Math.min(paginaActual + 5, paginasTotal);
+        
+        if(paginasTotal > 0){
+            List<Integer> numPaginas = new ArrayList<>();
+            for(int i=inicio; i<=termina; i++){
+                numPaginas.add(i);
+            }
+            
+            modelo.addAttribute("numPaginas", numPaginas);
+        }
+        
+        modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+        
+        return "lugar/listar_admin";
+    }
+    
+    @GetMapping("/consulta_individual")
+    public String infoIndividual(@RequestParam("codigo") String codigo, Model modelo) throws SQLException{
+        modelo.addAttribute("lugar", ServiciosLugar.consultarEspPorCodigo(codigo));
+        
+        return "lugar/info_individual";
+    }
 }

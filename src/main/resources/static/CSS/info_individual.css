@@ -1,0 +1,54 @@
+.info-container{
+    display:grid;
+    place-items:center;
+}
+
+.info-encabezado {
+    display:grid;
+    position:relative;
+    width:435px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top:50px;
+}
+
+/* Estilo para el título del lugar */
+.info-encabezado h4 {
+    text-align:center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para la imagen */
+.info-encabezado img {
+    margin:auto;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.info-encabezado p:last-child {
+    padding: 5px 10px;
+}
+
+/* Estilo para la categoría */
+.categoria {
+    background-color:#008000;
+    color:white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    
+    margin-bottom: 10px;
+}
+
+/* Estilo para el cuerpo de la información */
+.info-body p {
+    margin-top: 20px;
+}
+
+/* Estilo para el texto en negrita en el cuerpo de la información */
+.info-body strong {
+    font-weight: bold;
+}
+

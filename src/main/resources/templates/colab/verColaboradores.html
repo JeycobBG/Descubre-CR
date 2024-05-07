@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Colaboradores</title>
+    <link href="/CSS/administrarStyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Lista de Colaboradores</h1>
+    </header>
+    
+    <div class="container">
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Buscar por cédula" onkeyup="searchByCedula()">
+            <button onclick="filterAlphabetically()">Filtrar por abecedario</button>
+        </div>
+        
+        <table id="colaboradoresTable">
+            <thead>
+                <tr>
+                    <th>Identificador</th>
+                    <th>Nombre de la Empresa</th>
+                    <th>Descripción de la Empresa</th>
+                    <th>Dirección de la Empresa</th>
+                    <th>Teléfono de la Empresa</th>
+                    <th>Sitio Web</th>
+                    <th>Estado de Aprobación</th>
+                    <th>Tipo de Colaborador</th>
+                    <th>Redes Sociales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="colaborador : ${colaboradores}">
+                    <td th:text="${colaborador.ide}"></td>
+                    <td th:text="${colaborador.nombreEmpresa}"></td>
+                    <td th:text="${colaborador.descripcionEmpresa}"></td>
+                    <td th:text="${colaborador.direccionEmpresa}"></td>
+                    <td th:text="${colaborador.telefonoEmpresa}"></td>
+                    <td th:text="${colaborador.sitioWeb}"></td>
+                    <td th:text="${colaborador.estadoAprobacion}"></td>
+                    <td th:text="${colaborador.tipoColaborador}"></td>
+                    <td th:text="${colaborador.redesSociales}"></td>
+                    <td>
+                        <button class="btn btn-update">Actualizar</button>
+                        <button class="btn btn-delete" onclick="llenarIdentificador('${colaborador.ide}')">Eliminar</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <button onclick="previousPage()">Anterior</button>
+            <span id="currentPage">1</span>
+            <button onclick="nextPage()">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para buscar por cédula
+        function searchByCedula() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("colaboradoresTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Función para filtrar alfabéticamente (simulación)
+        function filterAlphabetically() {
+            alert("Función de filtro alfabético aún no implementada");
+        }
+
+        // Función para ir a la página anterior
+        function previousPage() {
+            var currentPage = parseInt(document.getElementById("currentPage").innerText);
+            if (currentPage > 1) {
+                document.getElementById("currentPage").innerText = currentPage - 1;
+            }
+        }
+
+        // Función para ir a la página siguiente
+        function nextPage() {
+            var currentPage = parseInt(document.getElementById("currentPage").innerText);
+            var lastPage = document.getElementById("colaboradoresTable").rows.length / 5;
+            if (currentPage < lastPage) {
+                document.getElementById("currentPage").innerText = currentPage + 1;
+            }
+        }
+    </script>
+</body>
+</html>

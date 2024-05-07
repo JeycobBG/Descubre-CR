@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Módulo Lugar</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/CSS/info_individual.css"> 
+    </head>
+    <body>
+        <div class="info-container">
+            <div class="info-encabezado">
+                <h4 th:text="${lugar.nombre}"></h4>
+                <img th:src="@{'/imagenes/' + ${lugar.imagen}}" th:alt="${lugar.imagen}">
+                <p class="categoria"><span th:text="${lugar.categoria}"></span></p>
+                <p><span th:text="${lugar.descripcion}"></span></p>
+            </div>
+            <div class="info-body">
+                <p><strong>Más información</strong></p>
+                <p><strong>Horario:</strong> <span th:text="${lugar.dias_horario}"></span> de <span th:text="${lugar.hora_apertura}"></span> a <span th:text="${lugar.hora_cierre}"></span></p>
+                <p><strong>Precio de la entrada:</strong> <span th:text="${lugar.precio_entrada}"></span> colones</p>
+                <p><strong>Provincia:</strong> <span th:text="${lugar.provincia}"></span></p>
+                <p><strong>Cantón:</strong> <span th:text="${lugar.canton}"></span></p>
+                <p><strong>Distrito:</strong> <span th:text="${lugar.distrito}"></span></p>
+                <p><strong>Calidad de la recepción telefónica:</strong> <span th:text="${lugar.calidad_recepcion_telefonica}"></span></p>
+            </div>
+            
+        </div>
+        <div class="comentarios-container">
+            <h1>
+                Sección de comentarios
+            </h1>
+            Pronto...
+        </div>
+    </body>
+</html>

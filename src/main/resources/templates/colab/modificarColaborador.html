@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modificar Colaborador</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+</head>
+<body>
+    <div>Modificar Empresa</div>
+    
+    <form method="post" th:action="@{/colaboradores/modificarColaborador}">
+        <input type="hidden" name="ide" th:value="${colaboradorEmpresarial.ide}" />
+        Nombre de la Empresa: <input type="text" name="nombreEmpresa" th:value="${colaboradorEmpresarial.nombreEmpresa}" /><br />
+        Descripción de la Empresa: <input type="text" name="descripcionEmpresa" th:value="${colaboradorEmpresarial.descripcionEmpresa}" /><br />
+        Dirección de la Empresa: <input type="text" name="direccionEmpresa" th:value="${colaboradorEmpresarial.direccionEmpresa}" /><br />
+        Teléfono de la Empresa: <input type="text" name="telefonoEmpresa" th:value="${colaboradorEmpresarial.telefonoEmpresa}" /><br />
+        Sitio Web: <input type="text" name="sitioWeb" th:value="${colaboradorEmpresarial.sitioWeb}" /><br />
+        Estado de Aprobación: <input type="text" name="estadoAprobacion" th:value="${colaboradorEmpresarial.estadoAprobacion}" /><br />
+        Tipo de Colaborador: <input type="text" name="tipoColaborador" th:value="${colaboradorEmpresarial.tipoColaborador}" /><br />
+        Redes Sociales: <input type="text" name="redesSociales" th:value="${colaboradorEmpresarial.redesSociales}" /><br />
+        <input type="submit" value="Guardar cambios">
+    </form>
+</body>
+</html>

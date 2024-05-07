@@ -145,7 +145,7 @@ public class DataLugar extends ConectarDB{
         return (resultado==1);
     }
     
-    public Lugar consultarPorCodigo(String codigo) throws SQLException{
+    public Lugar consultarEspPorCodigo(String codigo) throws SQLException{
         Lugar lugar = new Lugar();
         String sql = "SELECT * FROM " + TBLUGARES + " WHERE " + CODIGO + " = ?;";
         Connection conexion = conectar();
@@ -172,7 +172,7 @@ public class DataLugar extends ConectarDB{
         return lugar;
     }
     
-    public Lugar consultarPorNombre(String nombre) throws SQLException{
+    public Lugar consultarEspPorNombre(String nombre) throws SQLException{
         Lugar lugar = new Lugar();
         String sql = "SELECT * FROM " + TBLUGARES + " WHERE " + NOMBRE + " LIKE ?";
         Connection conexion = conectar();
@@ -198,6 +198,46 @@ public class DataLugar extends ConectarDB{
         
         return lugar;
     }
+    
+    public Page<Lugar> consultarPorNombre(Pageable pageable, String nombre) throws SQLException{
+    List<Lugar> lugares = new ArrayList<>();
+    String countSql = "SELECT COUNT(*) FROM " + TBLUGARES + " WHERE nombre LIKE ?";
+    String selectSql = "SELECT * FROM " + TBLUGARES + " WHERE nombre LIKE ? LIMIT ? OFFSET ?;";
+    
+    Connection conexion = conectar();
+    PreparedStatement countStatement = conexion.prepareStatement(countSql);
+    countStatement.setString(1, "%" + nombre + "%");
+    ResultSet countRs = countStatement.executeQuery();
+    countRs.next();
+    int total = countRs.getInt(1);
+    
+    PreparedStatement selectStatement = conexion.prepareStatement(selectSql);
+    selectStatement.setInt(2, pageable.getPageSize());
+    selectStatement.setInt(3, (int) pageable.getOffset());
+    selectStatement.setString(1, "%" + nombre + "%");
+
+    ResultSet rs = selectStatement.executeQuery();
+    
+    while (rs.next()) {
+        Lugar lugar = new Lugar();
+        lugar.setCodigo(rs.getString(CODIGO));
+        lugar.setNombre(rs.getString(NOMBRE));
+        lugar.setDescripcion(rs.getString(DESCRIPCION));
+        lugar.setCategoria(rs.getString(CATEGORIA));
+        lugar.setDias_horario(rs.getString(DIAS_HORARIO));
+        lugar.setHora_apertura(rs.getTime(HORA_APERTURA).toLocalTime());
+        lugar.setHora_cierre(rs.getTime(HORA_CIERRE).toLocalTime());
+        lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
+        lugar.setProvincia(rs.getString(PROVINCIA));
+        lugar.setCanton(rs.getString(CANTON));
+        lugar.setDistrito(rs.getString(DISTRITO));
+        lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
+        lugar.setImagen(rs.getString(IMAGENES));
+        lugares.add(lugar);
+    }
+    
+    return new PageImpl<>(lugares, pageable, total);
+}
     
     public boolean actualizar(Lugar lugar) throws SQLException {
         String sql = "UPDATE " + TBLUGARES + " SET " +

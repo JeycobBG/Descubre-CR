@@ -12,6 +12,7 @@ public class Articulo {
     private String identificador;
     private String titulo;
     private String tema;
+    private String descripcion;
     private String nombreAutor;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha;
@@ -21,15 +22,24 @@ public class Articulo {
     public Articulo() {
     }
 
-    public Articulo(int idArticulo,String identificador, String titulo, String tema, String nombreAutor, Date fecha, String acercaDelAutor, String textoArticulo) {
+    public Articulo(int idArticulo, String identificador, String titulo, String tema, String descripcion, String nombreAutor, Date fecha, String acercaDelAutor, String textoArticulo) {
         this.idArticulo = idArticulo;
         this.identificador = identificador;
         this.titulo = titulo;
         this.tema = tema;
+        this.descripcion = descripcion;
         this.nombreAutor = nombreAutor;
         this.fecha = fecha;
         this.acercaDelAutor = acercaDelAutor;
         this.textoArticulo = textoArticulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getIdArticulo() {

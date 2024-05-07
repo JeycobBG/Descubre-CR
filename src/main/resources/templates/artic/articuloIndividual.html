@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Módulo Articulo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/CSS/articuloIndividual.css"> 
+    </head>
+    <body>
+        <div class="info-container">
+            <div class="info-encabezado">
+                <h4 th:text="${articulo.titulo}"></h4>
+                <p><span th:text="${articulo.descripcion}"></span></p>
+            </div>
+            <div class="info-body">
+            <p><strong>Más información</strong></p>
+            <p><strong>Identificador:</strong> <span th:text="${articulo.identificador}"></span></p>
+            <p><strong>Título:</strong> <span th:text="${articulo.titulo}"></span></p>
+            <p><strong>Tema:</strong> <span th:text="${articulo.tema}"></span></p>
+            <p><strong>Descripción:</strong> <span th:text="${articulo.descripcion}"></span></p>
+            <p><strong>Nombre del Autor:</strong> <span th:text="${articulo.nombreAutor}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${#dates.format(articulo.fecha, 'dd/MM/yyyy')}"></span></p>
+            <p><strong>Acerca del Autor:</strong> <span th:text="${articulo.acercaDelAutor}"></span></p>
+            <p><strong>Texto del Artículo:</strong> <span th:text="${articulo.textoArticulo}"></span></p>
+            </div>
+            
+        </div>
+        <div class="comentarios-container">
+            <h1>
+                Sección de comentarios
+            </h1>
+            Pronto...
+        </div>
+    </body>
+</html>

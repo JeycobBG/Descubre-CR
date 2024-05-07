@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.controller;
 
 import cr.ac.una.DescubreCR.domain.Usuario;
@@ -73,10 +69,10 @@ public class userController {
         if(!UsuariosServices.login(usuario,UsuariosServices.encriptar(contraseña))){
             return "redirect:login";
         }
-        return "redirect:index";
+        return "/index";
     }
     
-        @GetMapping("/eliminar")
+    @GetMapping("/eliminar")
     public String eliminar(@RequestParam("cedula") String cedula){
         boolean elimino = UsuariosServices.eliminar(cedula);
         if(!elimino){

@@ -5,9 +5,7 @@
     <link href="/CSS/actualizarStyle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<a href="/" class="btn">
-    <img src="/CSS/LOGO.png" alt="Volver ano se  Inicio" style="width: 100px; height: 70px;">
-</a>
+
     <h2>Actualizar Artículo</h2>
     <form action="/articulos/actualizar-articulo" method="post">
          
@@ -22,6 +20,9 @@
 
         <label for="tema">Tema:</label><br>
         <input type="text" id="tema" th:field="${articulo.tema}"><br>
+        
+        <label for="descripcion">Descripción</label><br>
+        <input type="text" id="descripcion" th:field="${articulo.descripcion}"><br>
 
         <label for="nombreAutor">Nombre del autor:</label><br>
         <input type="text" id="nombreAutor" th:field="${articulo.nombreAutor}"><br>

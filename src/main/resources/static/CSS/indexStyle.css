@@ -1,36 +1,49 @@
-/* Estilos para el cuerpo de la página */
-body {
-    font-family: "SF Pro Text", sans-serif;
-    background-color: #ffffff;
-    margin: 0;
-}
+    body {
+        font-family: "SF Pro Text", sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+    }
 
-.navbar {
-  background-color: #1f1c0d;
-  overflow: hidden;
-}
+    .navbar ul {
+      list-style-type: none; /* Elimina las viñetas */
+      margin: 0; /* Elimina el margin por defecto */
+      padding: 0; /* Elimina el padding por defecto */
+      overflow: hidden; /* Asegura que nada se desborde de la barra de navegación */
+      background-color: #333; /* Color de fondo para la barra de navegación */
+      font-family: "SF Pro Text", sans-serif;
+      display: flex; /* Usa flexbox para centrar el contenido */
+      justify-content: center; /* Centra horizontalmente */
+    }
 
-.navbar ul {
-  list-style-type: none; /* Elimina las viñetas */
-  margin: 0; /* Elimina el margin por defecto */
-  padding: 0; /* Elimina el padding por defecto */
-  overflow: hidden; /* Asegura que nada se desborde de la barra de navegación */
-  background-color: #1f1c0d; /* Color de fondo para la barra de navegación */
-  font-family: "SF Pro Text", sans-serif;
-}
+    .navbar li {
+      float: left; /* Esto hará que los elementos de la lista se alineen horizontalmente */
+      position: relative; /* Permite posicionar los submenús relativos a los elementos padre */
+      background-color: #000000
+    }
 
-.navbar li {
-  float: left; /* Esto hará que los elementos de la lista se alineen horizontalmente */
-}
+    .navbar a {
+      display: block; /* Esto hará que los enlaces llenen el espacio del elemento <li> */
+      color: white; /* Color del texto de los enlaces */
+      text-align: center; /* Alinea el texto de los enlaces al centro */
+      padding: 14px 16px; /* Espaciado alrededor de los enlaces */
+      text-decoration: none; /* Elimina el subrayado de los enlaces */
+    }
 
-.navbar a {
-  display: block; /* Esto hará que los enlaces llenen el espacio del elemento <li> */
-  color: white; /* Color del texto de los enlaces */
-  text-align: center; /* Alinea el texto de los enlaces al centro */
-  padding: 14px 16px; /* Espaciado alrededor de los enlaces */
-  text-decoration: none; /* Elimina el subrayado de los enlaces */
-}
+    .navbar a:hover {
+      background-color: #339900; /* Color de fondo para los enlaces al pasar el mouse */
+    }
+ 
+    .navbar ul ul {
+        display: none;
+    }
 
-.navbar a:hover {
-  background-color: #555; /* Color de fondo para los enlaces al pasar el mouse */
-}
+    .navbar ul li:hover > ul {
+        display: block;
+    }
+    
+    .navbar a.active {
+        background-color: #ffffff;
+    }
+    
+    
+    

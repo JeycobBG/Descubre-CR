@@ -1,31 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.Articulo;
 import cr.ac.una.DescubreCR.service.ArticuloServices;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author JEYCOB
- */
 
 @Controller
 @RequestMapping("/articulos")
@@ -60,18 +57,52 @@ public class ArticuloController {
     }
 
     @GetMapping("/listar")
-    public String listarArticulos(Model model) throws SQLException {
-        List<Articulo> listaArticulos = ArticuloServices.obtenerArticulos();
-        model.addAttribute("articulos", listaArticulos);
-        return "artic/listaArticulos";
+    public String listarArticulos(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
+    Page<Articulo> pagina = ArticuloServices.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    model.addAttribute("pagina", pagina);
+
+    List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
+    var paginasTotal = pagina.getTotalPages();
+    var paginaActual = pagina.getNumber();
+    var inicio = Math.max(1, paginaActual);
+    var termina = Math.min(paginaActual + 5, paginasTotal);
+
+    if (paginasTotal > 0) {
+        List<Integer> numPaginas = new ArrayList<>();
+        for (int i = inicio; i <= termina; i++) {
+            numPaginas.add(i);
+        }
+        model.addAttribute("numPaginas", numPaginas);
     }
 
+    model.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+
+    return "artic/listaArticulos";
+}
+
     @GetMapping("/listarAdmin")
-    public String listarArticulosAdmin(Model model) throws SQLException {
-        List<Articulo> listaArticulos = ArticuloServices.obtenerArticulos();
-        model.addAttribute("articulos", listaArticulos);
-        return "artic/administrarArticulo";
+    public String listarArticulosAdmin(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
+    Page<Articulo> pagina = ArticuloServices.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    model.addAttribute("pagina", pagina);
+
+    List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
+    var paginasTotal = pagina.getTotalPages();
+    var paginaActual = pagina.getNumber();
+    var inicio = Math.max(1, paginaActual);
+    var termina = Math.min(paginaActual + 5, paginasTotal);
+
+    if (paginasTotal > 0) {
+        List<Integer> numPaginas = new ArrayList<>();
+        for (int i = inicio; i <= termina; i++) {
+            numPaginas.add(i);
+        }
+        model.addAttribute("numPaginas", numPaginas);
     }
+
+    model.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+
+    return "artic/administrarArticulo";
+}
 
     @PostMapping("/buscar-articulo")
     public String buscarArticulo(@RequestParam("idArticulo") int idArticulo, Model model) throws SQLException {
@@ -84,52 +115,98 @@ public class ArticuloController {
         }
     }
 
-    @GetMapping("/busquedaUsuario")
-    public String buscarPorIdentificador(@RequestParam(name = "identificador", required = false) String identificador, Model model) {
-        if (identificador != null && !identificador.isEmpty()) {
-            try {
-                Articulo articulo = ArticuloServices.obtenerArticuloPorIdentificador(identificador);
-                if (articulo != null) {
-                    List<Articulo> articulosFiltrados = new ArrayList<>();
-                    articulosFiltrados.add(articulo);
-                    model.addAttribute("articulos", articulosFiltrados);
-                } else {
-                    model.addAttribute("mensaje", "No se encontró ningún artículo con el  proporcionado");
-                }
-            } catch (SQLException e) {
-                model.addAttribute("error", "Error al buscar el artículo por identificador");
-            }
-        } else {
-            try {
-                List<Articulo> todosArticulos = ArticuloServices.obtenerArticulos();
-                model.addAttribute("articulos", todosArticulos);
-            } catch (SQLException ex) {
-                Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    @GetMapping("/buscarPorTitulo")
+    public String buscarPorTitulo(@RequestParam(name = "titulo", required = false) String titulo,@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
+    Page<Articulo> pagina;
+    pagina = ArticuloServices.obtenerPorTitulo(titulo,PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    model.addAttribute("pagina", pagina);
+    model.addAttribute("titulo", titulo);
+    List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
+    var paginasTotal = pagina.getTotalPages();
+    var paginaActual = pagina.getNumber();
+    var inicio = Math.max(1, paginaActual);
+    var termina = Math.min(paginaActual + 5, paginasTotal);
+
+    if (paginasTotal > 0) {
+        List<Integer> numPaginas = new ArrayList<>();
+        for (int i = inicio; i <= termina; i++) {
+            numPaginas.add(i);
         }
-        return "artic/listaArticulos";
+        model.addAttribute("numPaginas", numPaginas);
     }
 
-    @GetMapping("/actualizar/{id}")
-    public String mostrarFormularioActualizacion(@PathVariable("id") int idArticulo, Model model) throws SQLException {
-        Articulo articulo = ArticuloServices.obtenerArticuloPorID(idArticulo);
-        if (articulo != null) {
-            model.addAttribute("articulo", articulo);
-            return "artic/actualizarArticulo";
-        } else {
-            return "redirect:/articulos/listar";
+    model.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+
+    return "artic/listaArticulos";
+}
+
+    @GetMapping("/buscarPorTituloAdmin")
+    public String buscarPorTituloAdmin(@RequestParam(name = "titulo", required = false) String titulo,@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
+    Page<Articulo> pagina;
+    pagina = ArticuloServices.obtenerPorTitulo(titulo,PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    model.addAttribute("pagina", pagina);
+    model.addAttribute("titulo", titulo);
+
+    List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
+    var paginasTotal = pagina.getTotalPages();
+    var paginaActual = pagina.getNumber();
+    var inicio = Math.max(1, paginaActual);
+    var termina = Math.min(paginaActual + 5, paginasTotal);
+
+    if (paginasTotal > 0) {
+        List<Integer> numPaginas = new ArrayList<>();
+        for (int i = inicio; i <= termina; i++) {
+            numPaginas.add(i);
         }
+        model.addAttribute("numPaginas", numPaginas);
     }
 
-    @PostMapping("/eliminar-articulo")
-    public String eliminarArticulo(@RequestParam("idArticulo") int idArticulo) throws SQLException {
-        boolean eliminado = ArticuloServices.eliminarArticulo(idArticulo);
-        return "redirect:/articulos/listar";
+    model.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
+    return "artic/administrarArticulo";
+}
+
+   @GetMapping("/actualizar")
+    public String formularioActualizar(@RequestParam("id") int id, Model modelo, RedirectAttributes flash) throws SQLException {
+    Articulo articulo = ArticuloServices.obtenerArticuloPorID(id);
+
+    if (articulo != null) {
+        modelo.addAttribute("articulo", articulo);
+        return "artic/actualizarArticulo";
+    } else {
+        flash.addFlashAttribute("error", "No existe el artículo con ese id ");
+        return "redirect:/listarAdmin";
+    }
+  }
+
+    @GetMapping("/eliminar")
+    public String eliminar(@RequestParam("id") int codigo, RedirectAttributes flash) throws SQLException{
+        
+        if(ArticuloServices.eliminarArticulo(codigo)){
+            flash.addFlashAttribute("exito", "Se ha eliminado el articulo");
+        } else {
+            flash.addFlashAttribute("error", "No existe el articulo " );
+        }
+        
+        return "redirect:/articulos/listarAdmin";
     }
 
     @PostMapping("/actualizar-articulo")
     public String actualizarArticulo(@ModelAttribute Articulo articulo) throws SQLException {
         ArticuloServices.actualizarArticulo(articulo);
-        return "redirect:/articulos/listar";
+        return "redirect:/articulos/listarAdmin";
+    }
+    
+    @GetMapping("/verDetallesArticulo")
+    @ResponseBody
+    public Articulo obtenerDetallesArticulo(@RequestParam("idArticulo") int id) throws SQLException, JsonProcessingException {
+        return ArticuloServices.obtenerArticuloPorID(id);
+    }
+    
+        
+    @GetMapping("/consultaIndividual")
+    public String infoIndividual(@RequestParam("id") int id, Model modelo) throws SQLException{
+        modelo.addAttribute("articulo", ArticuloServices.obtenerArticuloPorID(id));
+        
+        return "artic/articuloIndividual";
     }
 }

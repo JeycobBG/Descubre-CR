@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.data.DataLugar;
@@ -10,7 +6,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 
 /**
  *
@@ -34,12 +29,16 @@ public class ServiciosLugar {
          return new DataLugar().eliminar(nombre);
     }
     
-    public static Lugar consultarPorCodigo(String codigo) throws SQLException{
-        return new DataLugar().consultarPorCodigo(codigo);
+    public static Lugar consultarEspPorCodigo(String codigo) throws SQLException{
+        return new DataLugar().consultarEspPorCodigo(codigo);
     }
     
-    public static Lugar consultarPorNombre(String nombre) throws SQLException{
-        return new DataLugar().consultarPorNombre(nombre);
+    public static Lugar consultarEspPorNombre(String nombre) throws SQLException{
+        return new DataLugar().consultarEspPorNombre(nombre);
+    }
+    
+    public static Page<Lugar> consultarPorNombre(Pageable pageable, String nombre) throws SQLException{
+        return new DataLugar().consultarPorNombre(pageable, nombre);
     }
     
     public static boolean reguardar(Lugar lugar) throws SQLException{
@@ -48,10 +47,6 @@ public class ServiciosLugar {
     
     public static LinkedList<String> getCategorias(){
         return new DataLugar().getCategorias();
-    }
-    
-    public static LinkedList<String> getProvincias(){
-        return new DataLugar().getProvincias();
     }
     
 }

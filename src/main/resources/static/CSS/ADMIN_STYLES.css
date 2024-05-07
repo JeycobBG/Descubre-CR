@@ -1,0 +1,238 @@
+body {
+    font-family: "SF Pro Text", sans-serif;
+    background-color: #f0f0f0; /* Blanco */
+    color: #000; /* Negro */
+}
+
+h3.listado-titulo {
+    font-family: "SF Pro Text", sans-serif;
+    color: #008000; /* Verde claro */
+    text-align: center;
+    font-size: 25px;
+}
+
+label {
+    color: #000; /* Negro */
+}
+
+/* Estilos para el enlace "Agregar un nuevo artículo" */
+a.button {
+    display: inline-block; /* Mostrar como un bloque */
+    padding: 10px 20px; /* Relleno interno */
+    background-color: #008000; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    text-decoration: none; /* Quitar subrayado */
+    border-radius: 4px; /* Borde redondeado */
+    transition: background-color 0.3s ease; /* Transición suave */
+    margin-bottom: 20px;
+
+}
+
+a.button:hover {
+    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratón */
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000; /* Negro */
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #008000; /* Verde claro */
+    color: #fff; /* Blanco */
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.page-link {
+    color: #000; /* Negro */
+}
+
+.page-link:hover {
+    color: #008000; /* Verde claro al pasar el mouse */
+}
+
+.alert {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d3f7d3; /* Verde claro para éxito */
+    border-color: #4cae4c; /* Verde más oscuro para éxito */
+    color: #155724; /* Verde oscuro para éxito */
+}
+
+.alert-error {
+    background-color: #f8d7da; /* Rojo claro para error */
+    border-color: #dc3545; /* Rojo oscuro para error */
+    color: #721c24; /* Rojo oscuro para error */
+}
+
+.pagination-container {
+    white-space: nowrap; /* Evita que los elementos de la paginación se desplacen a la siguiente línea */
+    margin-top: 30px;
+    text-align: center; 
+}
+
+.pagination {
+    display: inline-block; /* Permite que los elementos de paginación estén en línea */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination li {
+    display: inline;
+    margin-right: 5px; /* Espacio entre los elementos de paginación */
+}
+
+.pagination li a {
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #000;
+}
+
+.pagination li.active a {
+    background-color: #008000;
+    color: #fff;
+}
+
+.pagination li a:hover {
+    background-color: #008000;
+    color: #fff;
+}
+
+.pagination-container select {
+    margin-bottom: 15px; /* Espacio entre el selector de tamaño de página y los botones de paginación */
+    
+}
+
+.pagination-container select,
+.pagination-container ul.pagination {
+    display: inline-block; /* Hace que el selector de tamaño de página y los botones de paginación estén en línea */
+    vertical-align: middle; /* Alinea verticalmente los elementos */
+}
+
+.pagination-container ul.pagination {
+    margin-left: 10px; /* Espacio entre el selector de tamaño de página y los botones de paginación */
+}
+
+.pagination-container ul.pagination li {
+    display: inline-block;
+    margin-right: 5px; /* Espacio entre los elementos de paginación */
+}
+
+.pagination-container ul.pagination li a {
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #000;
+}
+
+.pagination-container ul.pagination li.active a {
+    background-color: #008000;
+    color: #fff;
+}
+
+.pagination-container ul.pagination li a:hover {
+    background-color: #008000;
+    color: #fff;
+}
+
+
+/* Estilos para alinear el formulario a la derecha */
+form {
+    font-family: "SF Pro Text", sans-serif;
+    margin-bottom: 20px; /* Espacio entre el formulario y el resto del contenido */
+    text-align: right; /* Alinear el contenido del formulario a la derecha */
+}
+
+label {
+    display: block; /* Para que cada etiqueta de campo esté en una línea separada */
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    text-align: right; /* Alinear el texto de las etiquetas a la derecha */
+}
+
+input[type="text"] {
+    width: 300px; /* Ancho del campo de entrada */
+    padding: 8px; /* Relleno interno */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 4px; /* Borde redondeado */
+}
+
+button[type="submit"] {
+    padding: 8px 20px; /* Relleno interno */
+    background-color: #008000; /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    border: none; /* Borde */
+    border-radius: 4px; /* Borde redondeado */
+    cursor: pointer; /* Cursor al pasar el ratón */
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #000;
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratón */
+}
+
+
+/* Estilos para los botones de editar y eliminar */
+a.editar-button,
+a.eliminar-button {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-right: 5px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    color: #007bff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+a.editar-button:hover,
+a.eliminar-button:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+a.eliminar-button {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+a.eliminar-button:hover {
+    background-color: #dc3545;
+}
+
+a.ver-detalles {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+a.ver-detalles:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+

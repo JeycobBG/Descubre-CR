@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author JEYCOB
- */
 public class ConectarDB {
     private static String id_album;
     private static String id_imagen;
@@ -36,9 +28,7 @@ public class ConectarDB {
         }
         try {
             conexion = DriverManager.getConnection(url, user, pass);
-            System.out.println("Se estableció conexión con la base de datos");
         } catch (SQLException e) {
-            System.out.println("Error de conexión" + e.getMessage());
         }
         return conexion;
     }
@@ -49,7 +39,6 @@ public class ConectarDB {
                 cn.close();
             }
         }catch(SQLException e){
-            System.out.println("Error al cerrar la conexion!!!");
         }
     }
     

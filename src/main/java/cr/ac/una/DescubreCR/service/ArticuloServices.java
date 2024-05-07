@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public class ArticuloServices {
      
@@ -48,6 +50,13 @@ public class ArticuloServices {
     DataArticulo.actualizar(articulo);
     }
 
+    public static Page<Articulo> listarAdmin(Pageable pageable) throws SQLException{
+        return new DataArticulo().obtenerArticulosAdmi(pageable);
+    }
+    
+    public static Page<Articulo> obtenerPorTitulo(String titulo,Pageable pageable) throws SQLException{
+        return new DataArticulo().obtenerPorTitulo(titulo,pageable);
+    }
 
 
 

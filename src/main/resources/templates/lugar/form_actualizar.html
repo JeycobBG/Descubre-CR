@@ -8,13 +8,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <title>MODULO LUGAR</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/css/form_actualizar.css"> 
+        <link rel="stylesheet" type="text/css" href="/css/form_actualizar.css">
+        <script text="text/javascript" th:src="@{/js/dataForm.js}"></script>
     </head>
     <body>
         <div class="container">
             <div>
                 <h3>Editar Información del Lugar</h3>
-                <form method="post" th:action="@{/lugares/actualizar}" enctype="multipart/form-data">
+                <form id="formRegistrar" method="post" th:action="@{/lugares/actualizar}" enctype="multipart/form-data">
                     <input type="hidden" name="codigo" required th:value="${lugar.codigo}" />
 
                     <label for="nombre"><b>Nombre:</b></label>
@@ -23,8 +24,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <label for="descripcion"><b>Descripción:</b></label>
                     <input type="text" name="descripcion" required th:value="${lugar.descripcion}" style="width:250px"><br />
 
-                    <label for="categoria"><b>Categoría:</b></label>
-                    <input type="text" name="categoria" required th:value="${lugar.categoria}" style="width:250px"><br />
+                    <label for="categoria"><b>Seleccione una categoría</b></label>
+                    <select name="categoria">
+                        <option th:each="categoria:${categorias}" th:value="${categoria}" th:text="${categoria}" th:selected="${categoria == lugar.categoria}"></option>
+                    </select>
 
                     <!-- Días de Apertura -->
                     <p><b>Días de Apertura:</b></p>
@@ -32,14 +35,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <label for="lunes">Lunes</label><br>
                     <input type="checkbox" id="martes" name="diasHorario[]" value="Martes">
                     <label for="martes">Martes</label><br>
-                    <input type="checkbox" id="miercoles" name="diasHorario[]" value="Miércoles">
-                    <label for="miercoles">Miércoles</label><br>
+                    <input type="checkbox" id="miércoles" name="diasHorario[]" value="Miércoles">
+                    <label for="miércoles">Miércoles</label><br>
                     <input type="checkbox" id="jueves" name="diasHorario[]" value="Jueves">
                     <label for="jueves">Jueves</label><br>
                     <input type="checkbox" id="viernes" name="diasHorario[]" value="Viernes">
                     <label for="viernes">Viernes</label><br>
-                    <input type="checkbox" id="sabado" name="diasHorario[]" value="Sábado">
-                    <label for="sabado">Sábado</label><br>
+                    <input type="checkbox" id="sábado" name="diasHorario[]" value="Sábado">
+                    <label for="sábado">Sábado</label><br>
                     <input type="checkbox" id="domingo" name="diasHorario[]" value="Domingo">
                     <label for="domingo">Domingo</label><br><br>
 
@@ -52,12 +55,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <label for="precio_entr"><b>Precio de entrada:</b></label>
                     <input type="number" name="precio_entr" required th:value="${lugar.precio_entrada}" style="width:250px"><br />
 
-                    <label for="canton"><b>Cantón:</b></label>
-                    <input type="text" name="canton" required th:value="${lugar.canton}" style="width:250px"><br />
+                    <label for="provincia"><b>Seleccione una provincia:</b></label>
+                    <select name="provincia" id="provincia" required> </select><br>
 
-                    <label for="distrito"><b>Distrito:</b></label>
-                    <input type="text" name="distrito"required  th:value="${lugar.distrito}" style="width:250px"><br />
+                    <label for="canton"><b>Seleccione un cantón:</b></label>
+                    <select name="canton" id="canton" required> </select><br>
 
+                    <label for="distrito"><b>Seleccione un distrito:</b></label>
+                    <select name="distrito" id="distrito" required> </select><br>
+                    
                     <label for="calidad_recep"><b>Calidad de la recepción telefónica:</b></label>
                     <select name="calidad_recep" required th:value="${lugar.calidad_recepcion_telefonica}">
                         <option value="Mala">Mala</option>
@@ -74,5 +80,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </div>
         <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
         <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
+        <div id="datosLugar" th:attr="dataLugar=${lugarJson}" style="display: none;"></div>
     </body>
 </html>
