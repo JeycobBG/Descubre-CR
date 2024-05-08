@@ -6,30 +6,29 @@ body {
 
 h3.listado-titulo {
     font-family: "SF Pro Text", sans-serif;
-    color: #008000; /* Verde claro */
+    color: grey; /* Verde claro */
     text-align: center;
-    font-size: 25px;
+    font-size: 32px;
 }
 
 label {
     color: #000; /* Negro */
 }
 
-/* Estilos para el enlace "Agregar un nuevo artículo" */
+/* Estilos para el enlace "Agregar un nuevo artÃ­culo" */
 a.button {
     display: inline-block; /* Mostrar como un bloque */
     padding: 10px 20px; /* Relleno interno */
-    background-color: #008000; /* Color de fondo */
+    background-color: #155724; /* Color de fondo */
     color: #fff; /* Color del texto */
     text-decoration: none; /* Quitar subrayado */
     border-radius: 4px; /* Borde redondeado */
-    transition: background-color 0.3s ease; /* Transición suave */
+    transition: background-color 0.3s ease; /* TransiciÃ³n suave */
     margin-bottom: 20px;
-
 }
 
 a.button:hover {
-    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratón */
+    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratÃ³n */
 }
 
 
@@ -46,7 +45,7 @@ th, td {
 }
 
 th {
-    background-color: #008000; /* Verde claro */
+    background-color: #155724; /* Verde claro */
     color: #fff; /* Blanco */
 }
 
@@ -69,9 +68,9 @@ th {
 }
 
 .alert-success {
-    background-color: #d3f7d3; /* Verde claro para éxito */
-    border-color: #4cae4c; /* Verde más oscuro para éxito */
-    color: #155724; /* Verde oscuro para éxito */
+    background-color: #d3f7d3; /* Verde claro para Ã©xito */
+    border-color: #4cae4c; /* Verde mÃ¡s oscuro para Ã©xito */
+    color: #155724; /* Verde oscuro para Ã©xito */
 }
 
 .alert-error {
@@ -81,13 +80,13 @@ th {
 }
 
 .pagination-container {
-    white-space: nowrap; /* Evita que los elementos de la paginación se desplacen a la siguiente línea */
+    white-space: nowrap; /* Evita que los elementos de la paginaciÃ³n se desplacen a la siguiente lÃ­nea */
     margin-top: 30px;
     text-align: center; 
 }
 
 .pagination {
-    display: inline-block; /* Permite que los elementos de paginación estén en línea */
+    display: inline-block; /* Permite que los elementos de paginaciÃ³n estÃ©n en lÃ­nea */
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -95,7 +94,7 @@ th {
 
 .pagination li {
     display: inline;
-    margin-right: 5px; /* Espacio entre los elementos de paginación */
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃ³n */
 }
 
 .pagination li a {
@@ -106,7 +105,7 @@ th {
 }
 
 .pagination li.active a {
-    background-color: #008000;
+    background-color: #155724;
     color: #fff;
 }
 
@@ -116,39 +115,39 @@ th {
 }
 
 .pagination-container select {
-    margin-bottom: 15px; /* Espacio entre el selector de tamaño de página y los botones de paginación */
+    margin-bottom: 15px; /* Espacio entre el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n */
     
 }
 
 .pagination-container select,
 .pagination-container ul.pagination {
-    display: inline-block; /* Hace que el selector de tamaño de página y los botones de paginación estén en línea */
+    display: inline-block; /* Hace que el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n estÃ©n en lÃ­nea */
     vertical-align: middle; /* Alinea verticalmente los elementos */
 }
 
 .pagination-container ul.pagination {
-    margin-left: 10px; /* Espacio entre el selector de tamaño de página y los botones de paginación */
+    margin-left: 10px; /* Espacio entre el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n */
 }
 
 .pagination-container ul.pagination li {
     display: inline-block;
-    margin-right: 5px; /* Espacio entre los elementos de paginación */
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃ³n */
 }
 
 .pagination-container ul.pagination li a {
     color: #000;
-    padding: 8px 16px;
+    padding: 4px 8px;
     text-decoration: none;
     border: 1px solid #000;
 }
 
 .pagination-container ul.pagination li.active a {
-    background-color: #008000;
+    background-color: #155724;
     color: #fff;
 }
 
 .pagination-container ul.pagination li a:hover {
-    background-color: #008000;
+    background-color: #155724;
     color: #fff;
 }
 
@@ -161,7 +160,7 @@ form {
 }
 
 label {
-    display: block; /* Para que cada etiqueta de campo esté en una línea separada */
+    display: block; /* Para que cada etiqueta de campo estÃ© en una lÃ­nea separada */
     margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
     text-align: right; /* Alinear el texto de las etiquetas a la derecha */
 }
@@ -175,18 +174,18 @@ input[type="text"] {
 
 button[type="submit"] {
     padding: 8px 20px; /* Relleno interno */
-    background-color: #008000; /* Color de fondo del botón */
+    background-color: #154724; /* Color de fondo del botÃ³n */
     color: #fff; /* Color del texto */
     border: none; /* Borde */
     border-radius: 4px; /* Borde redondeado */
-    cursor: pointer; /* Cursor al pasar el ratón */
+    cursor: pointer; /* Cursor al pasar el ratÃ³n */
     padding: 8px 16px;
     text-decoration: none;
     border: 1px solid #000;
 }
 
 button[type="submit"]:hover {
-    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratón */
+    background-color: #155724; /* Cambiar color de fondo al pasar el ratÃ³n */
 }
 
 
@@ -196,16 +195,16 @@ a.eliminar-button {
     display: inline-block;
     padding: 8px 16px;
     margin-right: 5px;
-    border: 1px solid #007bff;
+    border: 1px solid #5718ab;
     border-radius: 4px;
-    color: #007bff;
+    color: #5718ab;
     text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
 a.editar-button:hover,
 a.eliminar-button:hover {
-    background-color: #007bff;
+    background-color: #5718ab;
     color: #fff;
 }
 
@@ -221,16 +220,18 @@ a.eliminar-button:hover {
 a.ver-detalles {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
+    border: 1px solid #155724;
+    color: #155724;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 a.ver-detalles:hover {
-    background-color: #0056b3;
+    background-color: #155724;
+    color: white;
 }
+
 
 
 

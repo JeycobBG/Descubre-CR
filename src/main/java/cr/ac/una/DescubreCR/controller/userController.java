@@ -1,10 +1,19 @@
 package cr.ac.una.DescubreCR.controller;
 
+import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.domain.Usuario;
+import cr.ac.una.DescubreCR.service.ServiciosLugar;
 import cr.ac.una.DescubreCR.service.UsuariosServices;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,12 +72,28 @@ public class userController {
     }
     
     @GetMapping("/login")
-    public String login(@RequestParam("usuario") String usuario,
-                        @RequestParam("password") String contraseña) throws SQLException{
-        
+    public String listar(@RequestParam("usuario") String usuario,@RequestParam("password") String contraseña,@PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
         if(!UsuariosServices.login(usuario,UsuariosServices.encriptar(contraseña))){
             return "redirect:login";
         }
+        Page<Lugar> pagina = ServiciosLugar.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        modelo.addAttribute("pagina", pagina);
+        List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
+        
+        var paginasTotal = pagina.getTotalPages();
+        var paginaActual = pagina.getNumber();
+        var inicio = Math.max(1, paginaActual);
+        var termina = Math.min(paginaActual + 5, paginasTotal);
+        
+        if(paginasTotal > 0){
+            List<Integer> numPaginas = new ArrayList<>();
+            for(int i=inicio; i<=termina; i++){
+                numPaginas.add(i);
+            }
+            
+            modelo.addAttribute("numPaginas", numPaginas);
+        }
+                
         return "/index";
     }
     

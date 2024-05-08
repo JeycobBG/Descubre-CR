@@ -5,7 +5,9 @@ body {
 }
 
 h2 {
-    color: #333;
+    color:grey;
+    font-size: 40px;
+    text-align: center;
 }
 
 .article-container {
@@ -31,7 +33,7 @@ h2 {
 }
 
 
-/* Estilos para el formulario de búsqueda */
+/* Estilos para el formulario de bÃºsqueda */
 form {
     margin-top: 20px;
     text-align: right;
@@ -50,26 +52,26 @@ input[type="text"] {
 }
 
 button {
-    padding: 5px 10px;
-    background-color: #007bff;
+    padding: 6px 17px;
+    background-color: #155724;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #008000;
 }
 
 .pagination-container {
-    white-space: nowrap; /* Evita que los elementos de la paginación se desplacen a la siguiente línea */
+    white-space: nowrap; /* Evita que los elementos de la paginaciÃ³n se desplacen a la siguiente lÃ­nea */
     margin-top: 30px;
     text-align: center; 
 }
 
 .pagination {
-    display: inline-block; /* Permite que los elementos de paginación estén en línea */
+    display: inline-block; /* Permite que los elementos de paginaciÃ³n estÃ©n en lÃ­nea */
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -77,7 +79,7 @@ button:hover {
 
 .pagination li {
     display: inline;
-    margin-right: 5px; /* Espacio entre los elementos de paginación */
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃ³n */
 }
 
 .pagination li a {
@@ -98,23 +100,23 @@ button:hover {
 }
 
 .pagination-container select {
-    margin-bottom: 15px; /* Espacio entre el selector de tamaño de página y los botones de paginación */
+    margin-bottom: 15px; /* Espacio entre el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n */
     
 }
 
 .pagination-container select,
 .pagination-container ul.pagination {
-    display: inline-block; /* Hace que el selector de tamaño de página y los botones de paginación estén en línea */
+    display: inline-block; /* Hace que el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n estÃ©n en lÃ­nea */
     vertical-align: middle; /* Alinea verticalmente los elementos */
 }
 
 .pagination-container ul.pagination {
-    margin-left: 10px; /* Espacio entre el selector de tamaño de página y los botones de paginación */
+    margin-left: 10px; /* Espacio entre el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n */
 }
 
 .pagination-container ul.pagination li {
     display: inline-block;
-    margin-right: 5px; /* Espacio entre los elementos de paginación */
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃ³n */
 }
 
 .pagination-container ul.pagination li a {
@@ -125,12 +127,13 @@ button:hover {
 }
 
 .pagination-container ul.pagination li.active a {
-    background-color: #008000;
+    background-color: #155724
+    ;
     color: #fff;
 }
 
 .pagination-container ul.pagination li a:hover {
-    background-color: #008000;
+    background-color: #155724;
     color: #fff;
 }
 
@@ -138,14 +141,20 @@ button:hover {
         border: 1px solid #ccc;
         padding: 20px;
         margin-bottom: 20px;
-        background-color: #f9f9f9;
+        margin-top: 10px;
+        background-color: #ffffff;
     }
 
     .info h3 {
         font-size: 24px;
         margin-top: 0;
         margin-bottom: 10px;
+        color: #155724
+        
+        ;
     }
+
+h3 {}
 
     .info p {
         margin-top: 0;

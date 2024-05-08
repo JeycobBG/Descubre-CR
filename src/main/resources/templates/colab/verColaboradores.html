@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script text="text/javascript" th:src="@{/js/listados.js}"></script>
     <title>Lista de Colaboradores</title>
-    <link href="/CSS/administrarStyle.css" rel="stylesheet" type="text/css"/>
+    <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
     <header>
@@ -43,8 +45,10 @@
                     <td th:text="${colaborador.tipoColaborador}"></td>
                     <td th:text="${colaborador.redesSociales}"></td>
                     <td>
-                        <button class="btn btn-update">Actualizar</button>
-                        <button class="btn btn-delete" onclick="llenarIdentificador('${colaborador.ide}')">Eliminar</button>
+                        
+                        <a th:href="@{'/colaboradores/actualizar/' + ${colaborador.ide}}">Actualizar</a>
+                        <a th:href="@{'/colaboradores/eliminar/' + ${colaborador.ide}}"onclick="showDeleteMessage()">Eliminar</a>
+                        <a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesColaborador(\'' + ${colaborador.ide} + '\')'">Ver Detalles</a>
 
                     </td>
                 </tr>
@@ -57,8 +61,18 @@
             <button onclick="nextPage()">Siguiente</button>
         </div>
     </div>
-
+    <div id="verDetalles"></div>
+    <footer>
+        <p>© 2024 - Todos los derechos reservados</p>
+    </footer>
+    
+    
+    
     <script>
+        
+        function showDeleteMessage() {
+            alert("El colaborador se eliminó correctamente.");
+        }
         // Función para buscar por cédula
         function searchByCedula() {
             var input, filter, table, tr, td, i, txtValue;

@@ -1,9 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.controller;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.data.DataColaboradores;
 import cr.ac.una.DescubreCR.domain.ColaboradorEmpresarial;
 import cr.ac.una.DescubreCR.service.ColaboradorServices;
@@ -17,7 +13,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -42,7 +40,7 @@ public class ColaboradorController {
         Random random = new Random();
         int rand = random.nextInt(9000) + 1000;
         String ide =  String.valueOf(rand);
-        String vista = "redirect:/index";
+        String vista = "colab/verColaboradores";
         ColaboradorEmpresarial cola = new ColaboradorEmpresarial(ide,
         nombreEmpresa,descripcionEmpresa,direccionEmpresa,
                 telefonoEmpresa,sitioWeb,estadoAprobacion,
@@ -62,7 +60,13 @@ public class ColaboradorController {
     public String form(){
         return "colab/crearColaborador";
     }
-   
+    
+    @GetMapping("/verDetallesColaborador")
+    @ResponseBody
+    public ColaboradorEmpresarial obtenerDetalles(@RequestParam("ide") String ide) throws SQLException, JsonProcessingException {
+        return ColaboradorServices.buscar(ide);
+    }
+    
     @GetMapping("/eliminar")
     public String eliminar(@RequestParam("ide") String ide){
         String vista = "redirect:/colaboradores/listaColaboradores";
@@ -75,6 +79,17 @@ public class ColaboradorController {
         }
         System.out.println("vista="+vista);
         return vista;
+    }
+    
+    @GetMapping("/eliminar/{ide}")
+    public String eliminar(@PathVariable String ide, Model model) throws SQLException {
+    ColaboradorServices.eliminar(ide);
+    return "redirect:/colaboradores/listaColaboradores";
+    }
+    
+    @GetMapping("/actualizar/{ide}")
+    public String actualizar(@PathVariable String ide, Model model) throws SQLException {
+    return "redirect:/colaboradores/buscarColaborador?ide="+ide;
     }
     
     @GetMapping("/eliminarForm")

@@ -65,3 +65,35 @@ function cargarDetallesArticulo(id) {
 }
 
 
+function cargarDetallesColaborador(ide) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./verDetallesColaborador?ide=" + ide, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+               var response = JSON.parse(xhr.responseText);
+               var detallesHtml = `
+                    <h2>DETALLES DEL LUGAR</h2>
+                    <h4>${response.nombreEmpresa}</h4>
+
+                    <p><strong>Identificador:</strong> <span>${response.ide}</span></p>
+                    <p><strong>Nombre de la empresa:</strong> <span>${response.nombreEmpresa}</span></p>
+                    <p><strong>Descripcion de la Empresa:</strong> <span>${response.descripcionEmpresa}</span></p>
+                    <p><strong>Telefono de la empresa:</strong> <span>${response.direccionEmpresa}</span></p>
+                    <p><strong>Sitio Web:</strong> <span>${response.telefonoEmpresa}</span></p>
+                    <p><strong>Estado de aprobacion:</strong> <span>${response.sitioWeb}</span></p>
+                    <p><strong>Tipo colaborador:</strong> <span>${response.estadoAprobacion}</span></p>
+                    <p><strong>Redes Sociales:</strong> <span>${response.tipoColaborador}</span></p>
+                    <p><strong>Cantón:</strong> <span>${response.redesSociales}</span></p>
+                  `;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
+            } else {
+                console.error("Error al cargar los detalles del Colaborador. Estado de la solicitud:", xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error("Error de red al cargar los detalles del lugar.");
+    };
+    xhr.send();
+}

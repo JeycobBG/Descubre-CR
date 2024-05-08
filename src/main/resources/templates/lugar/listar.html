@@ -1,39 +1,33 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html xmls:th="http://thymeleaf.org">
     <head>
         <title>Módulo Lugar</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/CSS/listar.css"> 
+        <link rel="stylesheet" type="text/css" href="/css/listar.css"> 
     </head>
     <body>
-        <div class="container">   
+        <div class="encabezado">   
             <h3 class="catalogo-titulo">CATÁLOGO DE LUGARES</h3>
-            <div class="buscador"> 
+        </div>
+        <div class="buscador"> 
                 <form method="get" th:action="@{/lugares/consulta_buscar}" enctype="multipart/form-data">
                     <input type="text" name="nombre" placeholder="Ingrese el nombre del lugar" required>
                     <input type="submit" value="Buscar">
                 </form>
             </div>
-        </div>
-
         <div>
             <ul class="catalogo">
                 <li th:each="lugar:${pagina.content}" class="lugar">
-                    <div class="categoria-container">
-                        <p><span th:text="${lugar.categoria}" id="categoria"></span></p>
-                    </div>
+                    
                     <img th:src="@{'/imagenes/' + ${lugar.imagen}}" th:alt="${lugar.imagen}">
-
-                    <div class="info">   
+                    <div class="categoria-container">
+                        <p><span th:text="${lugar.categoria}" id="categoria"></span><a th:href="@{/lugares/consulta_individual(codigo=${lugar.codigo})}">Ver más info</a></p>
+                        
+                    </div>
+                    <div class="info"> 
                         <h4 th:text="${lugar.nombre}"></h4>
                         <p><span th:text="${lugar.descripcion}"></span></p>    
-                        <a th:href="@{/lugares/consulta_individual(codigo=${lugar.codigo})}">Ver más información</a>
-                    </div>
+                        </div>
                 </li>
             </ul>
         </div>
@@ -81,6 +75,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </ul>
             </nav>
         </div>
+        
         <script>
             function cambiarPagTam(){
                 const pageSize = document.getElementById("pageSize").value;

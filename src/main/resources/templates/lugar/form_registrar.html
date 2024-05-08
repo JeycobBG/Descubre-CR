@@ -8,13 +8,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <title>Módulo Lugar</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/form_registrar.css"> 
+    <link rel="stylesheet" type="text/css" href="/CSS/Registrar_Form.css"> 
     <script text="text/javascript" th:src="@{/js/dataForm.js}"></script>
 </head>
 <body>
+    <h3>Brinde la siguiente información</h3>
     <div class="container">
         <div>
-            <h3>Brinde la siguiente información</h3>
             <form id="formRegistrar" method="post" th:action="@{/lugares/form_registrar}" enctype="multipart/form-data">
                 <input type="text" name="codigo" placeholder="Ingrese el código del lugar" required><br />
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del lugar" required><br />

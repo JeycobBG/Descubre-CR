@@ -254,7 +254,7 @@ public class ControllerLugar {
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }
         
-        return "redirect:/";
+        return "redirect:/lugares/listar_admin";
     }
     
     @GetMapping("/consulta_buscar")
