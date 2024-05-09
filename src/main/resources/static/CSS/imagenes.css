@@ -1,0 +1,120 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 24 abr 2024, 19:19:06
+    Author     : JEYCOB
+*/
+
+/* para editar_album*/
+.container {
+    width: 50%;
+    min-height: 30vh;
+    display: flex;
+}
+
+.container-imagenes {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+    margin: 2%;
+    transition: 2ms;
+}
+
+.container-imagenes img {
+    width: 263px;
+    transition: all 300ms;
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+}
+
+.container .container-imagenes img:hover > #capa{
+    background: rgba(220,0,0,0.4);
+    transform: scale(1.05);
+}
+
+
+.container .container-imagenes #capa:hover > img{
+    background: rgba(220,0,0,0.4);
+    transform: scale(1.05);
+}
+
+.container-imagenes #capa {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+    left: 230px;
+}
+/* para display_album*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    background: #fff;
+    padding: 10px;
+}
+
+img {
+    max-width: 300px;
+    height: auto;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.album > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.album > div > img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.album {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: 170px;
+    grid-auto-flow: dense;
+}
+
+.album .wide {
+    grid-column: span 2;
+}
+
+.album .tall {
+    grid-row: span 2;
+}
+
+.album .big {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/*---------*/
+
+/*
+.album-img {    
+    margin: 0;
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    display: inline-block;
+    border-radius: 5px;
+}
+*/

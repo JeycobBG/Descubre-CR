@@ -4,18 +4,14 @@
         <title>Descubre CR</title>
     </head>
     <body>
-        
+        <div th:if="${success != null}" th:text="${success}"></div>
+        <div th:if="${error != null}" th:text="${error}"></div>
         <header>
             <h2 id="titulo">Creación de Album</h2>
             <p>Crea y comparte un album con lo mejor de tus experiencias.</p>
         </header>
-        
-        <script>
-            var textArea1 = document.getElementById('descripcion').value;
-            
-        </script>
-        
-        <section>
+
+        <section>            
             <form th:action="@{/albums/guardar}" method="POST" enctype="multipart/form-data">
                 <div>
                     <p><strong>Acerca del autor</strong></p>
@@ -43,13 +39,11 @@
                     <textarea cols="60" rows="2" id="etiquetas" name="etiquetas" placeholder="#naturaleza #mar #volcán #spa #familiar..." required minlength="4" maxlength="100"></textarea><br>
                 
                 <!-- Aquí viene la parte de las imágenes asociadas 
-                        Pieso hacerlo con un drag and drop de arcivos... Pendiente
-                        En cuanto a la fecha, creo que es mejor calcularla a nivel interno con un LocalDateTime
                 -->
                     <label for="imagenes">Porfavor seleccione las imágenes que desea agregar a su album</label><br>
                     <input type="file" id="imagenes" name="imagenes" accept="image/png,image/jpeg" multiple="multiple" required/>
-                    <input type="submit" name="guardar" value="Aceptar" onclick="alert('Registro exitoso!!')">
-                    <input type="button" name="volver" value="volver" onclick="regresarInicio()">
+                    <input type="submit" name="guardar" value="Aceptar">
+                    <input type="button" name="volver" value="volver" onclick="regresarListar()">
                 </div>
             </form>
         </section>
@@ -59,13 +53,8 @@
                 CopyRight 2024
             </h4>
         </footer>
-        
-        <script>
-            function regresarInicio(){
-                window.location='/';
-            }
-        </script>
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/bootstrap.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
     </body>
 </html>

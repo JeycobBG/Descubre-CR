@@ -9,48 +9,37 @@ import cr.ac.una.DescubreCR.domain.Album;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
  * @author JEYCOB
  */
 public class AlbumService {
-    public void guardarEnBD(String nombreAutor, int prov, String nombreLugar, String descripcion, String etiquetas, LocalDate fecha){
-        Album album = new Album();
-        
-        album.setNombreAutor(nombreAutor);
-        album.setProvincia(prov);
-        album.setNombreLugar(nombreLugar);
-        album.setDescripcion(descripcion);
-        album.setEtiquetasAsociadas(etiquetas);
-        album.setFechaCreacion(fecha);
+    public boolean guardarEnBD(Album album){
         
         try {
             // metodo de accesoDatos para guardar la entidad
-            new AlbumData().insertar(album);
+            return new AlbumData().insertar(album);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        return false;
     }
     
-    public void actualizarEnBD(String id, String nombreAutor, int prov, String nombreLugar, String descripcion, String etiquetas, LocalDate fecha){
-        Album album = new Album();
-       
-        album.setId(Integer.parseInt(id));
-        album.setNombreAutor(nombreAutor);
-        album.setProvincia(prov);
-        album.setNombreLugar(nombreLugar);
-        album.setDescripcion(descripcion);
-        album.setEtiquetasAsociadas(etiquetas);
-        album.setFechaCreacion(fecha);
+    public boolean actualizarEnBD(Album album){
         
         // metodo de accesoDatos para guardar la entidad
-        new AlbumData().actualizar(album);
-        
+        return new AlbumData().actualizar(album);
     }
     
     public ArrayList<Album> listarAlbums(){
         return new AlbumData().listarAlbums();
+    }
+    
+    public Page<Album> listarAlbumsParaPaginacion(Pageable pageable){
+        return new AlbumData().listarAlbumsParaPaginacion(pageable);
     }
     
     public Album getAlbumById(String id){
