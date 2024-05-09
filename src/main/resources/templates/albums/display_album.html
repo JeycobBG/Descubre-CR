@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <title>Album</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/imagenes.css}">
     </head>
     <body>
         <div th:each="temp:${album}">
@@ -29,25 +29,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </p>
             <p id="nombreLugar"><strong>Nombre del Lugar:</strong> <tr th:text="${temp.nombreLugar}"></tr></p>
             <p id="descripcion"><strong>Descripcion:</strong></p><tr th:text="${temp.descripcion}"></tr><br>
-            <p id="etiquetas"><strong><tr th:text="${temp.etiquetasAsociadas}"></tr></strong></p>
+            <p id="etiquetas"><strong><tr th:text="${temp.etiquetasAsociadas}"></tr></strong></p><br>
             
             <!-- Queda pendiente hacer el cuadro con las imágenes que tiene la lista del album
             <img alt="" th:src="@{'data:image/jpeg;base64,'+${temp.imagenes}}" style="width: 200px;height: 200px;"><br>
             -->
-            <div class="container" th:each="imagen:${imagenes}">
-                        <div class="imagenes">
-                            <a th:href="@{${imagen.id}}">
-                                <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}">
-                            </a>
-                        </div>
-                    </div>
+            <section class="container" th:each="imagen:${imagenes}">
+                <div class="container-imagenes">
+                    <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}"> 
+                </div>
+            </section>
+            
+            
             <div th:if="${imagenes.empty}">No hay imágenes asociadas</div>
         </div>
-        
+        <br>
+         <input type="button" name="volver" value="volver" onclick="regresarListar()">
         <footer>
             <h4>
                 Copyright 2024
             </h4>
         </footer>
+         <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
     </body>
 </html>

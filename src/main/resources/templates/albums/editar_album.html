@@ -3,16 +3,17 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html xmls:th="http://www.thymeleaf.org">
     <head>
         <title>Descubre CR</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/imagenes.css}">
+        <script text="text/javascript" th:src="@{/js/imagenes.js}"></script>
     </head>
     <body>
         <section th:each="temp:${album}">
-            <form th:action="@{'/albums/editar/'+${temp.id}}" method="POST" enctype="multipart/form-data">
+            <form th:action="@{'/albums/actualizar/'+${temp.id}}" method="POST" enctype="multipart/form-data">
                 <div>
                     <p><strong>Acerca del autor</strong></p>
                     <label for="nombreAutor">Nombre de Autor:</label>
@@ -42,19 +43,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <label>Haga click sobre cualquier imagen para eliminarla de su album</label><br>
                     <!-- Necesito desplegar en forma de un album con JS y CSS-->
                     <div class="container" th:each="imagen:${imagenes}">
-                        <div class="imagenes">
-                            <a th:href="@{'/imagenes/eliminar/' + ${imagen.id}}" onmouseenter="alert('dentro')"> <!-- con esta linea al seleccionar cualquier imagen obtengo su id -->
-                                <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}">
+                        <div class="container-imagenes">  
+                            <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}">
+                            <a for="imagen" th:onclick="eliminarImagen([[${imagen.id}]],[[${temp.id}]])"> <!-- con esta linea al seleccionar cualquier imagen obtengo su id -->                                                      
+                                <div id="capa">
+                                    <img id="imagen" alt="" src="/img/eliminar.png" style="width:34px; margin:0px;"> 
+                                </div>
                             </a>
                         </div>
                     </div>
                     <div th:if="${imagenes.empty}">No hay imágenes asociadas</div>
 
                     <label for="imagenes">Porfavor seleccione las imágenes que desea agregar a su album</label><br>
-                    <input type="file" id="imagenes" name="imagenes" accept="image/png,image/jpeg" multiple="multiple"/>
+                    <input type="file" id="imagenesNuevas" name="imagenesNuevas" accept="image/png,image/jpeg" multiple="multiple"/>
                     
                     
                     <input type="submit" name="actualizar" value="Actualizar">
+                    &nbsp;
+                    &nbsp;
+                    <input type="button" name="volver" value="volver" onclick="regresarListar()">
                 </div>
             </form>
             <footer>
@@ -63,5 +70,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </h4>
             </footer>
         </section>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
     </body>
 </html>

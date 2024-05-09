@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -21,7 +24,7 @@ public class AlbumData extends ConectarDB{
     
     public boolean insertar(Album album) throws SQLException{
         String sql = "INSERT INTO "+ TBALBUM + " (nombreAutor,provincia,"
-                + "nombreLugar,descripcion,etiquetasAsociadas,fechaCreacion) VALUES (?,?,?,?,?,?)";
+                + "nombreLugar,descripcion,etiquetasAsociadas,fechaCreacion,id_autor) VALUES (?,?,?,?,?,?,?)";
         Connection connection = conectar();
         PreparedStatement sentencia = connection.prepareStatement(sql);
         
@@ -31,6 +34,7 @@ public class AlbumData extends ConectarDB{
         sentencia.setString(4, album.getDescripcion());
         sentencia.setString(5, album.getEtiquetasAsociadas());
         sentencia.setString(6, String.valueOf(album.getFechaCreacion()));
+        sentencia.setString(7, String.valueOf(album.getId_autor()));
         
         int resultado = sentencia.executeUpdate();
         System.out.println("resultado Album="+resultado);
@@ -44,7 +48,7 @@ public class AlbumData extends ConectarDB{
         return resultado==1;
     }
     
-    //Leer todos los registros -> Listo
+ //Leer todos los registros -> Listo
      public ArrayList<Album> listarAlbums(){
         ArrayList<Album> albums = new ArrayList<>();
         
@@ -129,13 +133,15 @@ public class AlbumData extends ConectarDB{
         try {
             Connection cn = conectar();                                                                      // provincia,"+ "nombreLugar,descripcion,etiquetasAsociadas,imagenes,fechaCreacion,identificador
 
-            PreparedStatement sentencia = (PreparedStatement) cn.prepareStatement("UPDATE " + TBALBUM + " SET nombreAutor = ?, provincia = ?, nombreLugar = ?, descripcion = ?, etiquetasAsociadas = ?, fechaCreacion = ? WHERE id = ?");
+            PreparedStatement sentencia = (PreparedStatement) cn.prepareStatement("UPDATE " + TBALBUM + " SET nombreAutor = ?, provincia = ?, nombreLugar = ?, descripcion = ?, etiquetasAsociadas = ?, fechaCreacion = ?, id_autor = ? WHERE id = ?");
             sentencia.setString(1, album.getNombreAutor());
             sentencia.setString(2, String.valueOf(album.getProvincia()));
             sentencia.setString(3, album.getNombreLugar());
             sentencia.setString(4, album.getDescripcion());
             sentencia.setString(5, album.getEtiquetasAsociadas());
             sentencia.setString(6, String.valueOf(album.getFechaCreacion()));
+            sentencia.setString(7, String.valueOf(album.getId_autor()));
+            sentencia.setString(8, String.valueOf(album.getId()));
 
             resultado = sentencia.executeUpdate();
             sentencia.close();
@@ -146,4 +152,41 @@ public class AlbumData extends ConectarDB{
        }
         return resultado==1;
     }
+     
+     public Page<Album> listarAlbumsParaPaginacion(Pageable pageable){
+         
+         ArrayList<Album> albums = new ArrayList<>();
+         
+         String countSql = "SELECT COUNT(*) FROM " + TBALBUM;
+         String selectSql = "SELECT * FROM " + TBALBUM + " LIMIT ? OFFSET ?";
+         
+         int total = 0;
+         
+         try {
+            Connection conexion = conectar();
+            
+            PreparedStatement countStatement = conexion.prepareStatement(countSql);
+            ResultSet rs = countStatement.executeQuery();
+            rs.next();
+            total  = rs.getInt(1);
+            
+            PreparedStatement selectStatement = conexion.prepareStatement(selectSql);
+            selectStatement.setInt(1, pageable.getPageSize());
+            selectStatement.setLong(2, pageable.getOffset());
+            
+            rs = selectStatement.executeQuery();
+            
+            while(rs.next()){
+                Album album = new Album();
+                album.setId(rs.getInt("id"));
+                album.setNombreAutor(rs.getString("nombreAutor"));
+                album.setNombreLugar(rs.getString("nombreLugar"));
+                albums.add(album);
+            }
+            closeConnection(conexion);
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return new PageImpl<>(albums, pageable, total);
+     }
 }
