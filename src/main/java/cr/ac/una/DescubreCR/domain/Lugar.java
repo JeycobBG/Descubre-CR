@@ -4,15 +4,24 @@
  */
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalTime;
 
 /**
  *
  * @author josue
  */
+@Entity
+@Table(name = "tb_lugares")
 public class Lugar {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String codigo;
+    
     private String nombre;
     private String descripcion;
     private String categoria;
@@ -25,7 +34,7 @@ public class Lugar {
     private String distrito;
     private String calidad_recepcion_telefonica;
     private String imagen;
-
+    
     public Lugar() {
     }
 

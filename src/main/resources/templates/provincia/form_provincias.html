@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Descubre CR</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:if="${success != null}" th:text="${success}"></div>
+        <div th:if="${error != null}" th:text="${error}"></div>
+        <header>
+            <h2 id="titulo">Creación de Album</h2>
+            <p>Crea y comparte un album con lo mejor de tus experiencias.</p>
+        </header>
+
+        <section>            
+            <form th:action="@{/provincia/guardar}" method="POST" enctype="multipart/form-data">
+                <div>
+                    <p>Selecione su provincia de procedencia:</p>
+                    <label><strong>Provincia:</strong></label><br>
+                    <select id="provincia" name="provincia">
+                        <option value="Alajuela" selected>Alajuela</option>
+                        <option value="Heredia">Heredia</option>
+                        <option value="Cartago">Cartago</option>
+                        <option value="San Jose">San José</option>
+                        <option value="Puntarenas">Puntarenas</option>
+                        <option value="Limon">Limón</option>
+                        <option value="Guanacaste">Guanacaste</option>
+                    </select>                    
+                </div>
+                <div>
+                    <label for="imagenes">Porfavor seleccione la imagen alusiva que desea agregar</label><br>
+                    <input type="file" id="imagen" name="imagen" accept="image/png,image/jpeg" multiple="multiple" required/>
+                    <input type="submit" name="guardar" value="Aceptar">
+                    <input type="button" name="volver" value="volver" onclick="regresarListar()">
+                </div>
+            </form>
+        </section>
+        
+        <footer>
+            <h4>
+                CopyRight 2024
+            </h4>
+        </footer>
+        <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
+    </body>
+</html>
