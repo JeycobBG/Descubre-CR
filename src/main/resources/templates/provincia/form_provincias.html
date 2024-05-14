@@ -13,8 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <div th:if="${success != null}" th:text="${success}"></div>
         <div th:if="${error != null}" th:text="${error}"></div>
         <header>
-            <h2 id="titulo">Creación de Album</h2>
-            <p>Crea y comparte un album con lo mejor de tus experiencias.</p>
+            <h2 id="titulo">Creación de Provincia</h2>
         </header>
 
         <section>            
@@ -26,9 +25,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <option value="Alajuela" selected>Alajuela</option>
                         <option value="Heredia">Heredia</option>
                         <option value="Cartago">Cartago</option>
-                        <option value="San Jose">San José</option>
+                        <option value="San José">San José</option>
                         <option value="Puntarenas">Puntarenas</option>
-                        <option value="Limon">Limón</option>
+                        <option value="Limón">Limón</option>
                         <option value="Guanacaste">Guanacaste</option>
                     </select>                    
                 </div>
@@ -46,6 +45,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 CopyRight 2024
             </h4>
         </footer>
-        <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
+        <script>
+            function regresarListar(){
+                location.href="/ubicacion/listarAdmin";
+            }
+        </script>
     </body>
 </html>

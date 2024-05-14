@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Ubicacion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/css/imagenes.css}">
+    </head>
+    <body>
+        <div th:each="temp:${ubicacion}">
+            
+            <h2>Ubicación</h2>
+            
+            <p id="nombreAutor"><strong>Nombre del autor:</strong> <tr th:text="${temp.nombreAutor}"></tr></p>
+            <p id="provincia"><strong>Provincia:</strong></p<br>
+            
+            <section class="container">
+                <div class="container-imagenes">
+                    <img alt="" th:src="@{'data:image/png;base64,'+${provincia}}"> 
+                </div>
+            </section>
+            
+            <p id="direccion"><strong>Descripcion:</strong></p><tr th:text="${temp.direccion}"></tr><br>
+        </div>
+        <br>
+         <input type="button" name="volver" value="volver" onclick="regresarListar()">
+        <footer>
+            <h4>
+                Copyright 2024
+            </h4>
+        </footer>
+         <script type="text/javascript" th:src="@{/js/funcionesUbicacion.js}"></script>
+    </body>
+</html>

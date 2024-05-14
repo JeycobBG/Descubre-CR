@@ -4,7 +4,6 @@
  */
 package cr.ac.una.DescubreCR.service;
 
-import cr.ac.una.DescubreCR.data.ImagenData;
 import cr.ac.una.DescubreCR.domain.Provincia;
 import cr.ac.una.DescubreCR.jpa.ProvinciaRepository;
 import java.io.IOException;
@@ -13,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.hibernate.engine.jdbc.BlobProxy;
 
 /**
  *
@@ -31,7 +31,9 @@ public class ProvinciaService implements IProvinciaService{
         
         provincia.setNombre(nombreProvincia);
         try {
-            provincia.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
+            provincia.setImagen(BlobProxy.generateProxy(imagen.getInputStream(),
+                                    imagen.getSize()));
+            //provincia.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
             System.out.println("nombre: " + nombreProvincia);
             System.out.println("src img: " + provincia.getImagen());
             provinciaRepo.save(provincia);
@@ -42,9 +44,13 @@ public class ProvinciaService implements IProvinciaService{
     public List getProvincias() {
         return provinciaRepo.findAll();
     }
+    
+    @Override
+    public Provincia getProvinciaByName(String name){
+        return provinciaRepo.findByNombreEquals(name);
+    }
 
     @Override
     public void eliminar(int id) {
-    }
-    
+    }   
 }

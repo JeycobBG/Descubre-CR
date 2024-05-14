@@ -2,7 +2,8 @@
 package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.domain.Ubicacion;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -12,7 +13,9 @@ import java.util.List;
 public interface IUbicacionService {
     public void guardar(Ubicacion ubicacion);
     
-    public List getUbicaciones();
+    public Page<Ubicacion> getUbicaciones(Pageable pageable);
+    
+    public Ubicacion getUbicacionById(String id);
     
     public void eliminar(int id);
 }

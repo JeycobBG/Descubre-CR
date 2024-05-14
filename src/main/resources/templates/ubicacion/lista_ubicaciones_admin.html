@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Lista Albums</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+    </head>
+    <body>
+        <section>
+            <h3>Lista de Albums</h3>
+            <div th:if="${exito!=null}" th:text="${exito}" style="background: rgba(0, 223, 98, 0.9);"></div>
+            <div th:if="${error!=null}" th:text="${error}" style="background: rgba(255, 0, 74, 0.9);"></div>
+            <div>
+                <input type="submit" value="Agregar" onclick="formularioUbicacion()"/>
+            </div>
+            
+            <div class="container mt-4">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Provincia</th>
+                        <th>Dirección</th>
+                        <th>Enlace</th>
+                        <th>Opciones</th>
+                    </tr>
+                    <tr th:each="temp:${pagina.content}"> 
+                        <td th:text="${temp.nombreProvincia}"></td>
+                        <td th:text="${temp.direccion}"></td>
+                        <td>
+                            <input type="button" value="Ver Ubicacion" th:onclick="verUbicacion([[${temp.id}]])" style="align-content: center; width: 120px;"/>
+                        </td>
+                        <td>
+                            <input type="button" value="Editar" th:onclick="editar([[${temp.id}]])" style="align-content: center; width: 100px;"/>
+                            &nbsp;
+                            &nbsp;
+                            <input type="button" value="Eliminar" th:onclick="eliminar([[${temp.id}]])" style="align-content: center; width: 100px;">
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros.
+                </p>
+                <nav aria-label="Page navigation"
+                     class="d-flex justify-content-between">
+                    <div>
+                        <select id="pageSize" name="size" class="form-control" th:onchange="changePageSize([[${pagina.number}]])">
+                            <option th:each="size : ${pageSizeOptions}" th:value="${size}"
+                                    th:text="${size}" th:selected="${pagina.size == size}"></option>
+                        </select>
+                    </div>
+                    <ul class="pagination mb-0">
+                        <li class="page-item"
+                            th:classappend="${pagina.first} ? 'disabled' : ''"><a
+                                class="page-link" th:href="@{'?page=0&size=' + ${pagina.size}}">Primera</a>
+                        </li>
+                        
+                        <li class="page-item"
+                            th:classappend="${pagina.first} ? 'disabled' : ''"><a
+                                class="page-link" th:with="prevPage=${pagina.number - 1}"
+                                th:href="@{'?page=' + ${prevPage} + '&size=' + ${pagina.size}}">Anterior</a>
+                        </li>
+                        
+                        <li class="page-item" th:each="i : ${pageNumbers}"
+                            th:classappend="${i == pagina.number + 1} ? 'active' : ''"><a
+                                class="page-link" th:with="pageNum=${i - 1}"
+                                th:href="@{'?page=' + ${pageNum} + '&size=' + ${pagina.size}}"
+                                th:text="${i}"></a>
+                        </li>   
+                        
+                        <li class="page-item"
+                            th:classappend="${pagina.last} ? 'disabled' : ''"><a
+                                class="page-link" th:with="nextPage=${pagina.number + 1}"
+                                th:href="@{'?page=' + ${nextPage} + '&size=' + ${pagina.size}}">Siguiente</a>
+                        </li>
+                        
+                        <li class="page-item"
+                            th:classappend="${pagina.last} ? 'disabled' : ''"><a
+                                class="page-link" th:with="lastPage=${pagina.totalPages - 1}"
+                                th:href="@{'?page=' + ${lastPage} + '&size=' + ${pagina.size}}">últimas</a>
+                        </li>
+                    </ul>   
+                </nav>
+            </div>
+        <input type="button" name="volver" value="volver" onclick="regresarInicio()">
+        </section>
+        <footer>   
+            <h4>
+                CopyRight 2024
+            </h4>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" th:src="@{/js/funcionesUbicacion.js}"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    </body>
+</html>

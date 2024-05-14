@@ -7,8 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="ubicacion")
+@Table(name="tb_ubicacion")
 public class Ubicacion {
     
     @Id
@@ -47,7 +47,7 @@ public class Ubicacion {
     @Temporal(TemporalType.DATE)
     private LocalDate fechaCreacion;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "provincia")
     private Provincia provincia;
     

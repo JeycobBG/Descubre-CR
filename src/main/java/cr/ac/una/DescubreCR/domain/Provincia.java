@@ -9,7 +9,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.sql.Blob;
+import java.util.List;
 
 /**
  *
@@ -27,12 +31,15 @@ public class Provincia {
     private String nombre;
     
     @Column(nullable = false)
-    private String imagen;
+    @Lob
+    private Blob imagen;
     
+    @OneToMany(mappedBy = "provincia")
+    private List<Ubicacion> ubicaciones;
     
     public Provincia(){}
 
-    public Provincia(int id, String nombre, String imagen) {
+    public Provincia(int id, String nombre, Blob imagen) {
         this.id = id;
         this.nombre = nombre;
         this.imagen = imagen;
@@ -54,11 +61,11 @@ public class Provincia {
         this.nombre = nombre;
     }
 
-    public String getImagen() {
+    public Blob getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(Blob imagen) {
         this.imagen = imagen;
     }   
 }
