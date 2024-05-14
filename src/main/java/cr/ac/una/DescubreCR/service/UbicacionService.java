@@ -25,7 +25,7 @@ public class UbicacionService implements IUbicacionService{
     public void guardar(Ubicacion ubicacion) {
         ubicacionRepo.save(ubicacion);
     }
-
+    
     @Override
     public Page<Ubicacion> getUbicaciones(Pageable pageable) {
         return ubicacionRepo.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
@@ -33,12 +33,11 @@ public class UbicacionService implements IUbicacionService{
     
     @Override
     public Ubicacion getUbicacionById(String id){
-        return ubicacionRepo.getReferenceById(Integer.parseInt(id));
+        return ubicacionRepo.getReferenceById(Integer.valueOf(id));
     }
     
     @Override
-    public void eliminar(int id) {
-        
+    public void eliminar(String id) {
+        ubicacionRepo.deleteById(Integer.valueOf(id));
     }
-    
 }

@@ -12,10 +12,10 @@ import org.springframework.data.domain.Pageable;
 
 public interface IUbicacionService {
     public void guardar(Ubicacion ubicacion);
-    
+
     public Page<Ubicacion> getUbicaciones(Pageable pageable);
     
     public Ubicacion getUbicacionById(String id);
     
-    public void eliminar(int id);
+    public void eliminar(String id);
 }

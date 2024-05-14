@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const response = await fetch('https://territorios.fetchcr.com/todos');
     const data = await response.json();
     const lugarDataDiv = document.getElementById('datosLugar'); //si esto se carga, es porque es el de actualizar
+    const ubicacionDataDiv = document.getElementById('datosUbicacion');
     
     const provinciaSelect = document.getElementById('provincia');
     const cantonSelect = document.getElementById('canton');
@@ -43,6 +44,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         cargarDistritos();
     }
     
+    if(ubicacionDataDiv){
+       const ubicacion = JSON.parse(ubicacionDataDiv.getAttribute('dataUbicacion'));
+       
+       seleccionarOptionPorLabel(provinciaSelect, ubicacion.nombreProvincia);
+       cargarCantones();
+       seleccionarOptionPorLabel(cantonSelect, ubicacion.canton);
+       cargarDistritos();
+       seleccionarOptionPorLabel(distritoSelect, ubicacion.distrito);
+   }
+   
     // Manejar cambio de provincia
     provinciaSelect.addEventListener('change', function() {
         cargarCantones();

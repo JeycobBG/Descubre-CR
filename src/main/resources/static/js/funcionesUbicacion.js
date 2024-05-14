@@ -25,7 +25,7 @@ function eliminar(id) {
                 icon: "success"
             }).then((ok)=>{
                 if(ok.isConfirmed){
-                    location.href="/ubicacion/listar";
+                    location.href="/ubicacion/listarAdmin";
                 }
             });
         } else {

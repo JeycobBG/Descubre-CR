@@ -1,5 +1,7 @@
 
 package cr.ac.una.DescubreCR.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cr.ac.una.DescubreCR.domain.Provincia;
 import cr.ac.una.DescubreCR.domain.Ubicacion;
 import cr.ac.una.DescubreCR.service.ProvinciaService;
@@ -11,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,6 +72,36 @@ public class ControllerUbicacion {
         return "redirect:/ubicacion/listarAdmin";
     }
 // --------------------------------------------------------------------
+    
+    @PostMapping("/guardar/{id}")             // Guardar en POST
+    public String actualizar(
+            @PathVariable("id") String id,
+            @RequestParam("nombreAutor") String nombreAutor,
+            @RequestParam("direccion") String direccion,
+            @RequestParam("provincia") String provincia,
+            @RequestParam("canton") String canton,
+            @RequestParam("distrito") String distrito, Model modelo, RedirectAttributes redirectAttr){
+        
+        Ubicacion ubicacion = new Ubicacion();
+        
+        ubicacion.setId(Integer.parseInt(id));
+        ubicacion.setNombreAutor(nombreAutor);
+        ubicacion.setDireccion(direccion);
+        ubicacion.setNombreProvincia(provincia);
+        ubicacion.setCanton(canton);
+        ubicacion.setDistrito(distrito);
+        ubicacion.setFechaCreacion(LocalDate.now());
+        ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
+        
+        ubicacionService.guardar(ubicacion);
+        redirectAttr.addFlashAttribute("exito", "Registro guardado con Exito!!");
+        
+        
+        //return "/ubicacion/form_ubicacion";
+        return "redirect:/ubicacion/listarAdmin";
+    }
+// --------------------------------------------------------------------
+    
     @GetMapping("/listar")             // Listar
     public String listar(@PageableDefault(size = 10, page = 0) Pageable pageable, Model modelo){
         
@@ -124,17 +154,56 @@ public class ControllerUbicacion {
     }
 // --------------------------------------------------------------------
     @GetMapping("/eliminar/{id}")      // Eliminar Ubicacion
-    public String eliminar(){
-        
-        return "/ubicacion/lista_ubicaciones_admin";
+    public String eliminar(@PathVariable("id") String id, RedirectAttributes redirectAttr){
+        ubicacionService.eliminar(id);
+        //redirectAttr.addFlashAttribute("exito", "Registro eliminado con Exito!!");
+        return "redirect:/ubicacion/listarAdmin";
     }
     
 // --------------------------------------------------------------------
     
-    @GetMapping("/actualizar/{id}")    // Actualizar Ubicacion
-    public String actualizar(){
+    @GetMapping("/editar/{id}")    // Actualizar Ubicacion
+    public String editar(@PathVariable("id") String id, RedirectAttributes redirectAttr, Model modelo){
         
-        return "/ubicacion/lista_ubicaciones_admin";
+        Ubicacion ubicacion_editar = ubicacionService.getUbicacionById(id);
+        Provincia provincia = provinciaService.getProvinciaByName(ubicacion_editar.getNombreProvincia());
+        
+        Blob img = provincia.getImagen();
+        
+        String imagen;
+        byte[] losBytes = {};
+        try {
+            byte[] bytes = img.getBytes(1, (int) img.length());
+            losBytes = bytes;
+        } catch (SQLException ex) {
+            System.out.println("Error parseando la imagen blob");
+        }
+        imagen = Base64.getEncoder().encodeToString(losBytes);
+        
+        Ubicacion ubicacionParaJson = new Ubicacion();
+        ubicacionParaJson.setNombreProvincia(ubicacion_editar.getNombreProvincia());
+        ubicacionParaJson.setCanton(ubicacion_editar.getCanton());
+        ubicacionParaJson.setDistrito(ubicacion_editar.getDistrito());
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+            
+        String ubicacionJson = "";
+        
+        try {
+            ubicacionJson = objectMapper.writeValueAsString(ubicacionParaJson);
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        modelo.addAttribute("prov", imagen);
+        modelo.addAttribute("ubicacion", ubicacion_editar);
+        modelo.addAttribute("ubicacionJson", ubicacionJson);
+        
+        
+        redirectAttr.addFlashAttribute("exito", "Registro eliminado con Exito!!");
+        
+        return "/ubicacion/editar_ubicacion";
     }
 
 // --------------------------------------------------------------------
