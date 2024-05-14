@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author JEYCOB
  */
 public class ImagenData extends ConectarDB{
-    private static final String TBIMAGEN = "imagen";
+    private static final String TBIMAGEN = "tb_imagen";
     
     // guardar imagen
     public boolean insertar(Imagen img){
