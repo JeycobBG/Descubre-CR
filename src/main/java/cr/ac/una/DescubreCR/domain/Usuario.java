@@ -1,12 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cr.ac.una.DescubreCR.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 
-@Entity
-@Table(name="tb_usuarios")
+/**
+ *
+ * @author kvene
+ */
 public class Usuario extends Persona{
     @Id
     private String nombreUsuario;
@@ -14,10 +18,22 @@ public class Usuario extends Persona{
     private String tipoUsuario;
     private String correo;
     private Date fechaRegistro;
+    private int idPersona;
 
     public Usuario(String nombre, String apellido, String cedula, String idioma, String nacionalidad, Date fechaNacimiento, String telefono) {
         super(nombre, apellido, cedula, idioma, nacionalidad, fechaNacimiento, telefono);
     }
+
+    public Usuario(String nombreUsuario, String contraseña, String tipoUsuario, String correo, Date fechaRegistro, int idPersona, String nombre, String apellido, String cedula, String idioma, String nacionalidad, Date fechaNacimiento, String telefono) {
+        super(nombre, apellido, cedula, idioma, nacionalidad, fechaNacimiento, telefono);
+        this.nombreUsuario = nombreUsuario;
+        this.contraseña = contraseña;
+        this.tipoUsuario = tipoUsuario;
+        this.correo = correo;
+        this.fechaRegistro = fechaRegistro;
+        this.idPersona = idPersona;
+    }
+    
 
     public Usuario(String nombreUsuario, String contraseña, String tipoUsuario, String correo, Date fechaRegistro, String nombre, String apellido, String cedula, String idioma, String nacionalidad, Date fechaNacimiento, String telefono) {
         super(nombre, apellido, cedula, idioma, nacionalidad, fechaNacimiento, telefono);
@@ -66,6 +82,14 @@ public class Usuario extends Persona{
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public int getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
     }
     
     

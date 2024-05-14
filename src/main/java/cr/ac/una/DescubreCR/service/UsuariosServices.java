@@ -5,7 +5,6 @@
 package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.data.DataUsuarios;
-import cr.ac.una.DescubreCR.domain.Persona;
 import cr.ac.una.DescubreCR.domain.Usuario;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -31,11 +30,7 @@ public class UsuariosServices {
     
     public static boolean insertar(Usuario usuario) throws SQLException {
         usuario.setContraseña(encriptar(usuario.getContraseña()));
-        return new DataUsuarios().insertarUsuario(usuario);
-    }
-    
-    public static boolean insertar(Persona persona) throws SQLException {
-        return new DataUsuarios().insertarPersona(persona);
+        return new DataUsuarios().insertarPersona(usuario);
     }
     
     public static String encriptar(String passwordSinEncriptar){

@@ -1,5 +1,12 @@
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -7,13 +14,18 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author Gerald Calderón
  */
+@Entity
+@Table(name="tb_articulo")
 public class Articulo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idArticulo;
     private String identificador;
     private String titulo;
     private String tema;
     private String descripcion;
     private String nombreAutor;
+    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha;
     private String acercaDelAutor;

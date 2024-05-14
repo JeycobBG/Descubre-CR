@@ -3,11 +3,13 @@ package cr.ac.una.DescubreCR.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.Articulo;
 import cr.ac.una.DescubreCR.service.ArticuloServices;
+import cr.ac.una.DescubreCR.service.IServiciosComentarioArticulo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/articulos")
 public class ArticuloController {
+    
+    @Autowired
+    private IServiciosComentarioArticulo comentariosArticuloServ;
+    
     
     @GetMapping("/agregar")
     public String mostrarFormularioAgregarArticulo() {
@@ -204,9 +210,11 @@ public class ArticuloController {
     
         
     @GetMapping("/consultaIndividual")
-    public String infoIndividual(@RequestParam("id") int id, Model modelo) throws SQLException{
+    public String infoIndividual(@RequestParam("id") int id,@PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
+       
         modelo.addAttribute("articulo", ArticuloServices.obtenerArticuloPorID(id));
-        
+        modelo.addAttribute("paginaComentarios", comentariosArticuloServ.listar(pageable, id));
+
         return "artic/articuloIndividual";
     }
 }

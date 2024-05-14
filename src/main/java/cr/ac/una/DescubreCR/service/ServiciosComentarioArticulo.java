@@ -1,7 +1,7 @@
 package cr.ac.una.DescubreCR.service;
 
-import cr.ac.una.DescubreCR.domain.ComentarioLugar;
-import cr.ac.una.DescubreCR.jpa.RepositoryComentarioLugar;
+import cr.ac.una.DescubreCR.domain.ComentarioArticulo;
+import cr.ac.una.DescubreCR.jpa.RepositoryComentarioArticulo;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -17,38 +17,37 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author josue
+ * @author gerald
  */
 @Service
 @Primary
-public class ServiciosComentarioLugar implements IServiciosComentarioLugar{
+public class ServiciosComentarioArticulo implements IServiciosComentarioArticulo{
     
     @Autowired
-    private RepositoryComentarioLugar repComentarioLugar;
-    
-    @Override
-    public void guardar(ComentarioLugar comentario){
-        repComentarioLugar.save(comentario);
+    private RepositoryComentarioArticulo repComentarioArticulo;
+   
+    public void guardar(ComentarioArticulo comentario){
+        repComentarioArticulo.save(comentario);
     }
     
     @Override
-    public Page<ComentarioLugar> listar(Pageable pageable, int idLugar){
-        Specification<ComentarioLugar> spec = new Specification<ComentarioLugar>() {
+    public Page<ComentarioArticulo> listar(Pageable pageable, int idArticulo){
+        Specification<ComentarioArticulo> spec = new Specification<ComentarioArticulo>() {
             @Override
-            public Predicate toPredicate(Root<ComentarioLugar> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                Predicate predicado = criteriaBuilder.equal(root.get("lugar").get("id"), idLugar);
+            public Predicate toPredicate(Root<ComentarioArticulo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicado = criteriaBuilder.equal(root.get("articulo").get("id"), idArticulo);
                 
                 return criteriaBuilder.and(predicado);
             }
         };
         
-        return repComentarioLugar.findAll(spec, pageable);
+        return repComentarioArticulo.findAll(spec, pageable);
     }
     
     @Override
     public boolean eliminar(String codigo){
         try {
-            repComentarioLugar.deleteById(codigo);
+            repComentarioArticulo.deleteById(codigo);
             return true; 
         } catch (EmptyResultDataAccessException e) {
             return false; 
@@ -60,31 +59,32 @@ public class ServiciosComentarioLugar implements IServiciosComentarioLugar{
 
     @Override
     public boolean existe(String codigo){
-        Optional<ComentarioLugar> comentarioOptional = repComentarioLugar.findById(codigo);
+        Optional<ComentarioArticulo> comentarioOptional = repComentarioArticulo.findById(codigo);
         return comentarioOptional.isPresent();
     }
     
+    
     @Override
-    public ComentarioLugar buscar(String codigo){
-        Optional<ComentarioLugar> comentarioOptional = repComentarioLugar.findById(codigo);
+    public ComentarioArticulo buscar(String codigo){
+        Optional<ComentarioArticulo> comentarioOptional = repComentarioArticulo.findById(codigo);
         return comentarioOptional.orElse(null);
     }
     
+    
     @Override
-    public Page<ComentarioLugar> filtrarPorUsuario(Pageable pageable, int idLugar, String nombreUsuario){
-        Specification<ComentarioLugar> spec = new Specification<ComentarioLugar>() {
+    public Page<ComentarioArticulo> filtrarPorUsuario(Pageable pageable, int idArticulo, String nombreUsuario){
+        Specification<ComentarioArticulo> spec = new Specification<ComentarioArticulo>() {
             @Override
-            public Predicate toPredicate(Root<ComentarioLugar> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                Predicate predicado1 = criteriaBuilder.equal(root.get("lugar").get("id"), idLugar);
+            public Predicate toPredicate(Root<ComentarioArticulo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicado1 = criteriaBuilder.equal(root.get("articulo").get("id"), idArticulo);
                 Predicate predicado2 = criteriaBuilder.equal(root.get("nombre_usuario"), nombreUsuario);
-                //Predicate predicado2 = criteriaBuilder.equal(root.get("usuario").get("nombreUsuario"), nombreUsuario);
                 Predicate predicadoFinal = criteriaBuilder.and(predicado1, predicado2);
                 
                 return criteriaBuilder.and(predicadoFinal);
             }
         };
         
-        return repComentarioLugar.findAll(spec, pageable);
+        return repComentarioArticulo.findAll(spec, pageable);
     } 
     
 }

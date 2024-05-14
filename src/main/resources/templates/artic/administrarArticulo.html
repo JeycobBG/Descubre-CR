@@ -52,6 +52,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td><a class="editar-button" th:href="@{'/articulos/actualizar?id=' + ${articulo.idArticulo}}">Editar</a></td>
                     <td><a class="eliminar-button" href="#" th:onclick="'confirmarEliminacion(this, \'' + ${articulo.idArticulo} + '\')'">Eliminar</a></td>
                     <td><a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesArticulo(\'' + ${articulo.idArticulo} + '\')'">Ver Detalles</a></td>
+                    <td><a th:href="@{'/comentariosArticulo/listar?idArticulo=' + ${articulo.idArticulo}}" th:text="'Ver Opiniones'"></a></td>
+
                 </tr>
             </table>
            

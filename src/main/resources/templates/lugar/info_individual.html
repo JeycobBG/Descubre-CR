@@ -61,7 +61,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <li th:each="comentario:${paginaComentarios.content}" class="comentario">
 
                         <div class="comentarioIndividual">
-                            <h4 th:text="${comentario.usuario.nombreUsuario}"></h4>
+                            <h4 th:text="${comentario.nombreUsuario}"></h4>
                             <p th:text="${comentario.fecha}"></p>
                             <p th:text="${comentario.contenido}"></p>
                             
