@@ -16,7 +16,7 @@ import java.time.LocalTime;
  * @author josue
  */
 @Entity
-@Table(name = "tb_lugares")
+@Table(name = "tb_lugar")
 public class Lugar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
