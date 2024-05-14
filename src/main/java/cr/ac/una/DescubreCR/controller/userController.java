@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.controller;
 
 import cr.ac.una.DescubreCR.domain.Persona;
@@ -122,12 +118,8 @@ public class userController {
         if(buscarExistencia(user.getCedula())){
             flash.addFlashAttribute("error","Cédula ya existe");
         }else{
-            if(UsuariosServices.insertar(person)){
-                if(UsuariosServices.insertar(user) ){
+            if(UsuariosServices.insertar(user)){
                     flash.addFlashAttribute("exito","Se a registrado con éxito un usuario");
-                }else{
-                    flash.addFlashAttribute("error","No se a podido registrar un usuario");
-                }
             }else{
                 flash.addFlashAttribute("error","No se a podido registrar un usuario");
             }
@@ -147,7 +139,7 @@ public class userController {
         if(!UsuariosServices.login(usuario,UsuariosServices.encriptar(contraseña))){
             return "redirect:login";
         }
-        return "redirect:index";
+        return "index";
     }
     
     @GetMapping("/eliminar")

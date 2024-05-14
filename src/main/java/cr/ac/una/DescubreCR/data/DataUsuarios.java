@@ -16,7 +16,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
 /**
  *
  * @author kvene
@@ -32,7 +31,7 @@ public class DataUsuarios extends ConectarDB{
     private static final String FECHANACIMIENTO = "fechaNacimiento";
     private static final String TELEFONO = "telefono";
     
-    private static final String TBUSUARIOS = "tb_usuarios";
+    private static final String TBUSUARIOS = "tb_usuario";
     private static final String NOMBREUSUARIO = "nombreUsuario";
     private static final String CONTRASENA = "contraseña";
     private static final String TIPOUSUARIO = "tipoUsuario";
@@ -40,7 +39,7 @@ public class DataUsuarios extends ConectarDB{
     private static final String FECHAREGISTRO = "fechaRegistro";
     private static final String IDPERSONA = "idPersona";
     
-    public boolean insertarPersona(Persona persona) throws SQLException {
+    public boolean insertarPersona(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO " + TBPERSONAS + " ("+NOMBRE+", "+APELLIDO+", "
                 + ""+CEDULA+", "+IDIOMA+", "+NACIONALIDAD+", "+FECHANACIMIENTO+", "
                 + ""+TELEFONO+") " +
@@ -55,16 +54,16 @@ public class DataUsuarios extends ConectarDB{
             conexion = conectar();
             statement = conexion.prepareStatement(sql);
 
-            statement.setString(1, persona.getNombre());
-            statement.setString(2, persona.getApellido());
-            statement.setString(3, persona.getCedula());
-            statement.setString(4, persona.getIdioma());
-            statement.setString(5, persona.getNacionalidad());
-            statement.setDate(6, new java.sql.Date(persona.getFechaNacimiento().getTime()));
-            statement.setString(7, persona.getTelefono());
+            statement.setString(1, usuario.getNombre());
+            statement.setString(2, usuario.getApellido());
+            statement.setString(3, usuario.getCedula());
+            statement.setString(4, usuario.getIdioma());
+            statement.setString(5, usuario.getNacionalidad());
+            statement.setDate(6, new java.sql.Date(usuario.getFechaNacimiento().getTime()));
+            statement.setString(7, usuario.getTelefono());
             
             resultado = statement.executeUpdate();
-
+            insertarUsuario(usuario,conexion);
         } finally {
             if (statement != null) {
                 statement.close();
@@ -76,17 +75,15 @@ public class DataUsuarios extends ConectarDB{
         return resultado == 1;
     }
 
-    public boolean insertarUsuario(Usuario user) throws SQLException {
+    public boolean insertarUsuario(Usuario user, Connection conexion) throws SQLException {
         String sql = "INSERT INTO " + TBUSUARIOS + " ("+NOMBREUSUARIO+", "+CONTRASENA+", "+TIPOUSUARIO+", "
                 +CORREO+", "+FECHAREGISTRO+", " + IDPERSONA + ") " +
                 "VALUES (?, ?, ?, ?, ?, ?);";
 
-        Connection conexion = null;
         PreparedStatement statement = null;
         int resultado = 0;
 
         try {
-            conexion = conectar();
             statement = conexion.prepareStatement(sql);
 
             statement.setString(1, user.getNombreUsuario());
@@ -407,6 +404,7 @@ public class DataUsuarios extends ConectarDB{
             result.getString("tipoUsuario"),
             result.getString("correo"),
             result.getDate("fechaRegistro"),
+            result.getInt("idPersona"),
             persona.getNombre(),
             persona.getApellido(),
             persona.getCedula(),

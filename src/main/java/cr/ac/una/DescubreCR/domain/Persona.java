@@ -18,7 +18,7 @@ import java.util.Date;
  * @author JEYCOB
  */
 @Entity
-@Table(name="tb_personas")
+@Table(name="tb_persona")
 public class Persona {
     
     @Id

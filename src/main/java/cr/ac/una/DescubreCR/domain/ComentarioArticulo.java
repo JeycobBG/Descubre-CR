@@ -14,8 +14,8 @@ import jakarta.persistence.TemporalType;
  * @author josue
  */
 @Entity
-@Table(name="tb_comentarioLugar")
-public class ComentarioLugar {
+@Table(name="tb_comentariosArticulo")
+public class ComentarioArticulo {
     
     @Id
     private String codigoComentario;
@@ -30,21 +30,16 @@ public class ComentarioLugar {
     private boolean visibilidad;
     private String etiquetas;
     
-    
-    /*@ManyToOne
-    @JoinColumn(name="id_usuario", nullable=false)
-    private Usuario usuario;*/
-    
+    @ManyToOne
+    @JoinColumn(name="foranea_articulo", nullable=false)
+    private Articulo articulo;
+
     private String nombreUsuario;
     
-    @ManyToOne
-    @JoinColumn(name="id_lugar", nullable=false)
-    private Lugar lugar;
-
-    public ComentarioLugar() {
+    public ComentarioArticulo() {
     }
 
-    public ComentarioLugar(String codigoComentario, String contenido, LocalDate fecha, int cantidadLikes, int cantidadDislikes, boolean visibilidad, String etiquetas, String nombreUsuario, Lugar lugar) {
+    public ComentarioArticulo(String codigoComentario, String contenido, LocalDate fecha, int cantidadLikes, int cantidadDislikes, boolean visibilidad, String etiquetas, Articulo articulo, String nombreUsuario) {
         this.codigoComentario = codigoComentario;
         this.contenido = contenido;
         this.fecha = fecha;
@@ -52,9 +47,10 @@ public class ComentarioLugar {
         this.cantidadDislikes = cantidadDislikes;
         this.visibilidad = visibilidad;
         this.etiquetas = etiquetas;
+        this.articulo = articulo;
         this.nombreUsuario = nombreUsuario;
-        this.lugar = lugar;
     }
+
 
     public String getCodigo() {
         return codigoComentario;
@@ -112,6 +108,22 @@ public class ComentarioLugar {
         this.etiquetas = etiquetas;
     }
 
+    public String getCodigoComentario() {
+        return codigoComentario;
+    }
+
+    public void setCodigoComentario(String codigoComentario) {
+        this.codigoComentario = codigoComentario;
+    }
+
+    public Articulo getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
+    }
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -119,13 +131,7 @@ public class ComentarioLugar {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-    
-    public Lugar getLugar() {
-        return lugar;
-    }
 
-    public void setLugar(Lugar lugar) {
-        this.lugar = lugar;
-    }
+
     
 }
