@@ -47,7 +47,7 @@ input[type="submit"] {
 }
 
 input[type="reset"] {
-    background-color: blue;
+    background-color: #6e00ff;
     color: white;
 }
 
@@ -73,4 +73,112 @@ h3 {
     text-align: center;
      color:grey;
     font-size: 32px;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    width: 300px;
+    margin: 20px; 
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+input[type="submit"],
+input[type="reset"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    background-color: green;
+    color: white;
+}
+
+input[type="reset"] {
+    background-color: #6e00ff;
+    color: white;
+}
+
+.alert {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+h3 {
+    text-align: center;
+     color:grey;
+    font-size: 32px;
+}
+
+/* Estilos bÃƒÂ¡sicos para el botÃƒÂ³n */
+.boton-volver {
+    display: inline-block;
+    background-color: white;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 400px;
+}
+
+/* Estilo para el botÃƒÂ³n al pasar el mouse */
+.boton-volver:hover {
+    background-color:#008000;
+}
+
+/* Ajustes para la imagen dentro del botÃƒÂ³n */
+.boton-volver img {
+    vertical-align: middle;
+    margin-right: 5px; /* Espacio entre la imagen y el texto */
+}
+
+
+
+h2 {
+    text-align: center;
 }

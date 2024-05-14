@@ -147,6 +147,7 @@ public class DataLugar extends ConectarDB{
     
     public Lugar consultarEspPorCodigo(String codigo) throws SQLException{
         Lugar lugar = new Lugar();
+        
         String sql = "SELECT * FROM " + TBLUGARES + " WHERE " + CODIGO + " = ?;";
         Connection conexion = conectar();
         PreparedStatement statement = conexion.prepareStatement(sql);
@@ -167,6 +168,7 @@ public class DataLugar extends ConectarDB{
             lugar.setDistrito(rs.getString(DISTRITO));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
+            lugar.setId(rs.getInt("ID"));
         }
         
         return lugar;
@@ -306,5 +308,6 @@ public class DataLugar extends ConectarDB{
         
         return provincias;
     }
+    
     
 }

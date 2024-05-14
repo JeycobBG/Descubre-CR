@@ -2,11 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Actualizar Artículo</title>
-    <link href="/CSS/escribirStyle.css" rel="stylesheet" type="text/css"/>
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-
-    <h2>Actualizar Artículo</h2>
+<h2>Actualizar Artículo</h2> 
+    
+    <a href="/articulos/listarAdmin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+     <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
+ <div class="container">
+    <div>    
     <form action="/articulos/actualizar-articulo" method="post">
          
         <label for="idArticulo" class="hidden">idArticulo</label><br>
@@ -38,5 +47,7 @@
 
         <input type="submit" value="Actualizar">
     </form>
+    </div>
+ </div>
 </body>
 </html>

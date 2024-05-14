@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Evento Turístico</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/CSS/articuloIndividual.css"> 
+    </head>
+    <body>
+        <div class="info-container">
+            <div class="info-encabezado">
+                <h4 th:text="${eventoTuristico.titulo}"></h4>
+                <p><span th:text="${eventoTuristico.descripcion}"></span></p>
+            </div>
+            <div class="info-body">
+                <p><strong>Más información</strong></p>
+                <p><strong>Codigo</strong> <span th:text="${eventoTuristico.codigo}"></span></p>
+                <p><strong>Nombre del Evento:</strong> <span th:text="${eventoTuristico.nombreEvento}"></span></p>
+                <p><strong>Descripción:</strong> <span th:text="${eventoTuristico.descripcion}"></span></p>
+                <p><strong>Fecha:</strong> <span th:text="${eventoTuristico.fecha}"></span></p>
+                <p><strong>Código del Lugar:</strong> <span th:text="${eventoTuristico.lugar.codigo}"></span></p>
+                <p><strong>Título:</strong> <span th:text="${eventoTuristico.titulo}"></span></p>
+                <p><strong>Nombre del Autor:</strong> <span th:text="${eventoTuristico.nombreAutor}"></span></p>
+                <p><strong>Hora Inicial:</strong> <span th:text="${eventoTuristico.horaInicial}"></span></p>
+                <p><strong>Hora Final:</strong> <span th:text="${eventoTuristico.horaFinal}"></span></p>
+            </div>
+            
+        </div>
+        <div class="comentarios-container">
+            <h1>
+                Sección de comentarios
+            </h1>
+            Pronto...
+        </div>
+    </body>
+</html>
+

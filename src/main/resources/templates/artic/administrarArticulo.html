@@ -12,21 +12,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-   <div>
+   <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
         <h3 class="listado-titulo">Lista de artículos registrados</h3>
-        <form action="/articulos/buscarPorTituloAdmin" method="GET">
- 
-        <input type="text" id="titulo" name="titulo" placeholder="Ingrese el titulo">
-        <button type="submit">Buscar</button>
-        </form>
+
     </div>
+        <div class="botonYBuscador"> 
+            
         <div>
             <a href="/articulos/agregar" class="button">Agregar un nuevo artículo</a>
         </div>
-        <div> 
+            
+        <div class="campito"> 
             <a href="/articulos/listar" class="button">Vista de usuario regular</a>
         </div>
-        
+            
+        <form action="/articulos/buscarPorTituloAdmin" method="GET">
+        <input type="text" id="titulo" name="titulo" placeholder="Ingrese el titulo">
+        <button type="submit">Buscar</button>
+        </form>
+            
+        </div>
         <div>
             <table class="table table-bordered">
                 <tr>

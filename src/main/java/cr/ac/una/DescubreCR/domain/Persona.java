@@ -4,19 +4,32 @@
  */
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.util.Date;
 
 /**
  *
  * @author JEYCOB
  */
+@Entity
+@Table(name="tb_personas")
 public class Persona {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id; 
     String nombre;
     String apellido;
     String cedula;
     String idioma;
     String nacionalidad;
+    @Temporal(TemporalType.DATE)
     Date fechaNacimiento;
     String telefono;
 

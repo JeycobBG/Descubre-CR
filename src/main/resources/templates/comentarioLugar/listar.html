@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Módulo Comentario</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+        <link rel="stylesheet" type="text/css" href="/css/listar_admin.css"> 
+    </head>
+    <body>
+        <div>
+            <h3 class="listado-titulo">Lista de comentarios de <p th:text="${lugar.nombre}"> </p></h3>
+            <h4>Buscar un comentario en específico</h4>
+            <form method="get" th:action="@{/comentariosLugar/buscar}" enctype="multipart/form-data">
+                <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
+                <input type="hidden" name="codigoLugar" th:value="${lugar.codigo}">
+                <input type="submit" value="Buscar">
+            </form>
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Usuario</th> 
+                    <th>Fecha</th>
+                    <th>Etiquetas</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr th:each="comentario:${paginaComentarios.content}">
+                    <td th:text="${comentario.usuario.nombreUsuario}"></td>
+                    <td th:text="${comentario.fecha}"></td>
+                    <td th:text="${comentario.etiquetas}"></td>
+                    <td><a th:href="@{'/comentariosLugar/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
+                    <td><a th:href="@{'/comentariosLugar/eliminar?codigo=' + ${comentario.codigo} + '&codigoLugar=' +  ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
+                    <td><a href="#" th:attr="onclick='cargarDetallesComentarioLugar(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
+                </tr>
+            </table>
+            
+            <div class="pagination-container"> 
+                <p>
+                    Mostrando <span th:text="${paginaComentarios.size}"></span> de <span th:text="${paginaComentarios.totalElements}"></span> comentarios
+                </p>
+                <nav aria-label="Page navigation" class="d-flex justify-content-between"> 
+                    <ul class="pagination mb-0">
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
+                            <a class="page-link" th:href="@{(${nombre} != null) ? '/comentariosLugar/buscar?nombre=' + ${nombre} + '&codigoLugar=' + ${lugar.codigo} + '&page=0&size=' + ${paginaComentarios.size} : '?codigoLugar=' + ${lugar.codigo} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
+                            <a class="page-link" th:with="prevPag=${paginaComentarios.number-1}"
+                               th:href="@{(${nombre} != null) ? '/comentariosLugar/buscar?nombre=' + ${nombre} + '&codigoLugar=' + ${lugar.codigo} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size} : '?codigoLugar=' + ${lugar.codigo} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
+                        </li>
+                        
+                        <li class="page-item" th:each="i : ${numPaginas}" 
+                            th:classappend="${i == paginaComentarios.number + 1} ? 'active' : ''">
+                            <a class="page-link" th:with="pagNum=${i-1}"
+                                th:href="@{(${nombre} != null) ? '/comentariosLugar/buscar?nombre=' + ${nombre} + '&codigoLugar=' + ${lugar.codigo} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size} : '?codigoLugar=' + ${lugar.codigo} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
+                            <a class="page-link" th:with="sigPag=${paginaComentarios.number+1}"
+                               th:href="@{(${nombre} != null) ? '/comentariosLugar/buscar?nombre=' + ${nombre} + '&codigoLugar=' + ${lugar.codigo} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size} : '?codigoLugar=' + ${lugar.codigo} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
+                            <a class="page-link" th:with="ultPag=${paginaComentarios.totalPages-1}"
+                               th:href="@{(${nombre} != null) ? '/comentariosLugar/buscar?nombre=' + ${nombre} + '&codigoLugar=' + ${lugar.codigo} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size} : '?codigoLugar=' + ${lugar.codigo} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+        <div id="verDetalles"></div>
+        
+        <script>
+            function cambiarPagTam(){
+                const pageSize = document.getElementById("pageSize").value;
+                const currentPage = [[${paginaComentarios.number}]];
+
+                // Verificar si el nombre existe
+                const nombre = "[[${nombre}]]";
+                const lugar = "[[${lugar}]]";
+                let url = "";
+                if (nombre.trim() !== "") {
+                    url = "/comentariosLugar/consulta_buscar?nombre=" + nombre + "&page=" + currentPage + "&size=" + pageSize;
+                } else {
+                    url = "?lugar=" + lugar + "?page=" + currentPage + "&size=" + pageSize;
+                }
+
+                window.location.href = url;
+            }
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
+        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
+       
+    </body>
+</html>

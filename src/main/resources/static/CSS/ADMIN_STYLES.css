@@ -157,6 +157,7 @@ form {
     font-family: "SF Pro Text", sans-serif;
     margin-bottom: 20px; /* Espacio entre el formulario y el resto del contenido */
     text-align: right; /* Alinear el contenido del formulario a la derecha */
+    margin-left:500px;
 }
 
 label {
@@ -232,8 +233,30 @@ a.ver-detalles:hover {
     color: white;
 }
 
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
 
+  .listado-titulo {
+    margin-left: 10px; /* Ajusta el margen a tu preferencia */
+    vertical-align: middle;
+  }
 
+  .boton-volver img {
+    vertical-align: middle;
+  }
 
+  
+  .botonYBuscador{
+    display: flex;
+    align-items: center;
+  }
+
+  .campito{
+      margin-left: 10px;
+  }
 
 

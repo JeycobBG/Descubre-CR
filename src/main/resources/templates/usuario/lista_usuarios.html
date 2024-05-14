@@ -22,7 +22,6 @@
                 <th>Nombre de Usuario</th>
                 <th>Tipo de Usuario</th>
                 <th>Correo</th>
-                <th>Provincia</th>
                 <th>Acciones</th>
             </thead>
             <tbody>
@@ -37,7 +36,7 @@
                     <td th:text="${usuario.nombreUsuario}"></td>
                     <td th:text="${usuario.tipoUsuario}"></td>
                     <td th:text="${usuario.correo}"></td>
-                    <td th:text="${usuario.provincia}"></td>
+                   
                     <td>
                         <form method="get" th:action="@{/usuarios/buscarUsuario}">
                             <input type="hidden" name="cedula" th:value="${usuario.cedula}" />

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Módulo Evento Turistico</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+        <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+   <div>
+        <h3 class="listado-titulo">Lista de eventos turísticos registrados</h3>
+        <form action="/eventoTuristico/buscarPorDescripcionAdmin" method="GET">
+ 
+        <input type="text" id="descripcion" name="descripcion" placeholder="Ingrese la descripción">
+        <button type="submit">Buscar</button>
+        </form>
+    </div>
+        <div>
+            <a href="/eventoTuristico/agregar" class="button">Agregar un nuevo evento turistico</a>
+        </div>
+        <div> 
+            <a href="/eventoTuristico/listar" class="button">Vista de usuario regular</a>
+        </div>
+        
+        <div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Codigo</th> 
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr th:each="eventoTuristico :${pagina.content}">
+                    <td th:text="${eventoTuristico.codigo}"></td>
+                    <td th:text="${eventoTuristico.titulo}"></td>
+                    <td th:text="${eventoTuristico.descripcion}"></td>
+                    <td><a class="editar-button" th:href="@{'/eventoTuristico/actualizar?id=' + ${eventoTuristico.id}}">Editar</a></td>
+                    <td><a class="eliminar-button" href="#" th:onclick="'confirmarEliminacion(this, \'' + ${eventoTuristico.id} + '\')'">Eliminar</a></td>
+                    <td><a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesEventoTuristico(\'' + ${eventoTuristico.id} + '\')'">Ver Detalles</a></td>
+                </tr>
+            </table>
+           
+            <div class="pagination-container">
+            <p>
+                Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros
+            </p>
+        
+                
+                <div>
+                        <select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
+                            <option th:each="item : ${opcionesCantidadPorPagina}" th:value="${item}"
+                            th:text="${item}" th:selected="${pagina.size == size}"></option>    
+                        </select>
+                </div> 
+                
+            <ul class="pagination mb-0">
+                
+            <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+                <a class="page-link" th:href="@{(${descripcion} != null) ? '/eventoTuristico/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page=0&size=' + ${pagina.size} : '/eventoTuristico/listarAdmin' + '?page=0&size=' + ${pagina.size}}">Primera</a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+                <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${descripcion} != null) ? '/eventoTuristico/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/eventoTuristico/listarAdmin' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
+            </li>
+            <li class="page-item" th:each="i : ${numPaginas}" th:classappend="${i == pagina.number + 1} ? 'active' : ''">
+                <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${descripcion} != null) ? '/eventoTuristico/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/eventoTuristico/listarAdmin' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+                <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${descripcion} != null) ? '/eventoTuristico/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/eventoTuristico/listarAdmin' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+                <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${descripcion} != null) ? '/eventoTuristico/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/eventoTuristico/listarAdmin' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
+            </li>
+            </ul>
+            
+            </div>
+        </div>
+         
+        <div id="verDetallesEventoTuristico"></div>
+        
+        <script>
+             function confirmarEliminacion(enlace, id) {
+             if (confirm("¿Está seguro de que desea eliminar este evento turistico?")) {
+             window.location.href = '/eventoTuristico/eliminar?id=' + id;
+               }
+             }
+            function cambiarPagTam(){
+                const pageSize = document.getElementById("pageSize").value;
+                const currentPage = [[${pagina.number}]];
+
+                // Verificar si el nombre existe
+                const descripcion = "[[${descripcion}]]";
+                let url = "";
+                if (descripcion.trim() !== "") {
+                    url = "/eventoTuristico/buscarPorDescripcionAdmin?descripcion=" + descripcion + "&page=" + currentPage + "&size=" + pageSize;
+                } else {
+                    url = "?page=" + currentPage + "&size=" + pageSize;
+                }
+
+                window.location.href = url;
+            }
+      </script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
+
+    
+         <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+         <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
+    </body>
+</html>

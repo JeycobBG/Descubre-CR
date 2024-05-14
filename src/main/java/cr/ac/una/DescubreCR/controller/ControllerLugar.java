@@ -3,8 +3,8 @@ package cr.ac.una.DescubreCR.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cr.ac.una.DescubreCR.domain.Lugar;
+import cr.ac.una.DescubreCR.service.IServiciosComentarioLugar;
 import cr.ac.una.DescubreCR.service.ServiciosLugar;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/lugares")
 public class ControllerLugar {
+    
+    @Autowired
+    private IServiciosComentarioLugar comentariosLugarServ;
     
     @GetMapping("/form_registrar")
     public String registrar(Model modelo){
@@ -254,7 +258,7 @@ public class ControllerLugar {
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }
         
-        return "redirect:/lugares/listar_admin";
+        return "redirect:listar_admin";
     }
     
     @GetMapping("/consulta_buscar")
@@ -310,9 +314,13 @@ public class ControllerLugar {
     }
     
     @GetMapping("/consulta_individual")
-    public String infoIndividual(@RequestParam("codigo") String codigo, Model modelo) throws SQLException{
-        modelo.addAttribute("lugar", ServiciosLugar.consultarEspPorCodigo(codigo));
+    public String infoIndividual(@RequestParam("codigo") String codigo, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
+        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigo);
+        
+        modelo.addAttribute("lugar", lugar);
+        modelo.addAttribute("paginaComentarios", comentariosLugarServ.listar(pageable, lugar.getId()));
         
         return "lugar/info_individual";
     }
+    
 }

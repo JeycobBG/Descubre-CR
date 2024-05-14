@@ -64,6 +64,37 @@ function cargarDetallesArticulo(id) {
     xhr.send();
 }
 
+function cargarDetallesEventoTuristico(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./verDetallesEventoTuristico?id=" + id, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var eventoTuristico = JSON.parse(xhr.responseText);
+                var detallesHtml = `
+                    <h2>DETALLES DEL EVENTO TURÍSTICO</h2>
+                    <p><strong>Identificador:</strong> <span>${eventoTuristico.codigo}</span></p>
+                    <p><strong>Nombre del Evento:</strong> <span>${eventoTuristico.nombreEvento}</span></p>
+                    <p><strong>Descripción:</strong> <span>${eventoTuristico.descripcion}</span></p>
+                    <p><strong>Fecha:</strong> <span>${eventoTuristico.fecha}</span></p>
+                    <p><strong>Código del Lugar:</strong> <span>${eventoTuristico.lugar.codigo}</span></p>
+                    <p><strong>Título:</strong> <span>${eventoTuristico.titulo}</span></p>
+                    <p><strong>Nombre del Autor:</strong> <span>${eventoTuristico.nombreAutor}</span></p>
+                    <p><strong>Hora Inicial:</strong> <span>${eventoTuristico.horaInicial}</span></p>
+                    <p><strong>Hora Final:</strong> <span>${eventoTuristico.horaFinal}</span></p>
+                `;
+                document.getElementById("verDetallesEventoTuristico").innerHTML = detallesHtml;
+            } else {
+                console.error("Error al cargar los detalles del evento turístico. Estado de la solicitud:", xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error("Error de red al cargar los detalles del evento turístico.");
+    };
+    xhr.send();
+}
+
 
 function cargarDetallesColaborador(ide) {
     var xhr = new XMLHttpRequest();

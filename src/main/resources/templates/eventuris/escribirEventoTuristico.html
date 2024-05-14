@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Escribir Evento Turístico</title>
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <h2>Escribir un nuevo evento turístico</h2>
+<div class="container">
+    <div>
+    <form action="/eventoTuristico/guardar-eventoTuristico" method="post" onsubmit="return validarFecha()">
+
+        <label for="codigo">Código:</label><br>
+        <input type="text" id="codigo" name="codigo" required><br>
+        
+        <label for="nombreEvento">Nombre del Evento:</label><br>
+        <input type="text" id="nombreEvento" name="nombreEvento" required><br>
+        
+        <label for="descripcion">Descripción:</label><br>
+        <input type="text" id="descripcion" name="descripcion" required><br>
+        
+        <label for="fecha">Fecha:</label><br>
+        <input type="date" id="fecha" name="fecha" min="<%= LocalDate.now() %>" required><br>
+        
+        <label for="lugar">Lugar:</label><br>
+        <select id="lugar" name="lugar">
+            <option th:each="lugar : ${lugar}" th:value="${lugar.codigo}" th:text="${lugar.nombre}">Lugar</option>
+        </select><br>
+
+        <label for="titulo">Título:</label><br>
+        <input type="text" id="titulo" name="titulo" required><br>
+
+        <label for="nombreAutor">Nombre del autor:</label><br>
+        <input type="text" id="nombreAutor" name="nombreAutor" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Por favor, ingresa solo letras" required><br>
+
+        <label for="horaInicial">Hora Inicial:</label><br>
+        <input type="time" id="horaInicial" name="horaInicial" required><br>
+
+        <label for="horaFinal">Hora Final:</label><br>
+        <input type="time" id="horaFinal" name="horaFinal" required><br>
+
+        <input type="submit" value="Guardar">
+    </form>
+   </div>
+</div>
+
+<script>
+    function validarFecha() {
+        var fechaSeleccionada = new Date(document.getElementById('fecha').value);
+        var hoy = new Date();
+        hoy.setHours(0, 0, 0, 0); // Establece la hora a 00:00:00:000 para comparar solo las fechas
+        if (fechaSeleccionada < hoy) {
+            alert('La fecha seleccionada debe ser hoy o una fecha futura.');
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
