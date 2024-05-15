@@ -227,6 +227,7 @@ public class DataArticulo extends ConectarDB{
         ResultSet rs = selectStatement.executeQuery();
         while (rs.next()) {
             Articulo articulo = new Articulo();
+            articulo.setIdArticulo(rs.getInt(IDARTICULO));
             articulo.setIdentificador(rs.getString(IDENTIFICADOR));
             articulo.setTitulo(rs.getString(TITULO));
             articulo.setTema(rs.getString(TEMA));

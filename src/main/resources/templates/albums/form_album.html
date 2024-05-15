@@ -2,6 +2,8 @@
 <html xmls:th="http://thymeleaf.org">
     <head>
         <title>Descubre CR</title>
+        <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
+        
     </head>
     <body>
         <div th:if="${success != null}" th:text="${success}"></div>
@@ -10,8 +12,9 @@
             <h2 id="titulo">Creación de Album</h2>
             <p>Crea y comparte un album con lo mejor de tus experiencias.</p>
         </header>
-
-        <section>            
+          
+<div class="container">
+    <div>   
             <form th:action="@{/albums/guardar}" method="POST" enctype="multipart/form-data">
                 <div>
                     <p><strong>Acerca del autor</strong></p>
@@ -46,15 +49,10 @@
                     <input type="button" name="volver" value="volver" onclick="regresarListar()">
                 </div>
             </form>
-        </section>
-        
-        <footer>
-            <h4>
-                CopyRight 2024
-            </h4>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    </div>
+</div>
+       <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
+       <script type="text/javascript" th:src="@{/js/funcionesAlbum.js}"></script>
     </body>
 </html>

@@ -44,6 +44,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <tr th:each="articulo:${pagina.content}">
                     <td th:text="${articulo.identificador}"></td>
@@ -52,7 +53,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td><a class="editar-button" th:href="@{'/articulos/actualizar?id=' + ${articulo.idArticulo}}">Editar</a></td>
                     <td><a class="eliminar-button" href="#" th:onclick="'confirmarEliminacion(this, \'' + ${articulo.idArticulo} + '\')'">Eliminar</a></td>
                     <td><a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesArticulo(\'' + ${articulo.idArticulo} + '\')'">Ver Detalles</a></td>
-                    <td><a th:href="@{'/comentariosArticulo/listar?idArticulo=' + ${articulo.idArticulo}}" th:text="'Ver Opiniones'"></a></td>
+                    <td><a class="ver-opiniones" th:href="@{'/comentariosArticulo/listar?idArticulo=' + ${articulo.idArticulo}}" th:text="'Ver Opiniones'"></a></td>
 
                 </tr>
             </table>
@@ -62,7 +63,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros
             </p>
         
-                
                 <div>
                         <select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
                             <option th:each="item : ${opcionesCantidadPorPagina}" th:value="${item}"
@@ -91,7 +91,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </div>
          
-        <div id="verDetallesArticulo"></div>
+        <div id="verDetalles"></div>
         
         <script>
              function confirmarEliminacion(enlace, idArticulo) {

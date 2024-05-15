@@ -15,8 +15,7 @@
     
     <div class="container">
         <div class="search-filter">
-            <input type="text" id="searchInput" placeholder="Buscar por cédula" onkeyup="searchByCedula()">
-            <button onclick="filterAlphabetically()">Filtrar por abecedario</button>
+            <input type="text" id="searchInput" placeholder="Buscar por identificador" onkeyup="searchByCedula()">
         </div>
         
         <table id="colaboradoresTable">
@@ -31,6 +30,7 @@
                     <th>Estado de Aprobación</th>
                     <th>Tipo de Colaborador</th>
                     <th>Redes Sociales</th>
+                     <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,10 +44,11 @@
                     <td th:text="${colaborador.estadoAprobacion}"></td>
                     <td th:text="${colaborador.tipoColaborador}"></td>
                     <td th:text="${colaborador.redesSociales}"></td>
+   
                     <td>
                         
-                        <a th:href="@{'/colaboradores/actualizar/' + ${colaborador.ide}}">Actualizar</a>
-                        <a th:href="@{'/colaboradores/eliminar/' + ${colaborador.ide}}"onclick="showDeleteMessage()">Eliminar</a>
+                        <a class="editar-button" th:href="@{'/colaboradores/actualizar/' + ${colaborador.ide}}">Actualizar</a>
+                        <a class="eliminar-button"th:href="@{'/colaboradores/eliminar/' + ${colaborador.ide}}"onclick="showDeleteMessage()">Eliminar</a>
                         <a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesColaborador(\'' + ${colaborador.ide} + '\')'">Ver Detalles</a>
 
                     </td>

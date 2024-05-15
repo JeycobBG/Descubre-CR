@@ -40,19 +40,19 @@ function cargarDetallesArticulo(id) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-               var articulo = JSON.parse(xhr.responseText);
+               var response = JSON.parse(xhr.responseText);
                var detallesHtml = `
                 <h2>DETALLES DEL ARTICULO</h2>
-                <p><strong>Identificador:</strong> <span>${articulo.identificador}</span></p>
-                <p><strong>Título:</strong> <span>${articulo.titulo}</span></p>
-                <p><strong>Tema:</strong> <span>${articulo.tema}</span></p>
-                <p><strong>Descripción:</strong> <span>${articulo.descripcion}</span></p>
-                <p><strong>Nombre del Autor:</strong> <span>${articulo.nombreAutor}</span></p>
-                <p><strong>Fecha:</strong> <span>${articulo.fecha}</span></p>
-                <p><strong>Acerca del Autor:</strong> <span>${articulo.acercaDelAutor}</span></p>
-                <p><strong>Texto del Artículo:</strong> <span>${articulo.textoArticulo}</span></p>
+                <p><strong>Identificador:</strong> <span>${response.identificador}</span></p>
+                <p><strong>Título:</strong> <span>${response.titulo}</span></p>
+                <p><strong>Tema:</strong> <span>${response.tema}</span></p>
+                <p><strong>Descripción:</strong> <span>${response.descripcion}</span></p>
+                <p><strong>Nombre del Autor:</strong> <span>${response.nombreAutor}</span></p>
+                <p><strong>Fecha:</strong> <span>${response.fecha}</span></p>
+                <p><strong>Acerca del Autor:</strong> <span>${response.acercaDelAutor}</span></p>
+                <p><strong>Texto del Artículo:</strong> <span>${response.textoArticulo}</span></p>
                 `;
-                document.getElementById("verDetallesArticulo").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
             } else {
                 console.error("Error al cargar los detalles del articulo. Estado de la solicitud:", xhr.status);
             }
@@ -83,7 +83,7 @@ function cargarDetallesEventoTuristico(id) {
                     <p><strong>Hora Inicial:</strong> <span>${eventoTuristico.horaInicial}</span></p>
                     <p><strong>Hora Final:</strong> <span>${eventoTuristico.horaFinal}</span></p>
                 `;
-                document.getElementById("verDetallesEventoTuristico").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
             } else {
                 console.error("Error al cargar los detalles del evento turístico. Estado de la solicitud:", xhr.status);
             }
@@ -185,4 +185,35 @@ function cargarDetallesComentarioArticulo(codigo) {
         console.error("Error de red al cargar los detalles del comentario.");
     };
     xhr.send();
+}
+
+function cargarDetallesClima(codigo) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./verDetallesClima?codigo=" + codigo, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+               var response = JSON.parse(xhr.responseText);
+               var detallesHtml = `
+                    <h2>DETALLES DEL CLIMA</h2>
+
+                    <p><strong>Codigo:</strong> <span>${response.codigo}</span></p>
+                    <p><strong>Temperatura:</strong> <span>${response.temperatura}</span></p>
+                    <p><strong>Tipo de Clima:</strong> <span>${response.tipoClima}</span></p>
+                    <p><strong>Fecha:</strong> <span>${response.fecha}</span></p>
+                    <p><strong>Unidad Centigrados:</strong> <span>${response.unidadC}</span></p>
+                    <p><strong>IndiceUV:</strong> <span>${response.indiceUV}</span></p>
+                    <p><strong>Porcentaje Humedad :</strong> <span>${response.porcentajeHumedad}</span></p>
+                    
+                  `;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
+            } else {
+                console.error("Error al cargar los detalles del Clima. Estado de la solicitud:", xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error("Error de red al cargar los detalles del clima.");
+    };
+    xhr.send();
 }

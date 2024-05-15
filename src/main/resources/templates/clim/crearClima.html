@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro de Datos Climáticos</title>
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>Registro de Datos Climáticos</h2>
+    
+<div class="container">
+    <div>
+    <form id="formCrearClima" action="/climas/crearClima" method="get" onsubmit="return validarFormulario()">
+        <label for="codigo">Código:</label>
+        <input type="text" id="codigo" name="codigo" required><br>
+
+        <label for="temperatura">Temperatura:</label>
+        <input type="text" id="temperatura" name="temperatura" required><br>
+
+        <label for="tipoClima">Tipo de Clima:</label>
+        <input type="text" id="tipoClima" name="tipoClima" required><br>
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required><br>
+
+        <label for="unidadC">Unidad de Temperatura:</label>
+        <input type="text" id="unidadC" name="unidadC" required><br>
+
+        <label for="indiceUV">Índice UV:</label>
+        <input type="number" id="indiceUV" name="indiceUV" required><br>
+
+        <label for="porcentajeHumedad">Porcentaje de Humedad:</label>
+        <input type="text" id="porcentajeHumedad" name="porcentajeHumedad" required><br>
+
+        <input type="submit" value="Registrar">
+    </form>
+    </div>
+</div>
+
+    <script>
+        function validarFormulario() {
+            var campos = document.querySelectorAll('form#formCrearClima input, form#formCrearClima select');
+            for (var i = 0; i < campos.length; i++) {
+                if (!campos[i].value) {
+                    alert('Por favor, llene todos los campos.');
+                    return false;
+                }
+            }
+            alert('Se registraron correctamente los datos climáticos.');
+            return true;
+        }
+    </script>
+</body>
+</html>

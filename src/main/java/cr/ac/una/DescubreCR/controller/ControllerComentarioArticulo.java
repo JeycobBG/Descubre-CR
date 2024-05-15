@@ -132,7 +132,6 @@ public class ControllerComentarioArticulo {
               @RequestParam("dislikes") int dislikes,
               @RequestParam("etiquetas") String etiquetas,
               @RequestParam("idArticulo") int idArticulo,
-              @RequestParam("cedulaUsuario") String cedulaUsuario,
               @RequestParam("nombreUsuario") String nombreUsuario,
 
               RedirectAttributes flash) throws SQLException{
@@ -174,9 +173,9 @@ public class ControllerComentarioArticulo {
     }
     
     @GetMapping("/buscar")
-    public String buscar(@RequestParam("nombre") String nombre, @RequestParam("identificador") String identificador , @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Articulo articulo = ArticuloServices.obtenerArticuloPorIdentificador(identificador);
-        Page<ComentarioArticulo> pagina = comentariosArticuloServ.filtrarPorUsuario(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), articulo.getIdArticulo(), nombre);
+    public String buscar(@RequestParam("nombre") String nombre, @RequestParam("idArticulo") int idArticulo , @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
+        Articulo articulo = ArticuloServices.obtenerArticuloPorID(idArticulo);
+        Page<ComentarioArticulo> pagina = comentariosArticuloServ.filtrarPorUsuario(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idArticulo, nombre);
         
         modelo.addAttribute("articulo", articulo);
         modelo.addAttribute("nombre", nombre);

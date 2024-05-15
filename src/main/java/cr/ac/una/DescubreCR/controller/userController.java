@@ -32,7 +32,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/usuarios")
 public class userController {
     
-
+    
+    @GetMapping("/menuPrincipal")
+    public String menuPrincipal(){
+        return "index";
+    }
+    
     @GetMapping("/listaUsuarios")
     public String findAll(@PageableDefault(size=5, page=0) Pageable pageable, Model model) throws SQLException{
         Page<Usuario> page = UsuariosServices.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));

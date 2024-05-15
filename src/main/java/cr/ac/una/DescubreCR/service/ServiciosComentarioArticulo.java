@@ -76,8 +76,8 @@ public class ServiciosComentarioArticulo implements IServiciosComentarioArticulo
         Specification<ComentarioArticulo> spec = new Specification<ComentarioArticulo>() {
             @Override
             public Predicate toPredicate(Root<ComentarioArticulo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                Predicate predicado1 = criteriaBuilder.equal(root.get("articulo").get("id"), idArticulo);
-                Predicate predicado2 = criteriaBuilder.equal(root.get("nombre_usuario"), nombreUsuario);
+                Predicate predicado1 = criteriaBuilder.equal(root.get("articulo").get("idArticulo"), idArticulo);
+                Predicate predicado2 = criteriaBuilder.equal(root.get("nombreUsuario"), nombreUsuario);
                 Predicate predicadoFinal = criteriaBuilder.and(predicado1, predicado2);
                 
                 return criteriaBuilder.and(predicadoFinal);

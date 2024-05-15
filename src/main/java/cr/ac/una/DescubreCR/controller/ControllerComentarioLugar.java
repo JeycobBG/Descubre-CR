@@ -131,7 +131,6 @@ public class ControllerComentarioLugar {
               @RequestParam("dislikes") int dislikes,
               @RequestParam("etiquetas") String etiquetas,
               @RequestParam("codLugar") String codLugar,
-              @RequestParam("cedulaUsuario") String cedulaUsuario,
               @RequestParam("nombreUsuario") String nombreUsuario,
               RedirectAttributes flash) throws SQLException{
         

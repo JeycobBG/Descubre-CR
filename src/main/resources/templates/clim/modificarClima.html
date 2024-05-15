@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modificar Clima</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2> Modificar Clima</h2>
+    <div class="container">
+    <div>
+    <form method="post" th:action="@{/climas/modificarClima}">
+        <input type="hidden" name="codigo" th:value="${clima.codigo}" />
+        Temperatura:        <input type="text" name="temperatura" th:value="${clima.temperatura}" /><br />
+        Tipo de clima:      <input type="text" name="tipoClima" th:value="${clima.tipoClima}" /><br />
+        Fecha:              <input type="date" name="fecha" th:value="${#dates.format(clima.fecha, 'yyyy-MM-dd')}" /><br />
+        Unidad Centígrados: <input type="text" name="unidadC" th:value="${clima.unidadC}" /><br />
+        Índice UV:          <input type="number" name="indiceUV" th:value="${clima.indiceUV}" /><br />
+        Porcentaje Humedad: <input type="text" name="porcentajeHumedad" th:value="${clima.porcentajeHumedad}" /><br />
+        <input type="submit" value="Guardar cambios">
+    </form>
+    </div>
+  </div>
+</body>
+</html>

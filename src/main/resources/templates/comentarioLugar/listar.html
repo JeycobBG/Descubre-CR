@@ -6,6 +6,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <html xmls:th="http://thymeleaf.org">
     <head>
         <title>Módulo Comentario</title>
+        <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script text="text/javascript" th:src="@{/js/listados.js}"></script>
@@ -14,11 +15,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <body>
         <div>
             <h3 class="listado-titulo">Lista de comentarios de <p th:text="${lugar.nombre}"> </p></h3>
-            <h4>Buscar un comentario en específico</h4>
             <form method="get" th:action="@{/comentariosLugar/buscar}" enctype="multipart/form-data">
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
                 <input type="hidden" name="codigoLugar" th:value="${lugar.codigo}">
-                <input type="submit" value="Buscar">
+                <button type="submit">Buscar</button>
             </form>
         </div>
         <div>
@@ -35,9 +35,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td th:text="${comentario.nombreUsuario}"></td>
                     <td th:text="${comentario.fecha}"></td>
                     <td th:text="${comentario.etiquetas}"></td>
-                    <td><a th:href="@{'/comentariosLugar/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a th:href="@{'/comentariosLugar/eliminar?codigo=' + ${comentario.codigo} + '&codigoLugar=' +  ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
-                    <td><a href="#" th:attr="onclick='cargarDetallesComentarioLugar(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
+                    <td><a class="editar-button" th:href="@{'/comentariosLugar/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
+                    <td><a class="eliminar-button"th:href="@{'/comentariosLugar/eliminar?codigo=' + ${comentario.codigo} + '&codigoLugar=' +  ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesComentarioLugar(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
                 </tr>
             </table>
             

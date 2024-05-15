@@ -52,3 +52,160 @@
     font-weight: bold;
 }
 
+
+/* Estilos para la sección de comentarios */
+.comentarios-container {
+    font-family: "SF Pro Text", sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Estilos generales para la sección de comentarios */
+.comentarios-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Estilos para el formulario de nuevo comentario */
+.nuevo-comentario {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.nuevo-comentario textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.nuevo-comentario input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+/* Estilos para los comentarios individuales */
+.comentarioIndividual {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.comentarioIndividual h4 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #343a40;
+}
+
+.comentarioIndividual p {
+    margin: 5px 0;
+    color: #6c757d;
+}
+
+/* Estilos para los contenedores de likes y dislikes */
+.likesContainer,.dislikesContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.likesContainer img,.dislikesContainer img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.likesCount,.dislikesCount {
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.pagination-container {
+    white-space: nowrap; /* Evita que los elementos de la paginaciÃ³n se desplacen a la siguiente lÃ­nea */
+    margin-top: 30px;
+    text-align: center; 
+}
+
+.pagination {
+    display: inline-block; /* Permite que los elementos de paginaciÃ³n estÃ©n en lÃ­nea */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination li {
+    display: inline;
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃ³n */
+}
+
+.pagination li a {
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #000;
+}
+
+.pagination li.active a {
+    background-color: #008000;
+    color: #fff;
+}
+
+.pagination li a:hover {
+    background-color: #008000;
+    color: #fff;
+}
+
+.pagination-container select {
+    margin-bottom: 15px; /* Espacio entre el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n */
+    
+}
+
+.pagination-container select,
+.pagination-container ul.pagination {
+    display: inline-block; /* Hace que el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n estÃ©n en lÃ­nea */
+    vertical-align: middle; /* Alinea verticalmente los elementos */
+}
+
+.pagination-container ul.pagination {
+    margin-left: 10px; /* Espacio entre el selector de tamaÃ±o de pÃ¡gina y los botones de paginaciÃ³n */
+}
+
+.pagination-container ul.pagination li {
+    display: inline-block;
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃ³n */
+}
+
+.pagination-container ul.pagination li a {
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #000;
+}
+
+.pagination-container ul.pagination li.active a {
+    background-color: #155724
+    ;
+    color: #fff;
+}
+
+.pagination-container ul.pagination li a:hover {
+    background-color: #155724;
+    color: #fff;
+}
+
+

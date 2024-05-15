@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Escribir Artículo</title>
-    <link href="/CSS/escribirStyle.css" rel="stylesheet" type="text/css"/>
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <h2>Escribir un nuevo artículo</h2>
@@ -16,6 +16,7 @@
     </a>
     
 <div class="container">
+    <div>
     <form action="/articulos/guardar-articulo" method="post">
 
         <label for="identificador">Identificador:</label><br>
@@ -64,6 +65,7 @@
         
         <input type="submit" value="Guardar">
     </form>
+    </div>
 </div>
 
 </body>

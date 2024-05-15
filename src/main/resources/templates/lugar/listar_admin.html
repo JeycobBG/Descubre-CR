@@ -12,17 +12,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
     </head>
     <body>
+     <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
+        <h3 class="listado-titulo">Lista de lugares registrados</h3>
+    </div>
+        <div class="botonYBuscador"> 
+            
+            
         <div>
-            <h3 class="listado-titulo">Lista de lugares registrados</h3>
-            <h4>Buscar un lugar en específico</h4>
-            <form method="get" th:action="@{/lugares/consulta_buscarAdmin}" enctype="multipart/form-data">
+            <a href="./form_registrar" class="button">Agregar un nuevo lugar</a>
+        </div>
+            
+        <div class="campito"> 
+            <a href="./listar" class="button">Vista de usuario regular</a>
+        </div>
+            
+        <form method="get" th:action="@{/lugares/consulta_buscarAdmin}" enctype="multipart/form-data">
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del lugar" required>
-                <input type="submit" value="Buscar">
-            </form>
+                <button type="submit">Buscar</button>
+        </form>
+            
         </div>
-        <div>
-            <a href="./form_registrar">Agregar un nuevo lugar</a>
-        </div>
+       
+
         <div>
             <table class="table table-bordered">
                 <tr>
@@ -32,14 +46,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th></th>
                     <th></th>
                     <th></th>
+                  
                 </tr>
                 <tr th:each="lugar:${pagina.content}">
                     <td th:text="${lugar.codigo}"></td>
                     <td th:text="${lugar.nombre}"></td>
-                    <td><a th:href="@{'/lugares/consulta_actualizar?codigo=' + ${lugar.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a th:href="@{'/lugares/consulta_eliminar?codigo=' + ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
-                    <td><a href="#" th:attr="onclick='cargarDetallesLugar(\'' + ${lugar.codigo} + '\')'">Ver Detalles</a></td>
-                    <td><a th:href="@{'/comentariosLugar/listar?codigoLugar=' + ${lugar.codigo}}" th:text="'Ver Opiniones'"></a></td>
+                    <td><a class="editar-button"th:href="@{'/lugares/consulta_actualizar?codigo=' + ${lugar.codigo}}" th:text="'Editar'"></a></td>
+                    <td><a class="eliminar-button"th:href="@{'/lugares/consulta_eliminar?codigo=' + ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(\'' + ${lugar.codigo} + '\')'">Ver Detalles</a></td>
+                    <td><a class="ver-opiniones" th:href="@{'/comentariosLugar/listar?codigoLugar=' + ${lugar.codigo}}" th:text="'Ver Opiniones'"></a></td>
                 </tr>
             </table>
             
@@ -115,9 +130,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
         <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
         <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
-        <div> 
-            <a href="./listar">Vista de usuario regular</a>
-        </div>
+   
   
     </body>
 </html>

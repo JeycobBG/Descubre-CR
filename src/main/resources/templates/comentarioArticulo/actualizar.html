@@ -6,6 +6,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <html>
     <head>
         <title>Módulo Comentario Articulo</title>
+        <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -27,7 +28,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 
                 <input type="hidden" name="codigo" th:value="${comentario.codigo}">
                 <input type="hidden" name="idArticulo" th:value="${comentario.articulo.idArticulo}">
-                <input type="hidden" name="cedulaUsuario" th:value="${comentario.nombreUsuario}">
+                <input type="hidden" name="nombreUsuario" th:value="${comentario.nombreUsuario}">
                 <input type="hidden" name="likes" th:value="${comentario.cantidadLikes}">
                 <input type="hidden" name="dislikes" th:value="${comentario.cantidadDislikes}"><br><br>
                 <input type="submit" value="Guardar comentario">

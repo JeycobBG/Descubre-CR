@@ -119,7 +119,7 @@ public class ComentarioLugar {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-    
+
     public Lugar getLugar() {
         return lugar;
     }

@@ -76,7 +76,7 @@ public class ServiciosComentarioLugar implements IServiciosComentarioLugar{
             @Override
             public Predicate toPredicate(Root<ComentarioLugar> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Predicate predicado1 = criteriaBuilder.equal(root.get("lugar").get("id"), idLugar);
-                Predicate predicado2 = criteriaBuilder.equal(root.get("nombre_usuario"), nombreUsuario);
+                Predicate predicado2 = criteriaBuilder.equal(root.get("nombreUsuario"), nombreUsuario);
                 //Predicate predicado2 = criteriaBuilder.equal(root.get("usuario").get("nombreUsuario"), nombreUsuario);
                 Predicate predicadoFinal = criteriaBuilder.and(predicado1, predicado2);
                 

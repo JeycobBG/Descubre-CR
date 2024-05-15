@@ -9,12 +9,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script text="text/javascript" th:src="@{/js/listados.js}"></script>
-        <link rel="stylesheet" type="text/css" href="/CSS/listar_admin.css"> 
+        <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
     </head>
     <body>
         <div>
             <h3 class="listado-titulo">Lista de comentarios de <p th:text="${articulo.titulo}"> </p></h3>
-            <h4>Buscar un comentario en específico</h4>
             <form method="get" th:action="@{/comentariosArticulo/buscar}" enctype="multipart/form-data">
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
                 <input type="hidden" name="idArticulo" th:value="${articulo.idArticulo}">
@@ -35,9 +34,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td th:text="${comentario.nombreUsuario}"></td>
                     <td th:text="${comentario.fecha}"></td>
                     <td th:text="${comentario.etiquetas}"></td>
-                    <td><a th:href="@{'/comentariosArticulo/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a th:href="@{'/comentariosArticulo/eliminar?codigo=' + ${comentario.codigo} + '&idArticulo=' +  ${articulo.idArticulo}}" th:text="'Eliminar'"></a></td>
-                    <td><a href="#" th:attr="onclick='cargarDetallesComentarioArticulo(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
+                    <td><a class="editar-button" th:href="@{'/comentariosArticulo/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
+                    <td><a class="eliminar-button" th:href="@{'/comentariosArticulo/eliminar?codigo=' + ${comentario.codigo} + '&idArticulo=' +  ${articulo.idArticulo}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="ver-detalles"href="#" th:attr="onclick='cargarDetallesComentarioArticulo(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
                 </tr>
             </table>
             

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+    <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
+    <title>Lista de Datos Climáticos</title>
+</head>
+<body>
+    <header>
+        <h1>Lista de Datos Climáticos</h1>
+    </header>
+    
+    <div class="container">
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Buscar por código" onkeyup="searchByCodigo()">
+            <!-- No se aplica el filtro alfabético ya que no es relevante para los datos climáticos -->
+        </div>
+        
+        <table id="climasTable">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Temperatura</th>
+                    <th>Tipo de Clima</th>
+                    <th>Fecha</th>
+                    <th>Unidad de Temperatura</th>
+                    <th>Índice UV</th>
+                    <th>Porcentaje de Humedad</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="clima : ${climas}">
+                    <td th:text="${clima.codigo}"></td>
+                    <td th:text="${clima.temperatura}"></td>
+                    <td th:text="${clima.tipoClima}"></td>
+                    <td th:text="${clima.fecha}"></td>
+                    <td th:text="${clima.unidadC}"></td>
+                    <td th:text="${clima.indiceUV}"></td>
+                    <td th:text="${clima.porcentajeHumedad}"></td>
+                    <td>
+                        <a class="editar-button" th:href="@{'/climas/actualizar/' + ${clima.codigo}}">Modificar</a>
+                        <a class="eliminar-button" th:href="@{'/climas/eliminar/' + ${clima.codigo}}" onclick="showDeleteMessage()">Eliminar</a>
+                        <a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesClima(\'' + ${clima.codigo} + '\')'">Ver Detalles</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- No se incluye paginación ya que no se especifica en el diseño original -->
+    </div>
+    <div id="verDetalles"></div>
+</body>
+</html>
+    
+    <script>
+        
+        function showDeleteMessage() {
+            alert("El clima se eliminó correctamente.");
+        }
+        // Función para buscar por cédula
+        function searchByCodigo() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("climasTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        // Función para ir a la página anterior
+        function previousPage() {
+            var currentPage = parseInt(document.getElementById("currentPage").innerText);
+            if (currentPage > 1) {
+                document.getElementById("currentPage").innerText = currentPage - 1;
+            }
+        }
+
+        // Función para ir a la página siguiente
+        function nextPage() {
+            var currentPage = parseInt(document.getElementById("currentPage").innerText);
+            var lastPage = document.getElementById("climasTable").rows.length / 5;
+            if (currentPage < lastPage) {
+                document.getElementById("currentPage").innerText = currentPage + 1;
+            }
+        }
+    </script>
+</body>
+</html>
