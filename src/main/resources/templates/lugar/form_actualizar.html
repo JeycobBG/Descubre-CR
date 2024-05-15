@@ -12,9 +12,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <script text="text/javascript" th:src="@{/js/dataForm.js}"></script>
     </head>
     <body>
+    <h2>Editar Información del Lugar</h2>
+
+    <a href="/lugares/listar_admin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
         <div class="container">
             <div>
-                <h3>Editar Información del Lugar</h3>
                 <form id="formRegistrar" method="post" th:action="@{/lugares/actualizar}" enctype="multipart/form-data">
                     <input type="hidden" name="codigo" required th:value="${lugar.codigo}" />
 
@@ -72,7 +80,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </select><br />
 
                     <p><b>Imagen:</b></p>
-                    <input type="file" name="imagen"><br><br>
+                    <input type="file" name="imagen" required><br><br>
                     <input type="submit" value="Guardar">
                     <input type="reset" value="Reiniciar">
                 </form>

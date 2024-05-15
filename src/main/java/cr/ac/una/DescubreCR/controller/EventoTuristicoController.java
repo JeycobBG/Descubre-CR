@@ -182,7 +182,7 @@ public class EventoTuristicoController {
 
     if (eventoTuristico != null) {
         modelo.addAttribute("eventoTuristico", eventoTuristico);
-        modelo.addAttribute("lugar", ServiciosLugar.listar());
+        modelo.addAttribute("lugares", ServiciosLugar.listar());
         return "eventuris/actualizarEventoTuristico";
     } else {
         flash.addFlashAttribute("error", "No existe el evento turistico con ese id ");
@@ -193,15 +193,43 @@ public class EventoTuristicoController {
     @GetMapping("/eliminar")
     public String eliminar(@RequestParam("id") int id, RedirectAttributes flash) throws SQLException{
         evenTurisSer.eliminar(id);
-   
+  
         return "redirect:/eventoTuristico/listarAdmin";
     }
 
-    @PostMapping("/actualizar-eventoTuristico")
+ /*   @PostMapping("/actualizar-eventoTuristico")
     public String actualizarEventoTuristico(@ModelAttribute EventoTuristico eventoTuristico) throws SQLException {
         evenTurisSer.guardar(eventoTuristico);
-        return "redirect:/eventoTuristico/listarEventoTuristicoAdmin";
+        return "redirect:/eventoTuristico/listarAdmin";
     }
+  */  
+    @PostMapping("/actualizar-eventoTuristico")
+    public String actualizarEventoTuristico(@RequestParam("id") int id,
+        @RequestParam("codigo") String codigo,
+        @RequestParam("nombreEvento") String nombreEvento,
+        @RequestParam("descripcion") String descripcion,
+        @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+        @RequestParam("lugar") String lugarCodigo,
+        @RequestParam("titulo") String titulo,
+        @RequestParam("nombreAutor") String nombreAutor,
+        @RequestParam("horaInicial") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime horaInicial,
+        @RequestParam("horaFinal") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime horaFinal) throws SQLException {
+
+    EventoTuristico eventoTuristico = new EventoTuristico();
+    eventoTuristico.setId(id);
+    eventoTuristico.setCodigo(codigo);
+    eventoTuristico.setNombreEvento(nombreEvento);
+    eventoTuristico.setDescripcion(descripcion);
+    eventoTuristico.setFecha(fecha);
+    eventoTuristico.setLugar(ServiciosLugar.consultarEspPorCodigo(lugarCodigo));
+    eventoTuristico.setTitulo(titulo);
+    eventoTuristico.setNombreAutor(nombreAutor);
+    eventoTuristico.setHoraInicial(horaInicial);
+    eventoTuristico.setHoraFinal(horaFinal);
+
+    evenTurisSer.guardar(eventoTuristico);
+    return "redirect:/eventoTuristico/listarAdmin";
+}
     
     @GetMapping("/verDetallesEventoTuristico")
     @ResponseBody

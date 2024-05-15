@@ -52,7 +52,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td th:text="${lugar.codigo}"></td>
                     <td th:text="${lugar.nombre}"></td>
                     <td><a class="editar-button"th:href="@{'/lugares/consulta_actualizar?codigo=' + ${lugar.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a class="eliminar-button"th:href="@{'/lugares/consulta_eliminar?codigo=' + ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="eliminar-button" href="#" th:data-codigo="${lugar.codigo}">Eliminar</a></td>
                     <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(\'' + ${lugar.codigo} + '\')'">Ver Detalles</a></td>
                     <td><a class="ver-opiniones" th:href="@{'/comentariosLugar/listar?codigoLugar=' + ${lugar.codigo}}" th:text="'Ver Opiniones'"></a></td>
                 </tr>
@@ -108,6 +108,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <div id="verDetalles"></div>
         
         <script>
+        
+            document.addEventListener('DOMContentLoaded', function () {
+            var buttons = document.querySelectorAll('.eliminar-button');
+
+            buttons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var codigo = this.getAttribute('data-codigo');
+
+                    if (confirm("¿Está seguro de que desea eliminar este lugar?")) {
+                        window.location.href = '/lugares/consulta_eliminar?codigo=' + codigo;
+                    }
+                  });
+               });
+            });
+
+
+            
+            
             function cambiarPagTam(){
                 const pageSize = document.getElementById("pageSize").value;
                 const currentPage = [[${pagina.number}]];

@@ -43,7 +43,7 @@
 
             function validarFecha() {
                 var fechaSeleccionada = document.getElementById('fecha').value;
-                if (fechaSeleccionada > fechaActual) {
+                if (fechaSeleccionada >= fechaActual) {
                     alert('La fecha seleccionada debe ser anterior a la fecha actual.');
                     document.getElementById('fecha').value = '';
                     return false;

@@ -12,12 +12,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
     </head>
     <body>
+        <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
+        <h3 class="listado-titulo">Administrar comentarios</h3>
+        </div>
+        
         <div>
-            <h3 class="listado-titulo">Lista de comentarios de <p th:text="${articulo.titulo}"> </p></h3>
             <form method="get" th:action="@{/comentariosArticulo/buscar}" enctype="multipart/form-data">
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
                 <input type="hidden" name="idArticulo" th:value="${articulo.idArticulo}">
-                <input type="submit" value="Buscar">
+                <button type="submit">Buscar</button>
             </form>
         </div>
         <div>
@@ -35,7 +41,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td th:text="${comentario.fecha}"></td>
                     <td th:text="${comentario.etiquetas}"></td>
                     <td><a class="editar-button" th:href="@{'/comentariosArticulo/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a class="eliminar-button" th:href="@{'/comentariosArticulo/eliminar?codigo=' + ${comentario.codigo} + '&idArticulo=' +  ${articulo.idArticulo}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="eliminar-button" href="#" th:data-codigo-articulo="${comentario.articulo.idArticulo}" th:data-codigo="${comentario.codigo}">Eliminar</a></td>
                     <td><a class="ver-detalles"href="#" th:attr="onclick='cargarDetallesComentarioArticulo(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
                 </tr>
             </table>
@@ -79,6 +85,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <div id="verDetalles"></div>
         
         <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var buttons = document.querySelectorAll('.eliminar-button');
+
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Assuming comentario object is available in the context
+                var codigoArticulo = this.getAttribute('data-codigo-articulo');
+                var codigo = this.getAttribute('data-codigo');
+
+                if (confirm("¿Está seguro de que desea eliminar este comentario?")) {
+                    // Adjust the URL to pass both codigoLugar and codigoComentario
+                    window.location.href = '/comentariosArticulo/eliminar?idArticulo=' + codigoArticulo + '&codigo=' + codigo;
+                }
+              });
+           });
+         });
+            
             function cambiarPagTam(){
                 const pageSize = document.getElementById("pageSize").value;
                 const currentPage = [[${paginaComentarios.number}]];

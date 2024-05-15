@@ -6,6 +6,13 @@
 </head>
 <body>
     <h2>Escribir un nuevo evento turístico</h2>
+    <a href="/eventoTuristico/listarAdmin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
 <div class="container">
     <div>
     <form action="/eventoTuristico/guardar-eventoTuristico" method="post" onsubmit="return validarFecha()">
@@ -20,7 +27,28 @@
         <input type="text" id="descripcion" name="descripcion" required><br>
         
         <label for="fecha">Fecha:</label><br>
-        <input type="date" id="fecha" name="fecha" min="<%= LocalDate.now() %>" required><br>
+        <input type="date" id="fecha" name="fecha" required><br>
+        <script>
+            var fechaActual = new Date().toISOString().split('T')[0];
+
+            document.getElementById('fecha').setAttribute('min', fechaActual);
+
+            function validarFecha() {
+                var fechaSeleccionada = document.getElementById('fecha').value;
+                if (fechaSeleccionada >= fechaActual) {
+                    alert('La fecha seleccionada debe ser despues a la fecha actual.');
+                    document.getElementById('fecha').value = '';
+                    return false;
+                }
+                return true;
+            }
+
+            document.querySelector('form').addEventListener('submit', function(event) {
+                if (!validarFecha()) {
+                    event.preventDefault(); 
+                }
+            });
+        </script>
         
         <label for="lugar">Lugar:</label><br>
         <select id="lugar" name="lugar">

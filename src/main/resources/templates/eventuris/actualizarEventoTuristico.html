@@ -18,9 +18,8 @@
  <div class="container">   
      <div>
         <form action="/eventoTuristico/actualizar-eventoTuristico" method="post">
-        <label for="id">ID:</label><br>
-        <input type="text" id="id" th:value="${eventoTuristico.id}" name="id" class="hidden" />
-           
+        <input type="hidden" id="id" th:field="${eventoTuristico.id}" /><br>
+
         <label for="codigo">Código:</label><br>
         <input type="text" id="codigo" th:field="${eventoTuristico.codigo}" /><br>
         
@@ -33,10 +32,16 @@
         <label for="fecha">Fecha:</label><br>
         <input type="date" id="fecha" th:value="${eventoTuristico.fecha}" name="fecha" /><br>
 
-        <label for="lugar">Lugar:</label><br>
-        <select id="lugar" name="lugar">
-            <option th:each="lugar : ${lugar}" th:value="${lugar.codigo}" th:text="${lugar.nombre}">Lugar</option>
-        </select><br>
+       <label for="lugar">Lugar:</label><br>
+       
+       <select id="lugar" name="lugar">
+    <option th:each="lugar : ${lugares}" 
+            th:value="${lugar.codigo}" 
+            th:text="${lugar.nombre}"
+            th:selected="${lugar.codigo == eventoTuristico.lugar.codigo}">
+    </option>
+</select><br>
+
 
         <label for="titulo">Título:</label><br>
         <input type="text" id="titulo" th:field="${eventoTuristico.titulo}" /><br>

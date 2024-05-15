@@ -31,7 +31,7 @@ public class DataArticulo extends ConectarDB{
     private static final String TEXTO_ARTICULO = "textoArticulo";
     
     public static void actualizar(Articulo articulo) throws SQLException {
-    String sql = "UPDATE " + TB_ARTICULOS + " SET " +IDENTIFICADOR+" = ?,"+ TITULO + " = ?, " + TEMA + " = ?, " +DESCRIPCION+" = ?, "+
+    String sql = "UPDATE " + TB_ARTICULOS + " SET " +IDENTIFICADOR+" = ?,"+ TITULO + " = ?, " + TEMA + " = ?, " +DESCRIPCION+" = ?,"+
             NOMBRE_AUTOR + " = ?, " + FECHA + " = ?, " + ACERCA_DEL_AUTOR + " = ?, " + 
             TEXTO_ARTICULO + " = ? WHERE " + IDARTICULO + " = ?";
     try (Connection conexion = conectar();

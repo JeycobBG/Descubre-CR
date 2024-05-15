@@ -11,9 +11,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+    <h2>Actualizar Comentario</h2>
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
         <div class="container">
-            <h3>Editar Información del comentario</h3>
-            
+ 
             <form id="formRegistrar" method="post" th:action="@{/comentariosLugar/actualizar}" enctype="multipart/form-data"> 
                 <textarea name="contenido" th:value="${comentario.contenido}" required form="formRegistrar"></textarea><br/><br/>
                 

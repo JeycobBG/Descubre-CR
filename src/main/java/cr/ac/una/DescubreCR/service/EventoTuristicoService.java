@@ -49,7 +49,7 @@ public class EventoTuristicoService implements IEventoTuristicoServices {
         return eventTuristRep.findAll(pageable);
     }
 
-public Page<EventoTuristico> obtenerPorDescripción(String descripcion, Pageable pageable) {
+    public Page<EventoTuristico> obtenerPorDescripción(String descripcion, Pageable pageable) {
     Specification<EventoTuristico> spec = new Specification<EventoTuristico>() {
         @Override
         public jakarta.persistence.criteria.Predicate toPredicate(Root<EventoTuristico> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

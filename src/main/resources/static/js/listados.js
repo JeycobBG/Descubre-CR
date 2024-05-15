@@ -22,6 +22,7 @@ function cargarDetallesLugar(codigo) {
                     <p><strong>Calidad de la recepción telefónica:</strong> <span>${response.calidad_recepcion_telefonica}</span></p>
                 `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del lugar. Estado de la solicitud:", xhr.status);
             }
@@ -53,6 +54,7 @@ function cargarDetallesArticulo(id) {
                 <p><strong>Texto del Artículo:</strong> <span>${response.textoArticulo}</span></p>
                 `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del articulo. Estado de la solicitud:", xhr.status);
             }
@@ -77,13 +79,14 @@ function cargarDetallesEventoTuristico(id) {
                     <p><strong>Nombre del Evento:</strong> <span>${eventoTuristico.nombreEvento}</span></p>
                     <p><strong>Descripción:</strong> <span>${eventoTuristico.descripcion}</span></p>
                     <p><strong>Fecha:</strong> <span>${eventoTuristico.fecha}</span></p>
-                    <p><strong>Código del Lugar:</strong> <span>${eventoTuristico.lugar.codigo}</span></p>
+                    <p><strong>Nombre del Lugar:</strong> <span>${eventoTuristico.lugar.nombre}</span></p>
                     <p><strong>Título:</strong> <span>${eventoTuristico.titulo}</span></p>
                     <p><strong>Nombre del Autor:</strong> <span>${eventoTuristico.nombreAutor}</span></p>
                     <p><strong>Hora Inicial:</strong> <span>${eventoTuristico.horaInicial}</span></p>
                     <p><strong>Hora Final:</strong> <span>${eventoTuristico.horaFinal}</span></p>
                 `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del evento turístico. Estado de la solicitud:", xhr.status);
             }
@@ -118,6 +121,7 @@ function cargarDetallesColaborador(ide) {
                     <p><strong>Cantón:</strong> <span>${response.redesSociales}</span></p>
                   `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del Colaborador. Estado de la solicitud:", xhr.status);
             }
@@ -147,6 +151,7 @@ function cargarDetallesComentarioLugar(codigo) {
                     <p><strong>Etiquetas:</strong> <span>${response.etiquetas}</span></p>
                 `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del comentario. Estado de la solicitud:", xhr.status);
             }
@@ -176,6 +181,7 @@ function cargarDetallesComentarioArticulo(codigo) {
                     <p><strong>Etiquetas:</strong> <span>${response.etiquetas}</span></p>
                 `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del comentario. Estado de la solicitud:", xhr.status);
             }
@@ -207,6 +213,7 @@ function cargarDetallesClima(codigo) {
                     
                   `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
             } else {
                 console.error("Error al cargar los detalles del Clima. Estado de la solicitud:", xhr.status);
             }

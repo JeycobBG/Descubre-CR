@@ -12,21 +12,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-   <div>
-        <h3 class="listado-titulo">Lista de eventos turísticos registrados</h3>
+   
+        <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
+        <h3 class="listado-titulo">Lista de eventos registrados</h3>
+        </div>
+       
+        <div class="botonYBuscador"> 
+            
+        <div>
+            <a href="/eventoTuristico/agregar" class="button">Agregar evento turistico</a>
+        </div>
+        <div class="campito"> 
+            <a href="/eventoTuristico/listar" class="button">Vista de usuario</a>
+        </div>
+       
         <form action="/eventoTuristico/buscarPorDescripcionAdmin" method="GET">
- 
         <input type="text" id="descripcion" name="descripcion" placeholder="Ingrese la descripción">
         <button type="submit">Buscar</button>
         </form>
-    </div>
-        <div>
-            <a href="/eventoTuristico/agregar" class="button">Agregar un nuevo evento turistico</a>
         </div>
-        <div> 
-            <a href="/eventoTuristico/listar" class="button">Vista de usuario regular</a>
-        </div>
-        
         <div>
             <table class="table table-bordered">
                 <tr>
@@ -37,7 +44,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th></th>
                     <th></th>
                 </tr>
-                <tr th:each="eventoTuristico :${pagina.content}">
+                <tr th:each="eventoTuristico :${pagina.content}">           
                     <td th:text="${eventoTuristico.codigo}"></td>
                     <td th:text="${eventoTuristico.titulo}"></td>
                     <td th:text="${eventoTuristico.descripcion}"></td>
@@ -82,7 +89,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </div>
          
-        <div id="verDetallesEventoTuristico"></div>
+        <div id="verDetalles"></div>
         
         <script>
              function confirmarEliminacion(enlace, id) {

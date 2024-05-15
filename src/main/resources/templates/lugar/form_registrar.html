@@ -12,7 +12,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <script text="text/javascript" th:src="@{/js/dataForm.js}"></script>
 </head>
 <body>
-    <h3>Brinde la siguiente información</h3>
+    <h2>Agregar información del lugar</h2>
+
+    <a href="/lugares/listar_admin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
     <div class="container">
         <div>
             <form id="formRegistrar" method="post" th:action="@{/lugares/form_registrar}" enctype="multipart/form-data">

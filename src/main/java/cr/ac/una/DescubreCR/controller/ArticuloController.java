@@ -44,6 +44,7 @@ public class ArticuloController {
             @RequestParam("titulo") String titulo,
             @RequestParam("tema") String tema,
             @RequestParam("nombreAutor") String nombreAutor,
+            @RequestParam("descripcion") String descripcion,
             @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
             @RequestParam("acercaDelAutor") String acercaDelAutor,
             @RequestParam("textoArticulo") String textoArticulo) {
@@ -53,6 +54,7 @@ public class ArticuloController {
         articulo.setTitulo(titulo);
         articulo.setTema(tema);
         articulo.setNombreAutor(nombreAutor);
+        articulo.setDescripcion(descripcion);
         articulo.setFecha(fecha);
         articulo.setAcercaDelAutor(acercaDelAutor);
         articulo.setTextoArticulo(textoArticulo);

@@ -15,7 +15,7 @@ label {
     color: #000; /* Negro */
 }
 
-/* Estilos para el enlace "Agregar un nuevo artÃƒÂ­culo" */
+/* Estilos para el enlace "Agregar un nuevo artÃƒÆ’Ã‚Â­culo" */
 a.button {
     display: inline-block; /* Mostrar como un bloque */
     padding: 10px 20px; /* Relleno interno */
@@ -23,12 +23,12 @@ a.button {
     color: #fff; /* Color del texto */
     text-decoration: none; /* Quitar subrayado */
     border-radius: 4px; /* Borde redondeado */
-    transition: background-color 0.3s ease; /* TransiciÃƒÂ³n suave */
+    transition: background-color 0.3s ease; /* TransiciÃƒÆ’Ã‚Â³n suave */
     margin-bottom: 20px;
 }
 
 a.button:hover {
-    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratÃƒÂ³n */
+    background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratÃƒÆ’Ã‚Â³n */
 }
 
 
@@ -68,9 +68,9 @@ th {
 }
 
 .alert-success {
-    background-color: #d3f7d3; /* Verde claro para ÃƒÂ©xito */
-    border-color: #4cae4c; /* Verde mÃƒÂ¡s oscuro para ÃƒÂ©xito */
-    color: #155724; /* Verde oscuro para ÃƒÂ©xito */
+    background-color: #d3f7d3; /* Verde claro para ÃƒÆ’Ã‚Â©xito */
+    border-color: #4cae4c; /* Verde mÃƒÆ’Ã‚Â¡s oscuro para ÃƒÆ’Ã‚Â©xito */
+    color: #155724; /* Verde oscuro para ÃƒÆ’Ã‚Â©xito */
 }
 
 .alert-error {
@@ -80,13 +80,13 @@ th {
 }
 
 .pagination-container {
-    white-space: nowrap; /* Evita que los elementos de la paginaciÃƒÂ³n se desplacen a la siguiente lÃƒÂ­nea */
+    white-space: nowrap; /* Evita que los elementos de la paginaciÃƒÆ’Ã‚Â³n se desplacen a la siguiente lÃƒÆ’Ã‚Â­nea */
     margin-top: 30px;
     text-align: center; 
 }
 
 .pagination {
-    display: inline-block; /* Permite que los elementos de paginaciÃƒÂ³n estÃƒÂ©n en lÃƒÂ­nea */
+    display: inline-block; /* Permite que los elementos de paginaciÃƒÆ’Ã‚Â³n estÃƒÆ’Ã‚Â©n en lÃƒÆ’Ã‚Â­nea */
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -94,7 +94,7 @@ th {
 
 .pagination li {
     display: inline;
-    margin-right: 5px; /* Espacio entre los elementos de paginaciÃƒÂ³n */
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃƒÆ’Ã‚Â³n */
 }
 
 .pagination li a {
@@ -115,23 +115,23 @@ th {
 }
 
 .pagination-container select {
-    margin-bottom: 15px; /* Espacio entre el selector de tamaÃƒÂ±o de pÃƒÂ¡gina y los botones de paginaciÃƒÂ³n */
+    margin-bottom: 15px; /* Espacio entre el selector de tamaÃƒÆ’Ã‚Â±o de pÃƒÆ’Ã‚Â¡gina y los botones de paginaciÃƒÆ’Ã‚Â³n */
     
 }
 
 .pagination-container select,
 .pagination-container ul.pagination {
-    display: inline-block; /* Hace que el selector de tamaÃƒÂ±o de pÃƒÂ¡gina y los botones de paginaciÃƒÂ³n estÃƒÂ©n en lÃƒÂ­nea */
+    display: inline-block; /* Hace que el selector de tamaÃƒÆ’Ã‚Â±o de pÃƒÆ’Ã‚Â¡gina y los botones de paginaciÃƒÆ’Ã‚Â³n estÃƒÆ’Ã‚Â©n en lÃƒÆ’Ã‚Â­nea */
     vertical-align: middle; /* Alinea verticalmente los elementos */
 }
 
 .pagination-container ul.pagination {
-    margin-left: 10px; /* Espacio entre el selector de tamaÃƒÂ±o de pÃƒÂ¡gina y los botones de paginaciÃƒÂ³n */
+    margin-left: 10px; /* Espacio entre el selector de tamaÃƒÆ’Ã‚Â±o de pÃƒÆ’Ã‚Â¡gina y los botones de paginaciÃƒÆ’Ã‚Â³n */
 }
 
 .pagination-container ul.pagination li {
     display: inline-block;
-    margin-right: 5px; /* Espacio entre los elementos de paginaciÃƒÂ³n */
+    margin-right: 5px; /* Espacio entre los elementos de paginaciÃƒÆ’Ã‚Â³n */
 }
 
 .pagination-container ul.pagination li a {
@@ -161,7 +161,7 @@ form {
 }
 
 label {
-    display: block; /* Para que cada etiqueta de campo estÃƒÂ© en una lÃƒÂ­nea separada */
+    display: block; /* Para que cada etiqueta de campo estÃƒÆ’Ã‚Â© en una lÃƒÆ’Ã‚Â­nea separada */
     margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
     text-align: right; /* Alinear el texto de las etiquetas a la derecha */
 }
@@ -175,18 +175,18 @@ input[type="text"] {
 
 button[type="submit"] {
     padding: 8px 20px; /* Relleno interno */
-    background-color: #154724; /* Color de fondo del botÃƒÂ³n */
+    background-color: #154724; /* Color de fondo del botÃƒÆ’Ã‚Â³n */
     color: #fff; /* Color del texto */
     border: none; /* Borde */
     border-radius: 4px; /* Borde redondeado */
-    cursor: pointer; /* Cursor al pasar el ratÃƒÂ³n */
+    cursor: pointer; /* Cursor al pasar el ratÃƒÆ’Ã‚Â³n */
     padding: 8px 16px;
     text-decoration: none;
     border: 1px solid #000;
 }
 
 button[type="submit"]:hover {
-    background-color: #155724; /* Cambiar color de fondo al pasar el ratÃƒÂ³n */
+    background-color: #155724; /* Cambiar color de fondo al pasar el ratÃƒÆ’Ã‚Â³n */
 }
 
 
@@ -253,6 +253,7 @@ a.ver-opiniones:hover {
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
+    margin-right: 50px;
   }
 
   .listado-titulo {
@@ -273,5 +274,46 @@ a.ver-opiniones:hover {
   .campito{
       margin-left: 10px;
   }
+  
+  #verDetalles {
+    display: none;
+}
+
+#verDetalles.active {
+    display: block; 
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 600px;
+    font-family: Arial, sans-serif;
+}
+
+#verDetalles h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#verDetalles h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+#verDetalles img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+#verDetalles p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #444;
+}
+
+#verDetalles p strong {
+  Â Â color:Â #000;
+}
 
 
