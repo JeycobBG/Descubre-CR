@@ -29,7 +29,7 @@ function eliminar(id) {
                 icon: "success"
             }).then((ok)=>{
                 if(ok.isConfirmed){
-                    location.href="/albums/listar";
+                    location.href="/albums/listarAdmin";
                 }
             });
         } else {
@@ -90,7 +90,7 @@ function formularioAlbum(){
 }
 
 function regresarInicio(){
-    window.location='/usuarios/login';
+    window.location='/usuarios/menuPrincipal';
 }
 function regresarListar(){
     window.location='/albums/listarAdmin';

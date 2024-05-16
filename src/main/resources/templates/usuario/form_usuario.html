@@ -6,18 +6,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <html xmls:th="http://thymeleaf.org">
     <head>
         <title>Form de usuario</title>
-        <link href="/CSS/RegistrarForm.css" rel="stylesheet" type="text/css"/>
-
         <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/CSS/Registrar_Form.css">
+    <script text="text/javascript" th:src="@{/js/funciones.js}"></script>
     </head>
     <body>
-        <div>Agregar usuario</div>
-        
+        <h2>Agregar usuario</h2>
+    <div class="container">
+    <div>    
         <form method="get" th:action="@{/usuarios/registrar}">
             Nombre:<input required="" type="text" name="nombre"><br />
             Apellido: <input required="" type="text"  name="apellido"><br />
-            Cedúla <input required="" type="text" name="cedula"><br />
+            Cédula <input required="" type="text" name="cedula"><br />
             Idioma: 
                 <select name="idioma">
                     <option value="español">Español</option>
@@ -25,9 +26,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </select><br />
             Nacionalidad: <input required="" type="text"  name="nacionalidad"><br />
             Fecha Nacimiento: <input required="" type="date" name="fechaNacimiento"><br />
-            Telefono: <input required="" type="text" name="telefono"><br />
+            Teléfono: <input required="" type="text" name="telefono"><br />
             Nombre usuario: <input required="" type="text"  name="nombreUsuario"><br />
-            Contraseña: <input required="" class="input" type="password" name="password" id="password">
+            Contraseña: <input required="" class="input" type="password" name="password" id="password" placeholder="Contraseña">
+            <button type="button" onclick="togglePassword()">Mostrar/Ocultar contraseña</button>
+            <br> 
             Tipo usuario: 
                 <select name="tipoUsuario">
                     <option value="administrador">Administrador</option>
@@ -37,5 +40,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             Correo: <input required="" type="text" name="correo"><br />
             <input type="submit" value="Registrarse">
         </form>
+        </div>
+            
+    </div>
+        
+
     </body>
+        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </html>

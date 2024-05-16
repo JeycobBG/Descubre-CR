@@ -45,7 +45,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <input type="radio" id="privado" name="visible" value="false" required>
                     <label for="privado">Privado</label><br><br>
 
-                    <input type="text" name="etiquetas" placeholder="Ingrese las etiquetas relacionadas" required><br>
+                    <input type="text" name="etiquetas" placeholder="Ingrese las #etiquetas relacionadas" required><br>
                     <input type="hidden" name="codLugar" th:value="${lugar.codigo}">
                     <input type="hidden" name="nombreUsuario" value="jamyrg"><br>
                     <input type="submit" value="Guardar comentario">
@@ -113,7 +113,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </nav>
             </div>
             <div th:if="${paginaComentarios.content.isEmpty()}"> 
-                <p>Sé la primera persona en dejar un comentario sobre este lugar</p>
+                <p>Sé la primera persona en dejar un comentario sobre este lugar.</p>
             </div>
         </div>
     </body>

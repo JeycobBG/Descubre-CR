@@ -39,6 +39,7 @@ public class UsuariosServices {
     
     public static boolean modificar(Usuario usuario) {
         try {
+            System.out.println("Service Modificar " + usuario.toString());
             return(new DataUsuarios().modificarPersona(usuario));
         } catch (SQLException ex) {
             Logger.getLogger(UsuariosServices.class.getName()).log(Level.SEVERE, null, ex);

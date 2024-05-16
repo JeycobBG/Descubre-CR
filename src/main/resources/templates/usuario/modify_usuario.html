@@ -6,9 +6,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <html xmls:th="http://thymeleaf.org">
 <head>
     <title>Formulario de usuario</title>
-    <link href="/CSS/escribirStyle.css" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/form_user.css">
 </head>
 <body>
     <div>Modificar usuario</div>
@@ -34,4 +34,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <input type="submit" value="Guardar cambios">
     </form>
 </body>
+        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </html>

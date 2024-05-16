@@ -25,9 +25,7 @@
                     <th>Temperatura</th>
                     <th>Tipo de Clima</th>
                     <th>Fecha</th>
-                    <th>Unidad de Temperatura</th>
-                    <th>Índice UV</th>
-                    <th>Porcentaje de Humedad</th>
+             
                     <th></th>
                 </tr>
             </thead>
@@ -37,9 +35,7 @@
                     <td th:text="${clima.temperatura}"></td>
                     <td th:text="${clima.tipoClima}"></td>
                     <td th:text="${clima.fecha}"></td>
-                    <td th:text="${clima.unidadC}"></td>
-                    <td th:text="${clima.indiceUV}"></td>
-                    <td th:text="${clima.porcentajeHumedad}"></td>
+                   
                     <td>
                         <a class="editar-button" th:href="@{'/climas/actualizar/' + ${clima.codigo}}">Modificar</a>
                         <a class="eliminar-button" th:href="@{'/climas/eliminar/' + ${clima.codigo}}" onclick="showDeleteMessage()">Eliminar</a>

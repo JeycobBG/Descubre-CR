@@ -22,28 +22,18 @@
             <thead>
                 <tr>
                     <th>Identificador</th>
-                    <th>Nombre de la Empresa</th>
-                    <th>Descripción de la Empresa</th>
-                    <th>Dirección de la Empresa</th>
-                    <th>Teléfono de la Empresa</th>
-                    <th>Sitio Web</th>
-                    <th>Estado de Aprobación</th>
+                    <th>Nombre de la Empresa</th> 
                     <th>Tipo de Colaborador</th>
-                    <th>Redes Sociales</th>
-                     <th></th>
+                   
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="colaborador : ${colaboradores}">
                     <td th:text="${colaborador.ide}"></td>
-                    <td th:text="${colaborador.nombreEmpresa}"></td>
-                    <td th:text="${colaborador.descripcionEmpresa}"></td>
-                    <td th:text="${colaborador.direccionEmpresa}"></td>
-                    <td th:text="${colaborador.telefonoEmpresa}"></td>
-                    <td th:text="${colaborador.sitioWeb}"></td>
-                    <td th:text="${colaborador.estadoAprobacion}"></td>
+                    <td th:text="${colaborador.nombreEmpresa}"></td>          
                     <td th:text="${colaborador.tipoColaborador}"></td>
-                    <td th:text="${colaborador.redesSociales}"></td>
+                   
    
                     <td>
                         

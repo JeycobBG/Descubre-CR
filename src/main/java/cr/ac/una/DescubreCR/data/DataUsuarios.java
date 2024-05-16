@@ -212,7 +212,7 @@ public class DataUsuarios extends ConectarDB{
         int resultado;
         Connection conexion = conectar();
         PreparedStatement statement = conexion.prepareStatement(sql);
-        
+        System.out.println("Data Modificar " + user.toString());
         System.out.println("Modificar persona");
         
         if(!this.modificarUsuario(user, conexion)){
@@ -242,7 +242,7 @@ public class DataUsuarios extends ConectarDB{
     
     public Usuario buscarPorCedula(String cedula) throws SQLException {
         Usuario usuario = null;
-        String sql = "SELECT * FROM " + TBUSUARIOS + " WHERE " + CEDULA + " = ?";
+        String sql = "SELECT * FROM " + TBPERSONAS + " WHERE " + CEDULA + " = ?";
 
         try (
             Connection conexion = conectar();
@@ -285,15 +285,12 @@ public class DataUsuarios extends ConectarDB{
         return usuario;
     }
     
-    
     private int buscarID(String cedula, Connection conexion) throws SQLException {
         String sql = "SELECT * FROM " + TBPERSONAS + " WHERE " + CEDULA + " = ?";
 
-        try (
-            PreparedStatement statement = conexion.prepareStatement(sql);
-        ) {
+        try (PreparedStatement statement = conexion.prepareStatement(sql);) {
             statement.setString(1, cedula);
-
+            
             try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {
                     return result.getInt("id");
@@ -309,6 +306,7 @@ public class DataUsuarios extends ConectarDB{
     public Persona buscarPersona(int id, Connection conexion) throws SQLException {
         Persona persona = null;
         String sql = "SELECT * FROM " + TBPERSONAS + " WHERE " + ID + " = ?";
+        System.out.println("Aqui 2 id " + id);
 
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setInt(1, id);
@@ -324,8 +322,8 @@ public class DataUsuarios extends ConectarDB{
 
     public Usuario buscarUsuario(int id) throws SQLException {
         Usuario usuario = null;
-        String sql = "SELECT * FROM " + TBUSUARIOS + " WHERE " + ID + " = ?";
-
+        String sql = "SELECT * FROM " + TBUSUARIOS + " WHERE " + IDPERSONA + " = ?";
+        
         try (
             Connection conexion = conectar();
             PreparedStatement statement = conexion.prepareStatement(sql);
@@ -341,7 +339,6 @@ public class DataUsuarios extends ConectarDB{
             System.out.println(ex.toString());
             throw ex;
         }
-
         return usuario;
     }
     
@@ -397,6 +394,7 @@ public class DataUsuarios extends ConectarDB{
 
 
     private Usuario construirUsuarioDesdeResultSet(ResultSet result, Connection conexion) throws SQLException {
+        System.out.println("Aqui 1");
         Persona persona = buscarPersona(result.getInt("idPersona"), conexion);
         return new Usuario(
             result.getString("nombreUsuario"),

@@ -9,8 +9,8 @@
         <div th:if="${success != null}" th:text="${success}"></div>
         <div th:if="${error != null}" th:text="${error}"></div>
         <header>
-            <h2 id="titulo">Creación de Album</h2>
-            <p>Crea y comparte un album con lo mejor de tus experiencias.</p>
+            <h2 id="titulo">Creación de álbum</h2>
+            <p>Crea y comparte un álbum con lo mejor de tus experiencias.</p>
         </header>
           
 <div class="container">
@@ -43,10 +43,10 @@
                 
                 <!-- Aquí viene la parte de las imágenes asociadas 
                 -->
-                    <label for="imagenes">Porfavor seleccione las imágenes que desea agregar a su album</label><br>
+                    <label for="imagenes">Por favor seleccione las imágenes que desea agregar a su álbum.</label><br>
                     <input type="file" id="imagenes" name="imagenes" accept="image/png,image/jpeg" multiple="multiple" required/>
                     <input type="submit" name="guardar" value="Aceptar">
-                    <input type="button" name="volver" value="volver" onclick="regresarListar()">
+                    <input type="button" name="volver" value="Volver" onclick="regresarListar()">
                 </div>
             </form>
     </div>
