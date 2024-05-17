@@ -161,13 +161,7 @@ public class ControllerLugar {
     
     @GetMapping("/consulta_eliminar")
     public String eliminar(@RequestParam("codigo") String codigo, RedirectAttributes flash) throws SQLException{
-        
-        if(ServiciosLugar.eliminar(codigo)){
-            flash.addFlashAttribute("exito", "Se ha eliminado el lugar con código " + codigo + ".");
-        } else {
-            flash.addFlashAttribute("error", "No existe el lugar con código " + codigo + ".");
-        }
-        
+        ServiciosLugar.eliminar(codigo);
         return "redirect:listar_admin";
     }
     

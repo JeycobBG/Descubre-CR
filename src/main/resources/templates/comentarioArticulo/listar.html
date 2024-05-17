@@ -38,7 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </tr>
                 <tr th:each="comentario:${paginaComentarios.content}">
                     <td th:text="${comentario.nombreUsuario}"></td>
-                    <td th:text="${comentario.fecha}"></td>
+                    <td th:text="${#dates.format(comentario.fecha, 'dd-MM-yyyy')}"></td>
                     <td th:text="${comentario.etiquetas}"></td>
                     <td><a class="editar-button" th:href="@{'/comentariosArticulo/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
                     <td><a class="eliminar-button" href="#" th:data-codigo-articulo="${comentario.articulo.idArticulo}" th:data-codigo="${comentario.codigo}">Eliminar</a></td>
