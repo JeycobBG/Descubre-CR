@@ -67,6 +67,7 @@
     </form>
     </div>
 </div>
-
+  <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+  <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </body>
 </html>

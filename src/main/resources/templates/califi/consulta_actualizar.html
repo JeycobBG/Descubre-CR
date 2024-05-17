@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modificar Calificación</title>
+    <!-- Aquí tus enlaces a CSS, scripts, etc. -->
+</head>
+<body>
+    <h1>Modificar Calificación</h1>
+    <form method="post" th:action="@{/calificaciones/actualizar}">
+        <input type="hidden" name="id_calificacion" th:value="${calificacion.idCalificacion}" />
+        Puntuación: <input type="number" name="puntuacion" th:value="${calificacion.puntuacion}" /><br />
+        Fecha: <input type="date" name="fecha" th:value="${#dates.format(calificacion.fecha, 'yyyy-MM-dd')}" /><br />
+        Categoría: <input type="text" name="categoria" th:value="${calificacion.categoria}" /><br />
+        Utilidad: <input type="text" name="utilidad" th:value="${calificacion.utilidad}" /><br />
+        Tipo de Usuario: <input type="text" name="tipo_usuario" th:value="${calificacion.tipoUsuario}" /><br />
+        Etiquetas Asociadas: <input type="text" name="etiquetas_asociadas" th:value="${calificacion.etiquetasAsociadas}" /><br />
+        <input type="submit" value="Guardar cambios" />
+    </form>
+</body>
+</html>

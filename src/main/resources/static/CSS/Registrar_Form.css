@@ -187,3 +187,79 @@ p {
     color:#155724;
     font-size:20px
 }
+
+
+/* Contenedor principal */
+.containerUser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+form input[type="text"],
+form input[type="password"],
+form input[type="date"],
+form select {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #155724;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="date"]:focus,
+form select:focus {
+    outline: none;
+    border-color: #155724;
+    box-shadow: 0 0 5px rgba(21, 87, 36, 0.5);
+}
+
+form input[type="submit"],
+form button {
+    background-color: #155724;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover,
+form button:hover {
+    background-color: #0e3e1c;
+}
+
+form input[type="submit"]:active,
+form button:active {
+    background-color: #092914;
+}
+
+form input[type="submit"] {
+    margin-top: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #155724;
+}
+
+/* Botón para mostrar/ocultar contraseña */
+form button[type="button"] {
+    background-color: #ffffff;
+    color: #155724;
+    border: 1px solid #155724;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+form button[type="button"]:hover {
+    background-color: #f0f0f0;
+}

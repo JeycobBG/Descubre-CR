@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Calificaciones</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- DATATABLES CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto; /* Centrar el contenido */
+            padding: 20px; /* Espaciado interno */
+        }
+        .catalogo-titulo {
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .table {
+            background-color: #fff;
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+        .pagination-container {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .pagination-select {
+            margin-bottom: 20px;
+        }
+        .pagination {
+            display: inline-block; /* Permite que los elementos de paginación estén en línea */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .pagination li {
+            display: inline;
+            margin-right: 5px; /* Espacio entre los elementos de paginación */
+        }
+        .pagination li a {
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #000;
+        }
+        .pagination li.active a {
+            background-color: #008000;
+            color: #fff;
+        }
+        .pagination li a:hover {
+            background-color: #008000;
+            color: #fff;
+        }
+        .buscador {
+            margin-bottom: 20px; /* Espacio entre el formulario y el resto del contenido */
+            text-align: right; /* Alinear el contenido del formulario a la derecha */
+            padding-right: 20px;
+        }
+        input[type="text"] {
+            width: 300px; 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        input[type="submit"] {
+            padding: 8px 20px; 
+            background-color: #008000; /* Color de fondo del botón */
+            color: #fff; 
+            border: none; /* Borde */
+            border-radius: 4px; /* Borde redondeado */
+            cursor: pointer; /* Cursor al pasar el ratón */
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #000;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="catalogo-titulo">Lista de Calificaciones</h1>
+
+    <div class="buscador">
+        <form>
+            <input type="text" placeholder="Buscar...">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+
+    <table id="tablaCalificaciones" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Puntuación</th>
+                <th>Fecha</th>
+                <th>Categoría</th>
+                <th>Utilidad</th>
+                <th>Tipo de Usuario</th>
+                <th>Etiquetas Asociadas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="calificacion : ${calificaciones}">
+                <td th:text="${calificacion.puntuacion}"></td>
+                <td th:text="${#dates.format(calificacion.fecha, 'dd-MM-yyyy')}"></td>
+                <td th:text="${calificacion.categoria}"></td>
+                <td th:text="${calificacion.utilidad}"></td>
+                <td th:text="${calificacion.tipoUsuario}"></td>
+                <td th:text="${calificacion.etiquetasAsociadas}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- comment  <div class="pagination-container">
+        <ul class="pagination">
+            <li><a href="#">Anterior</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">Siguiente</a></li>
+        </ul>
+    </div>
+</div>-->
+
+
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<!-- DATATABLES JS -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tablaCalificaciones').DataTable({
+            language: {
+                processing: "Tratamiento en curso...",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                info: "Mostrando del _START_ al _END_ de _TOTAL_ registros",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(filtrado de _MAX_ registros en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron registros coincidentes",
+                emptyTable: "No hay datos disponibles en la tabla",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending: ": activar para ordenar la columna en orden ascendente",
+                    sortDescending: ": activar para ordenar la columna en orden descendente"
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
