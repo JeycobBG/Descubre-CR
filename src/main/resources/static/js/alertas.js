@@ -65,7 +65,6 @@ function eliminar(element) {
             $.ajax({
                 url: urlEliminar + codigo,
                 success: function() {
-                    eliminacionRealizada = true;
                     
                     Swal.fire({
                         title: "¡Eliminado!",

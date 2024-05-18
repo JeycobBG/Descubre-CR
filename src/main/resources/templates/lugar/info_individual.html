@@ -51,8 +51,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <input type="submit" value="Guardar comentario">
                 </form>
             </div>
-            <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
-            <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
             
             <div th:if="${paginaComentarios.content!=null && !paginaComentarios.content.isEmpty()}" class="comentarios">
                 <h3>Lea las opiniones de otros usuarios</h3>
@@ -116,5 +114,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <p>Sé la primera persona en dejar un comentario sobre este lugar.</p>
             </div>
         </div>
+        <div id="alert-messages" 
+            th:data-exito="${exito != null ? exito : ''}" 
+            th:data-error="${error != null ? error : ''}">
+        </div>
     </body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
 </html>

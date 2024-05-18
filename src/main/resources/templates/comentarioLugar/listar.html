@@ -5,11 +5,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html xmls:th="http://thymeleaf.org">
     <head>
-        <title>Módulo Comentario</title>
+        <title>Administrar Comentarios de Lugar</title>
         <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="/css/listar_admin.css"> 
     </head>
     <body>
@@ -20,14 +21,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <h3 class="listado-titulo">Lista de comentarios de <p th:text="${lugar.nombre}"> </p></h3>
     </div>
         
-        <div>
+        <div th:if="${!paginaComentarios.content.isEmpty()}">
             <form method="get" th:action="@{/comentariosLugar/buscar}" enctype="multipart/form-data">
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
                 <input type="hidden" name="codigoLugar" th:value="${lugar.codigo}">
                 <button type="submit">Buscar</button>
             </form>
         </div>
-        <div>
+        <div th:if="${!paginaComentarios.content.isEmpty()}">
             <table class="table table-bordered">
                 <tr>
                     <th>Usuario</th> 
@@ -39,10 +40,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </tr>
                 <tr th:each="comentario:${paginaComentarios.content}">
                     <td th:text="${comentario.nombreUsuario}"></td>
-                    <td th:text="${#dates.format(comentario.fecha, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${comentario.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}"></td>
                     <td th:text="${comentario.etiquetas}"></td>
                     <td><a class="editar-button" th:href="@{'/comentariosLugar/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a class="eliminar-button" href="#" th:data-codigo-lugar="${comentario.lugar.codigo}" th:data-codigo="${comentario.codigo}">Eliminar</a></td>
+                    <td>
+                        <a class="eliminar-button" href="#"
+                        th:data-codigo="${comentario.codigo}"
+                        th:data-url-eliminar="@{'/comentariosLugar/eliminar?codigoLugar=' + ${comentario.lugar.codigo} + '&codigo='}"
+                        th:data-url-listar="@{'/comentariosLugar/listar?codigoLugar=' + ${comentario.lugar.codigo}}"
+                        onclick="eliminar(this)">Eliminar</a>
+                    </td>
                     <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesComentarioLugar(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
                 </tr>
             </table>
@@ -83,29 +90,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </div>
         
+        <div th:if="${paginaComentarios.content.isEmpty()}"> 
+            <p th:text="'Aún no se han hecho comentarios sobre el lugar ' + ${lugar.nombre} + '.'"></p>
+        </div>
+        
         <div id="verDetalles"></div>
         
+        <div id="alert-messages" 
+            th:data-exito="${exito != null ? exito : ''}" 
+            th:data-error="${error != null ? error : ''}">
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
         <script>
-            
-        document.addEventListener('DOMContentLoaded', function () {
-        var buttons = document.querySelectorAll('.eliminar-button');
-
-        buttons.forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                // Assuming comentario object is available in the context
-                var codigoLugar = this.getAttribute('data-codigo-lugar');
-                var codigo = this.getAttribute('data-codigo');
-
-                if (confirm("¿Está seguro de que desea eliminar este comentario?")) {
-                    // Adjust the URL to pass both codigoLugar and codigoComentario
-                    window.location.href = '/comentariosLugar/eliminar?codigoLugar=' + codigoLugar + '&codigo=' + codigo;
-                }
-              });
-           });
-         });
-            
+        
             function cambiarPagTam(){
                 const pageSize = document.getElementById("pageSize").value;
                 const currentPage = [[${paginaComentarios.number}]];
@@ -124,11 +123,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             }
         </script>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
-        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
-        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
-       
     </body>
 </html>

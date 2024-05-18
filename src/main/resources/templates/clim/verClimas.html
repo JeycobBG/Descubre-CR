@@ -34,7 +34,7 @@
                     <td th:text="${clima.codigo}"></td>
                     <td th:text="${clima.temperatura}"></td>
                     <td th:text="${clima.tipoClima}"></td>
-                    <td th:text="${clima.fecha}"></td>
+                    <td th:text="${#dates.format(clima.fecha, 'dd-MM-yyyy')}"></td>
                    
                     <td>
                         <a class="editar-button" th:href="@{'/climas/actualizar/' + ${clima.codigo}}">Modificar</a>
