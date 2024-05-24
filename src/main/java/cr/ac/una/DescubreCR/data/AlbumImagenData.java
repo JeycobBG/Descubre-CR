@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * @author JEYCOB
  */
 public class AlbumImagenData extends ConectarDB{
-    
-     public static final String TBALBUM_IMAGEN = "album_imagen";
-    
+     
+    public static final String TBALBUM_IMAGEN = "tb_album_imagen";
+    public static final String TB_IMAGEN = "tb_imagen";
     
     // insertar id_album & id_imagen de sus últimos registros
     public boolean insertar(){
@@ -48,7 +48,7 @@ public class AlbumImagenData extends ConectarDB{
             Connection connection = conectar();
             PreparedStatement sentencia = connection.prepareStatement(
                     " SELECT I.id,I.src,I.fecha_ingreso FROM " + TBALBUM_IMAGEN + " U "
-                    + "INNER JOIN imagen I ON U.id_imagen = I.id "
+                    + "INNER JOIN " + TB_IMAGEN + " I ON U.id_imagen = I.id "
                     + "WHERE U.id_album = ?");
             sentencia.setString(1, id_album);
             ResultSet rs = sentencia.executeQuery();

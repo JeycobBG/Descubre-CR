@@ -8,13 +8,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <title>MODULO LUGAR</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/css/form_actualizar.css">
+        <link rel="stylesheet" type="text/css" href="/CSS/Registrar_Form.css">
         <script text="text/javascript" th:src="@{/js/dataForm.js}"></script>
     </head>
     <body>
+    <h2>Editar Información del Lugar</h2>
+
+    <a href="/lugares/listar_admin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
         <div class="container">
             <div>
-                <h3>Editar Información del Lugar</h3>
                 <form id="formRegistrar" method="post" th:action="@{/lugares/actualizar}" enctype="multipart/form-data">
                     <input type="hidden" name="codigo" required th:value="${lugar.codigo}" />
 
@@ -72,14 +80,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </select><br />
 
                     <p><b>Imagen:</b></p>
-                    <input type="file" name="imagen"><br><br>
+                    <input type="file" name="imagen" required><br><br>
                     <input type="submit" value="Guardar">
                     <input type="reset" value="Reiniciar">
                 </form>
             </div>
         </div>
-        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
-        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
-        <div id="datosLugar" th:attr="dataLugar=${lugarJson}" style="display: none;"></div>
+    
+    <div id="datosLugar" th:attr="dataLugar=${lugarJson}" style="display: none;"></div>
     </body>
 </html>

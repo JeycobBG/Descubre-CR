@@ -1,12 +1,12 @@
 .container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'SF Pro Text', sans-serif;
   max-width: 350px;
   background: #155724;
   background: linear-gradient(0deg, rgb(255 255 255) 0%, rgb(244, 247, 251) 100%);
   border-radius: 40px;
   padding: 25px 35px;
   border: 5px solid rgb(255, 255, 255);
-  box-shadow: rgb(13 121 51 / 88%) 0px 30px 30px -20px;
+  box-shadow: rgb(73 157 102 / 88%) 0px 30px 30px -20px;
   margin: 50px auto;
 }
 
@@ -28,8 +28,10 @@
   padding: 15px 20px;
   border-radius: 20px;
   margin-top: 15px;
-  box-shadow: #155222 0px 10px 10px -5px;
+  box-shadow: #c8e1cd 0px 10px 10px -5px;
   border-inline: 2px solid transparent;
+  font-size: 15px;
+  font-family: "SF Pro Text", sans-serif;
 }
 
 .form .input::-moz-placeholder {

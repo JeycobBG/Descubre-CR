@@ -2,11 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Escribir Artículo</title>
-    <link href="/CSS/escribirStyle.css" rel="stylesheet" type="text/css"/>
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <h2>Escribir un nuevo artículo</h2>
+       
+    <a href="/articulos/listarAdmin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
+    
 <div class="container">
+    <div>
     <form action="/articulos/guardar-articulo" method="post">
 
         <label for="identificador">Identificador:</label><br>
@@ -33,7 +43,7 @@
 
             function validarFecha() {
                 var fechaSeleccionada = document.getElementById('fecha').value;
-                if (fechaSeleccionada > fechaActual) {
+                if (fechaSeleccionada >= fechaActual) {
                     alert('La fecha seleccionada debe ser anterior a la fecha actual.');
                     document.getElementById('fecha').value = '';
                     return false;
@@ -55,7 +65,9 @@
         
         <input type="submit" value="Guardar">
     </form>
+    </div>
 </div>
-
+  <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+  <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </body>
 </html>

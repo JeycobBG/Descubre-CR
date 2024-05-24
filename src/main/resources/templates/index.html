@@ -4,16 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menú de Navegación</title>
+<script text="text/javascript" th:src="@{/js/slider.js}"></script>
 <link href="/CSS/indexStyle.css" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
 
 <div class="navbar">
   <ul>
-        <li><a href="#">Artículos</a>
+    <li><a href="#">Artículos</a>
       <ul>
         <li><a href="/articulos/listar">Lista de Artículos</a></li>
         <li><a href="/articulos/listarAdmin">Administrar Artículo</a></li>
+      </ul>
+    </li>
+    
+    <li><a href="#">Eventos Turísticos</a>
+      <ul>
+        <li><a href="/eventoTuristico/listar">Lista de Eventos Turístico</a></li>
+        <li><a href="/eventoTuristico/listarAdmin">Administrar Eventos Turísticos</a></li>
       </ul>
     </li>
     
@@ -28,27 +37,42 @@
     
     <li><a href="#">Lugares</a>
       <ul>
-        <li><a href="/lugares/listar_admin">Administrar Lugares</a></li>
         <li><a href="/lugares/form_registrar">Registrar Lugar</a></li>
+        <li><a href="/lugares/listar_admin">Administrar Lugares</a></li>
       </ul>
     </li>
-    
+
      <li><a href="#">Álbumes</a>
       <ul>
         <li><a href="/albums/formularioAlbum">Registrar Álbum</a></li>
-        <li><a href="/albums/form_registrar">Registrar Lugar</a></li>
+        <li><a href="/albums/listarAdmin">Administrar Álbum</a></li>
       </ul>
     </li>
     
     <li><a href="#">Colaboradores Empresariales</a>
       <ul>
-        <li><a href="/colaboradores/listaColaboradores">Administrar Colaboradores</a></li>
         <li><a href="/colaboradores/formColaborador">Crear Colaborador</a></li>
+        <li><a href="/colaboradores/listaColaboradores">Administrar Colaboradores</a></li>
       </ul>
     </li>
     
+    <li><a href="#">Clima</a>
+      <ul>
+        <li><a href="/climas/formClima">Crear Clima</a></li>
+        <li><a href="/climas/listaClima">Administrar Clima</a></li>
+      </ul>
+    </li>
+    
+    <li><a href="#">Calificaciones</a>
+  <ul>
+  <li><a href="/calificaciones/form_registrar">Registrar Calificación</a></li>
+<li><a href="/calificaciones/listarCalificacion">Listar Calificaciones</a></li>
+
+  </ul>
+</li>
+
   </ul>
 </div>
-
+    
 </body>
 </html>

@@ -8,8 +8,10 @@
  
 </head>
 <body>
-    <div>Modificar Empresa</div>
     
+    <div>Modificar Empresa</div>
+<div class="container">
+    <div>
     <form method="post" th:action="@{/colaboradores/modificarColaborador}">
         <input type="hidden" name="ide" th:value="${colaboradorEmpresarial.ide}" />
         Nombre de la Empresa: <input type="text" name="nombreEmpresa" th:value="${colaboradorEmpresarial.nombreEmpresa}" /><br />
@@ -22,5 +24,7 @@
         Redes Sociales: <input type="text" name="redesSociales" th:value="${colaboradorEmpresarial.redesSociales}" /><br />
         <input type="submit" value="Guardar cambios">
     </form>
+    </div>
+</div>
 </body>
 </html>

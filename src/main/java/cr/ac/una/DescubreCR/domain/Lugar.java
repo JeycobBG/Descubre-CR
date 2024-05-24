@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.domain;
 
 import jakarta.persistence.Entity;
@@ -9,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.time.LocalTime;
 
 /**
@@ -16,17 +14,20 @@ import java.time.LocalTime;
  * @author josue
  */
 @Entity
-@Table(name = "tb_lugar")
+@Table(name="tb_lugares")
 public class Lugar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String codigo;
+    private int id;
     
+    private String codigo;
     private String nombre;
     private String descripcion;
     private String categoria;
     private String dias_horario;
+    @Temporal(TemporalType.TIME)
     private LocalTime hora_apertura;
+    @Temporal(TemporalType.TIME)
     private LocalTime hora_cierre;
     private double precio_entrada;
     private String provincia;
@@ -34,7 +35,7 @@ public class Lugar {
     private String distrito;
     private String calidad_recepcion_telefonica;
     private String imagen;
-    
+
     public Lugar() {
     }
 
@@ -52,6 +53,14 @@ public class Lugar {
         this.distrito = distrito;
         this.calidad_recepcion_telefonica = calidad_recepcion_telefonica;
         this.imagen = imagen;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCodigo() {

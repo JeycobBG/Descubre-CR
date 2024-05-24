@@ -12,27 +12,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-   <div>
+   <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
         <h3 class="listado-titulo">Lista de artículos registrados</h3>
-        <form action="/articulos/buscarPorTituloAdmin" method="GET">
- 
-        <input type="text" id="titulo" name="titulo" placeholder="Ingrese el titulo">
-        <button type="submit">Buscar</button>
-        </form>
+
     </div>
+        <div class="botonYBuscador"> 
+            
         <div>
             <a href="/articulos/agregar" class="button">Agregar un nuevo artículo</a>
         </div>
-        <div> 
+            
+        <div class="campito"> 
             <a href="/articulos/listar" class="button">Vista de usuario regular</a>
         </div>
-        
+            
+        <form action="/articulos/buscarPorTituloAdmin" method="GET">
+        <input type="text" id="titulo" name="titulo" placeholder="Ingrese el titulo">
+        <button type="submit">Buscar</button>
+        </form>
+            
+        </div>
         <div>
             <table class="table table-bordered">
                 <tr>
                     <th>Identificación</th> 
                     <th>Título</th>
                      <th>Descripción</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -44,6 +53,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td><a class="editar-button" th:href="@{'/articulos/actualizar?id=' + ${articulo.idArticulo}}">Editar</a></td>
                     <td><a class="eliminar-button" href="#" th:onclick="'confirmarEliminacion(this, \'' + ${articulo.idArticulo} + '\')'">Eliminar</a></td>
                     <td><a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesArticulo(\'' + ${articulo.idArticulo} + '\')'">Ver Detalles</a></td>
+                    <td><a class="ver-opiniones" th:href="@{'/comentariosArticulo/listar?idArticulo=' + ${articulo.idArticulo}}" th:text="'Ver Opiniones'"></a></td>
+
                 </tr>
             </table>
            
@@ -52,7 +63,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros
             </p>
         
-                
                 <div>
                         <select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
                             <option th:each="item : ${opcionesCantidadPorPagina}" th:value="${item}"
@@ -81,7 +91,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </div>
          
-        <div id="verDetallesArticulo"></div>
+        <div id="verDetalles"></div>
         
         <script>
              function confirmarEliminacion(enlace, idArticulo) {

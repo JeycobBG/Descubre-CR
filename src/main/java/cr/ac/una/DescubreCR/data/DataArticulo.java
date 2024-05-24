@@ -20,7 +20,7 @@ import org.springframework.data.domain.Pageable;
  */
 public class DataArticulo extends ConectarDB{
     private static final String TB_ARTICULOS = "tb_articulo";
-    private static final String IDARTICULO = "id";
+    private static final String IDARTICULO = "id_articulo";
     private static final String IDENTIFICADOR = "identificador";
     private static final String TITULO = "titulo";
     private static final String TEMA = "tema";
@@ -31,7 +31,7 @@ public class DataArticulo extends ConectarDB{
     private static final String TEXTO_ARTICULO = "textoArticulo";
     
     public static void actualizar(Articulo articulo) throws SQLException {
-    String sql = "UPDATE " + TB_ARTICULOS + " SET " +IDENTIFICADOR+" = ?,"+ TITULO + " = ?, " + TEMA + " = ?, " +DESCRIPCION+" = ?, "+
+    String sql = "UPDATE " + TB_ARTICULOS + " SET " +IDENTIFICADOR+" = ?,"+ TITULO + " = ?, " + TEMA + " = ?, " +DESCRIPCION+" = ?,"+
             NOMBRE_AUTOR + " = ?, " + FECHA + " = ?, " + ACERCA_DEL_AUTOR + " = ?, " + 
             TEXTO_ARTICULO + " = ? WHERE " + IDARTICULO + " = ?";
     try (Connection conexion = conectar();
@@ -57,7 +57,7 @@ public class DataArticulo extends ConectarDB{
 }
 
     public static Articulo obtenerPorID(int idArticulo) throws SQLException {
-        String sql = "SELECT * FROM " + TB_ARTICULOS + " WHERE id = ?";
+        String sql = "SELECT * FROM " + TB_ARTICULOS + " WHERE id_articulo = ?";
         try (Connection conexion = conectar();
              PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setInt(1, idArticulo);
@@ -105,7 +105,7 @@ public class DataArticulo extends ConectarDB{
     }
 
     public boolean eliminar(int idArticulo) throws SQLException {
-    String sql = "DELETE FROM " + TB_ARTICULOS + " WHERE id = ?";
+    String sql = "DELETE FROM " + TB_ARTICULOS + " WHERE id_articulo = ?";
     Connection conexion = conectar();
     PreparedStatement statement = conexion.prepareStatement(sql);
     statement.setInt(1, idArticulo);
@@ -227,6 +227,7 @@ public class DataArticulo extends ConectarDB{
         ResultSet rs = selectStatement.executeQuery();
         while (rs.next()) {
             Articulo articulo = new Articulo();
+            articulo.setIdArticulo(rs.getInt(IDARTICULO));
             articulo.setIdentificador(rs.getString(IDENTIFICADOR));
             articulo.setTitulo(rs.getString(TITULO));
             articulo.setTema(rs.getString(TEMA));

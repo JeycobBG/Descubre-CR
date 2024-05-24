@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agregar Calificación</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: center;
+        }
+        form input[type="number"],
+        form input[type="date"],
+        form select,
+        form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        form select {
+            cursor: pointer;
+        }
+        form input[type="submit"] {
+            width: auto;
+            background-color: #008000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        form input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        /* Estilos para el mensaje de alerta */
+        .alerta {
+            background-color: #f44336; /* Color de fondo rojo */
+            color: white; /* Color del texto blanco */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none; /* Ocultar la alerta inicialmente */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Agregar Calificación</h1>
+    <div id="alerta" class="alerta" style="display: none;"></div>
+    
+    <form id="formCrearCalificacion" method="post" action="/calificaciones/form_registrar" onsubmit="return validarFormulario()">
+        <label for="puntuacion">Puntuación:</label>
+        <input type="number" name="puntuacion" min="1" max="5" required><br />
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" name="fecha" required><br />
+
+        <label for="categoria">Categoría:</label>
+        <select name="categoria">
+            <option value="Servicio al Cliente">Servicio al Cliente</option>
+            <option value="Calidad de las Instalaciones">Calidad de las Instalaciones</option>
+            <option value="Experiencia Gastronómica">Experiencia Gastronómica</option>
+            <option value="Entretenimiento y Actividades">Entretenimiento y Actividades</option>
+            <option value="Valor por el Dinero">Valor por el Dinero</option>
+            <option value="Ambiente y Atmosfera">Ambiente y Atmosfera</option>
+            <option value="Accesibilidad y Transporte">Accesibilidad y Transporte</option>
+        </select><br />
+
+        <label for="utilidad">Utilidad:</label>
+        <select name="utilidad">
+            <option value="Información Relevante">Información Relevante</option>
+            <option value="Actualización Reciente">Actualización Reciente</option>
+            <option value="Opinión Detallada">Opinión Detallada</option>
+            <option value="Respuestas a Preguntas">Respuestas a Preguntas</option>
+            <option value="Experiencia Verificada">Experiencia Verificada</option>
+            <option value="Interacción Social">Interacción Social</option>
+        </select><br />
+
+        <label for="tipo_usuario">Tipo de Usuario:</label>
+        <select name="tipo_usuario">
+            <option value="turista">Turista</option>
+            <option value="local">Local</option>
+        </select><br />
+
+        <label for="etiquetas_asociadas">Etiquetas Asociadas:</label>
+        <input type="text" name="etiquetas_asociadas" required><br />
+
+        <input type="submit" value="Enviar">   
+    </form>
+    
+    <!-- Elemento para mostrar la alerta -->
+    <div id="alerta" class="alerta"></div>
+</div>
+
+<script>
+    function validarFormulario() {
+        console.log('Validando formulario...');
+        var campos = document.querySelectorAll('form input, form select');
+        for (var i = 0; i < campos.length; i++) {
+            if (!campos[i].value) {
+                mostrarAlerta('Por favor, llene todos los campos.');
+                return false;
+            }
+        }
+        mostrarAlerta('Se creó correctamente la calificación.', true);
+        return true;
+    }
+
+    function mostrarAlerta(mensaje, esExito = false) {
+        var alerta = document.getElementById('alerta');
+        console.log('Mostrando alerta:', mensaje);
+        alerta.innerHTML = mensaje;
+        if (esExito) {
+            alerta.style.backgroundColor = '#4CAF50'; // Cambiar color de fondo a verde para éxito
+        } else {
+            alerta.style.backgroundColor = '#f44336'; // Cambiar color de fondo a rojo para error
+        }
+        alerta.style.display = 'block'; // Mostrar la alerta
+        setTimeout(function() {
+            alerta.style.display = 'none'; // Ocultar la alerta después de 3 segundos
+        }, 10000);
+    }
+</script>
+
+</body>
+</html>

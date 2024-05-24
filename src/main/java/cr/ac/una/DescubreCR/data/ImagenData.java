@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.data;
 
 import cr.ac.una.DescubreCR.domain.Imagen;
@@ -17,7 +13,7 @@ import java.util.ArrayList;
  * @author JEYCOB
  */
 public class ImagenData extends ConectarDB{
-    private static final String TBIMAGEN = "imagen";
+    private static final String TBIMAGEN = "tb_imagen";
     
     // guardar imagen
     public boolean insertar(Imagen img){

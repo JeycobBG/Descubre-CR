@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Actualizar Evento Turistico</title>
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+   
+    <h2>Actualizar Evento Turistico</h2>     
+    
+    <a href="/eventoTuristico/listarAdmin" class="boton-volver">
+    <img src="/img/volver.png" alt="Volver" width="20" height="20">
+    </a>    
+    
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+     <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
+ <div class="container">   
+     <div>
+        <form action="/eventoTuristico/actualizar-eventoTuristico" method="post">
+        <input type="hidden" id="id" th:field="${eventoTuristico.id}" /><br>
+
+        <label for="codigo">Código:</label><br>
+        <input type="text" id="codigo" th:field="${eventoTuristico.codigo}" /><br>
+        
+        <label for="nombreEvento">Nombre del Evento:</label><br>
+        <input type="text" id="nombreEvento" th:field="${eventoTuristico.nombreEvento}" /><br>
+
+        <label for="descripcion">Descripción:</label><br>
+        <input type="text" id="descripcion" th:field="${eventoTuristico.descripcion}" /><br>
+
+        <label for="fecha">Fecha:</label><br>
+        <input type="date" id="fecha" th:value="${eventoTuristico.fecha}" name="fecha" /><br>
+
+       <label for="lugar">Lugar:</label><br>
+       
+       <select id="lugar" name="lugar">
+    <option th:each="lugar : ${lugares}" 
+            th:value="${lugar.codigo}" 
+            th:text="${lugar.nombre}"
+            th:selected="${lugar.codigo == eventoTuristico.lugar.codigo}">
+    </option>
+</select><br>
+
+
+        <label for="titulo">Título:</label><br>
+        <input type="text" id="titulo" th:field="${eventoTuristico.titulo}" /><br>
+
+        <label for="nombreAutor">Nombre del autor:</label><br>
+        <input type="text" id="nombreAutor" th:field="${eventoTuristico.nombreAutor}" /><br>
+
+        <label for="horaInicial">Hora Inicial:</label><br>
+        <input type="time" id="horaInicial" th:value="${eventoTuristico.horaInicial}" name="horaInicial" /><br>
+
+        <label for="horaFinal">Hora Final:</label><br>
+        <input type="time" id="horaFinal" th:value="${eventoTuristico.horaFinal}" name="horaFinal" /><br>
+
+        <input type="submit" value="Actualizar">
+    </form>
+    </div>
+ </div>
+</body>
+</html>

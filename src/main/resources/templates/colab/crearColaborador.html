@@ -8,7 +8,8 @@
 </head>
 <body>
     <h2>Crear Nuevo Colaborador Empresarial</h2>
-
+<div class="container">
+    <div>
     <form id="formCrearColaborador" action="/colaboradores/crearColaborador" method="get" onsubmit="return validarFormulario()">
         <label for="nombreEmpresa">Nombre de la Empresa:</label>
         <input type="text" id="nombreEmpresa" name="nombreEmpresa" required><br>
@@ -35,6 +36,8 @@
 
         <input type="submit" value="Registrarse">
     </form>
+    </div>
+</div>
 
     <script>
         function validarFormulario() {

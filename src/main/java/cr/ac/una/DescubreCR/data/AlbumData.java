@@ -20,7 +20,7 @@ import org.springframework.data.domain.Pageable;
  * @author JEYCOB
  */
 public class AlbumData extends ConectarDB{
-    private static final String TBALBUM = "album";
+    private static final String TBALBUM = "tb_album";
     
     public boolean insertar(Album album) throws SQLException{
         String sql = "INSERT INTO "+ TBALBUM + " (nombreAutor,provincia,"

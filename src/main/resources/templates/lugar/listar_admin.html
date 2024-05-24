@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
@@ -9,22 +9,33 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
     </head>
     <body>
-        <div>
-            <h3 class="listado-titulo">Lista de lugares registrados</h3>
+     <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
+        <h3 class="listado-titulo">Lista de lugares registrados</h3>
+    </div>
+        <div class="botonYBuscador">
+            
+            <div>
+                <a href="./form_registrar" class="button">Agregar un nuevo lugar</a>
+            </div>
+
+            <div class="campito"> 
+                <a href="./listar" class="button">Vista de usuario regular</a>
+            </div>
+
             <form method="get" th:action="@{/lugares/consulta_buscarAdmin}" enctype="multipart/form-data">
-                <input type="text" name="nombre" placeholder="Ingrese el nombre del lugar" required>
-                 <button type="submit">Buscar</button>
+                    <input type="text" name="nombre" placeholder="Ingrese el nombre del lugar" required>
+                    <button type="submit">Buscar</button>
             </form>
+            
         </div>
-        <div>
-            <a href="./form_registrar" class="button">Agregar un nuevo lugar</a>
-        </div>
-         <div> 
-            <a href="./listar" class="button">Vista de usuario regular</a>
-        </div>
+       
         <div>
             <table class="table table-bordered">
                 <tr>
@@ -33,13 +44,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
+                  
                 </tr>
                 <tr th:each="lugar:${pagina.content}">
                     <td th:text="${lugar.codigo}"></td>
                     <td th:text="${lugar.nombre}"></td>
-                    <td><a class="editar-button" th:href="@{'/lugares/consulta_actualizar?codigo=' + ${lugar.codigo}}" th:text="'Editar'"></a></td>
-                    <td><a class="eliminar-button" th:href="@{'/lugares/consulta_eliminar?codigo=' + ${lugar.codigo}}" th:text="'Eliminar'"></a></td>
-                    <td><a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesLugar(\'' + ${lugar.codigo} + '\')'">Ver Detalles</a></td>
+                    <td><a class="editar-button"th:href="@{'/lugares/consulta_actualizar?codigo=' + ${lugar.codigo}}" th:text="'Editar'"></a></td>
+                    <td>
+                        <a class="eliminar-button" href="#"
+                        th:data-codigo="${lugar.codigo}"
+                        th:data-url-eliminar="@{/lugares/consulta_eliminar?codigo=}"
+                        th:data-url-listar="@{/lugares/listar_admin}"
+                        onclick="eliminar(this)">Eliminar</a>
+                    </td>
+                    <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(\'' + ${lugar.codigo} + '\')'">Ver Detalles</a></td>
+                    <td><a class="ver-opiniones" th:href="@{'/comentariosLugar/listar?codigoLugar=' + ${lugar.codigo}}" th:text="'Ver Opiniones'"></a></td>
                 </tr>
             </table>
             
@@ -56,31 +76,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </div>
 
                     <ul class="pagination mb-0">
-                        <!-- Enlace "Primera" -->
                         <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
                                 <a class="page-link" th:href="@{(${nombre} != null) ? '/lugares/consulta_buscarAdmin?nombre=' + ${nombre} + '&page=0&size=' + ${pagina.size} : '/lugares/listar_admin' + '?page=0&size=' + ${pagina.size}}">Primera</a>
                         </li>
 
-                        <!-- Enlace "Anterior" -->
                         <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
                             <a class="page-link" th:with="prevPag=${pagina.number-1}"
                                th:href="@{(${nombre} != null) ? '/lugares/consulta_buscarAdmin?nombre=' + ${nombre} + '&page=' + ${prevPag} + '&size=' + ${pagina.size} : '/lugares/listar_admin' +  '?page=' + ${prevPag} + '&size=' + ${pagina.size}}">Anterior</a>
                         </li>
 
-                        <!-- Enlaces de números de página -->
                         <li class="page-item" th:each="i : ${numPaginas}" 
                             th:classappend="${i == pagina.number + 1} ? 'active' : ''">
                             <a class="page-link" th:with="pagNum=${i-1}"
                                 th:href="@{(${nombre} != null) ? '/lugares/consulta_buscarAdmin?nombre=' + ${nombre} + '&page=' + ${pagNum} + '&size=' + ${pagina.size} : '/lugares/listar_admin' +  '?page=' + ${pagNum} + '&size=' + ${pagina.size}}" th:text="${i}"></a>
                         </li>
 
-                        <!-- Enlace "Siguiente" -->
                         <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
                             <a class="page-link" th:with="sigPag=${pagina.number+1}"
                                th:href="@{(${nombre} != null) ? '/lugares/consulta_buscarAdmin?nombre=' + ${nombre} + '&page=' + ${sigPag} + '&size=' + ${pagina.size} : '/lugares/listar_admin' +  '?page=' + ${sigPag} + '&size=' + ${pagina.size}}">Siguiente</a>
                         </li>
 
-                        <!-- Enlace "Última" -->
                         <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
                             <a class="page-link" th:with="ultPag=${pagina.totalPages-1}"
                                th:href="@{(${nombre} != null) ? '/lugares/consulta_buscarAdmin?nombre=' + ${nombre} + '&page=' + ${ultPag} + '&size=' + ${pagina.size} : '/lugares/listar_admin' +  '?page=' + ${ultPag} + '&size=' + ${pagina.size}}">Última</a>
@@ -92,6 +107,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         
         <div id="verDetalles"></div>
         
+        <div id="alert-messages" 
+            th:data-exito="${exito != null ? exito : ''}" 
+            th:data-error="${error != null ? error : ''}">
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
         <script>
             function cambiarPagTam(){
                 const pageSize = document.getElementById("pageSize").value;
@@ -108,13 +130,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 
                 window.location.href = url;
             }
-      </script>
+        </script>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
-        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
-        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
-  
     </body>
 </html>

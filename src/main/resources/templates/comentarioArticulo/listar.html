@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmls:th="http://thymeleaf.org">
+    <head>
+        <title>Administrar Comentarios de Artículo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css"> 
+    </head>
+    <body>
+        <div class="encabezado">
+        <a href="/usuarios/menuPrincipal" class="boton-volver">
+        <img src="/img/LOGO.png" alt="Volver" width="95" height="80">
+        </a>
+        <h3 class="listado-titulo">Administrar comentarios</h3>
+        </div>
+        
+        <div th:if="${!paginaComentarios.content.isEmpty()}">
+            <form method="get" th:action="@{/comentariosArticulo/buscar}" enctype="multipart/form-data">
+                <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
+                <input type="hidden" name="idArticulo" th:value="${articulo.idArticulo}">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+        <div th:if="${!paginaComentarios.content.isEmpty()}">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Usuario</th> 
+                    <th>Fecha</th>
+                    <th>Etiquetas</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr th:each="comentario:${paginaComentarios.content}">
+                    <td th:text="${comentario.nombreUsuario}"></td>
+                    <td th:text="${comentario.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}"></td>
+                    <td th:text="${comentario.etiquetas}"></td>
+                    <td><a class="editar-button" th:href="@{'/comentariosArticulo/actualizar?codigo=' + ${comentario.codigo}}" th:text="'Editar'"></a></td>
+                    <td>
+                        <a class="eliminar-button" href="#"
+                        th:data-codigo="${comentario.codigoComentario}"
+                        th:data-url-eliminar="@{'/comentariosArticulo/eliminar?idArticulo=' + ${comentario.articulo.idArticulo} + '&codigo='}"
+                        th:data-url-listar="@{'/comentariosArticulo/listar?idArticulo=' + ${comentario.articulo.idArticulo}}"
+                        onclick="eliminar(this)">Eliminar</a>
+                    </td>
+                    <td><a class="eliminar-button" href="#" th:data-codigo-articulo="${comentario.articulo.idArticulo}" th:data-codigo="${comentario.codigo}">Eliminar</a></td>
+                    <td><a class="ver-detalles"href="#" th:attr="onclick='cargarDetallesComentarioArticulo(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
+                </tr>
+            </table>
+            
+            <div class="pagination-container"> 
+                <p>
+                    Mostrando <span th:text="${paginaComentarios.size}"></span> de <span th:text="${paginaComentarios.totalElements}"></span> comentarios
+                </p>
+                <nav aria-label="Page navigation" class="d-flex justify-content-between"> 
+                    <ul class="pagination mb-0">
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
+                            <a class="page-link" th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=0&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
+                            <a class="page-link" th:with="prevPag=${paginaComentarios.number-1}"
+                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
+                        </li>
+                        
+                        <li class="page-item" th:each="i : ${numPaginas}" 
+                            th:classappend="${i == paginaComentarios.number + 1} ? 'active' : ''">
+                            <a class="page-link" th:with="pagNum=${i-1}"
+                                th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
+                            <a class="page-link" th:with="sigPag=${paginaComentarios.number+1}"
+                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
+                            <a class="page-link" th:with="ultPag=${paginaComentarios.totalPages-1}"
+                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div th:if="${paginaComentarios.content.isEmpty()}"> 
+            <p th:text="'Aún no se han hecho comentarios sobre el artículo ' + ${articulo.titulo} + '.'"></p>
+        </div>
+        
+        <div id="verDetalles"></div>
+        
+        <div id="alert-messages" 
+            th:data-exito="${exito != null ? exito : ''}" 
+            th:data-error="${error != null ? error : ''}">
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
+        <script>
+        
+            function cambiarPagTam(){
+                const pageSize = document.getElementById("pageSize").value;
+                const currentPage = [[${paginaComentarios.number}]];
+
+                // Verificar si el nombre existe
+                const nombre = "[[${nombre}]]";
+                const articulo = "[[${articulo}]]";
+                let url = "";
+                if (nombre.trim() !== "") {
+                    url = "/comentariosArticulo/consulta_buscar?nombre=" + nombre + "&page=" + currentPage + "&size=" + pageSize;
+                } else {
+                    url = "?articulo=" + lugar + "?page=" + currentPage + "&size=" + pageSize;
+                }
+
+                window.location.href = url;
+            }
+        </script>
+
+    </body>
+</html>

@@ -135,7 +135,7 @@ public class ColaboradorController {
         @RequestParam("redesSociales") String redesSociales){
         
         System.out.println("hola 1= ");
-        String vista = "redirect:/index";
+
          ColaboradorEmpresarial cola = new ColaboradorEmpresarial(ide,
         nombreEmpresa,descripcionEmpresa,direccionEmpresa,
                 telefonoEmpresa,sitioWeb,estadoAprobacion,
@@ -152,7 +152,7 @@ public class ColaboradorController {
         System.out.println("Proceso listo y modificado = " + modificado);
         
         if(modificado) {
-             return vista;
+             return "redirect:/colaboradores/listaColaboradores";
         } else {
             return "error";
         }
