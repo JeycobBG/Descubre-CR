@@ -18,7 +18,7 @@ public interface IUbicacionService {
     
     public Ubicacion getUbicacionById(String id);
     
-    public Ubicacion getUbicacionByLugar(Lugar lugar);
+    public Ubicacion getUltimaUbicacion();
     
     public void eliminar(String id);
 }

@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 checkbox.checked = true;
             }
         });
-        
-        seleccionarOptionPorLabel(provinciaSelect, lugar.provincia);
+        const ubicacion = lugar.ubicacion;
+        seleccionarOptionPorLabel(provinciaSelect, ubicacion.nombreProvincia);
         cargarCantones();
-        seleccionarOptionPorLabel(cantonSelect, lugar.canton);
+        seleccionarOptionPorLabel(cantonSelect, ubicacion.canton);
         cargarDistritos();
-        seleccionarOptionPorLabel(distritoSelect, lugar.distrito);
+        seleccionarOptionPorLabel(distritoSelect, ubicacion.distrito);
 
     }else{
         cargarCantones();

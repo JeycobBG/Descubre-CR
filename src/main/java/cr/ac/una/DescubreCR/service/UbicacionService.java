@@ -38,8 +38,8 @@ public class UbicacionService implements IUbicacionService{
     }
     
     @Override
-    public Ubicacion getUbicacionByLugar(Lugar lugar){
-        return ubicacionRepo.findByLugarTuristico(lugar);
+    public Ubicacion getUltimaUbicacion(){
+        return ubicacionRepo.findLastUbicacion();
     }
     
     @Override

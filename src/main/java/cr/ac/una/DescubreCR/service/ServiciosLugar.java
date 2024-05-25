@@ -41,6 +41,10 @@ public class ServiciosLugar {
         return new DataLugar().consultarPorNombre(pageable, nombre);
     }
     
+    public static boolean reguardarPorID(Lugar lugar) throws SQLException{
+        return new DataLugar().actualizarPorID(lugar);
+    }
+    
     public static boolean reguardar(Lugar lugar) throws SQLException{
         return new DataLugar().actualizar(lugar);
     }
@@ -49,4 +53,7 @@ public class ServiciosLugar {
         return new DataLugar().getCategorias();
     }
     
+    public static int getUltimoLugar(String ultimo_id_ubicacion){
+        return new DataLugar().getUltimoLugar(ultimo_id_ubicacion);
+    }
 }

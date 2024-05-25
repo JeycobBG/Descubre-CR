@@ -5,6 +5,7 @@ function cargarDetallesLugar(codigo) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                var response = JSON.parse(xhr.responseText);
+               var ubicacion = response.ubicacion;
                var detallesHtml = `
                     <h2>DETALLES DEL LUGAR</h2>
                     <h4>${response.nombre}</h4>
@@ -16,9 +17,9 @@ function cargarDetallesLugar(codigo) {
                     <p><strong>Horario de apertura:</strong> <span>${response.hora_apertura}</span></p>
                     <p><strong>Horario de cierre:</strong> <span>${response.hora_cierre}</span></p>
                     <p><strong>Precio de la entrada:</strong> <span>${response.precio_entrada}</span></p>
-                    <p><strong>Provincia:</strong> <span>${response.provincia}</span></p>
-                    <p><strong>Cantón:</strong> <span>${response.canton}</span></p>
-                    <p><strong>Distrito:</strong> <span>${response.distrito}</span></p>
+                    <p><strong>Provincia:</strong> <span>${ubicacion.nombreProvincia}</span></p>
+                    <p><strong>Cantón:</strong> <span>${ubicacion.canton}</span></p>
+                    <p><strong>Distrito:</strong> <span>${ubicacion.distrito}</span></p>
                     <p><strong>Calidad de la recepción telefónica:</strong> <span>${response.calidad_recepcion_telefonica}</span></p>
                 `;
                 document.getElementById("verDetalles").innerHTML = detallesHtml;

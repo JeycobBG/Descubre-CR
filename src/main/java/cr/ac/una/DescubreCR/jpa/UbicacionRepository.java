@@ -1,8 +1,8 @@
 
 package cr.ac.una.DescubreCR.jpa;
-import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.domain.Ubicacion;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface UbicacionRepository extends JpaRepository<Ubicacion, Integer>{
-
-    public Ubicacion findByLugarTuristico(Lugar lugar);
+    @Query("SELECT u FROM Ubicacion u ORDER BY u.id DESC LIMIT 1")
+    public Ubicacion findLastUbicacion();
 }

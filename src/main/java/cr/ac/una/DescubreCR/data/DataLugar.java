@@ -14,6 +14,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import org.springframework.data.domain.Pageable;
  */
 public class DataLugar extends ConectarDB{
     private static final String TBLUGARES = "tb_lugares";
+    private static final String TBUBICACION = "tb_ubicacion";
     private static final String CODIGO = "codigo";
     private static final String NOMBRE = "nombre";
     private static final String DESCRIPCION = "descripcion";
@@ -73,6 +76,28 @@ public class DataLugar extends ConectarDB{
         return resultado==1;
     }
     
+    public int getUltimoLugar(String ultimo_id_ubicacion){
+        String sql_ubicacion = "SELECT u.lugar FROM tb_ubicacion u WHERE u.id = ?";
+        Connection conexion = conectar();
+        
+        PreparedStatement statement;
+        try {
+            statement = conexion.prepareStatement(sql_ubicacion);
+            
+            statement.setString(1, ultimo_id_ubicacion);
+            
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                setId_lugar(rs.getString("lugar"));
+                System.out.println("ultimo id Lugar insertado: " + getId_lugar());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return Integer.parseInt(getId_lugar());
+    }   
     public LinkedList<Lugar> listar() throws SQLException{
         LinkedList<Lugar> lugares = new LinkedList();
         String sql = "SELECT * FROM " + TBLUGARES + ";";
@@ -91,7 +116,7 @@ public class DataLugar extends ConectarDB{
             lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
-            lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
+ 
             lugares.add(lugar);
         }
         
@@ -127,7 +152,6 @@ public class DataLugar extends ConectarDB{
         lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
         lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
         lugar.setImagen(rs.getString(IMAGENES));
-        lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
         
         lugares.add(lugar);
     }
@@ -151,8 +175,15 @@ public class DataLugar extends ConectarDB{
     
     public Lugar consultarEspPorCodigo(String codigo) throws SQLException{
         Lugar lugar = new Lugar();
+        Ubicacion ubicacion = new Ubicacion();
         
-        String sql = "SELECT * FROM " + TBLUGARES + " WHERE " + CODIGO + " = ?;";
+        String sql = "SELECT "
+                + " L.id,L.codigo,L.nombre,L.descripcion,L.categoria,L.dias_horario,"
+                + " L.hora_apertura,L.hora_cierre,L.precio_entrada,L.calidad_recepcion_telefonica,"
+                + " L.imagen,U.id,U.canton,U.distrito,U.nombre_provincia,U.direccion"
+                + " FROM " + TBLUGARES + " L" 
+                + " INNER JOIN " + TBUBICACION + " U ON L.ubicacion = U.id"
+                + " WHERE " + CODIGO + " = ?";
         Connection conexion = conectar();
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setString(1, codigo);
@@ -169,8 +200,16 @@ public class DataLugar extends ConectarDB{
             lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
-            lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
-            lugar.setId(rs.getInt("ID"));
+            // Datos de la ubicacion ---
+            
+            ubicacion.setId(rs.getInt("id"));
+            ubicacion.setNombreProvincia(rs.getString("nombre_provincia"));
+            ubicacion.setCanton(rs.getString("canton"));
+            ubicacion.setDistrito(rs.getString("distrito"));
+            ubicacion.setDireccion(rs.getString("direccion"));
+            
+            lugar.setUbicacion(ubicacion);
+            lugar.setId(rs.getInt("id"));
         }
         
         return lugar;
@@ -195,7 +234,7 @@ public class DataLugar extends ConectarDB{
             lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
-            lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
+            //lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
         }
         
         return lugar;
@@ -238,6 +277,43 @@ public class DataLugar extends ConectarDB{
     
     return new PageImpl<>(lugares, pageable, total);
 }
+    
+    public boolean actualizarPorID(Lugar lugar) throws SQLException {
+        String sql = "UPDATE " + TBLUGARES + " SET " +
+                     NOMBRE + " = ?," +
+                     DESCRIPCION + " = ?," +
+                     CATEGORIA + " = ?," +
+                     DIAS_HORARIO + " = ?," +
+                     HORA_APERTURA + " = ?," +
+                     HORA_CIERRE + " = ?," +
+                     PRECIO_ENTRADA + " = ?," +
+                     CALIDAD_RECEP + " = ?," +
+                     IMAGENES + " = ?, " +
+                     UBICACION + " = ?, " +
+                     CODIGO + " = ? " +
+                     "WHERE id = ?";
+
+        Connection conexion = conectar();
+        PreparedStatement statement = conexion.prepareStatement(sql);
+        statement.setString(1, lugar.getNombre());
+        statement.setString(2, lugar.getDescripcion());
+        statement.setString(3, lugar.getCategoria());
+        statement.setString(4, lugar.getDias_horario());
+        statement.setTime(5, Time.valueOf(lugar.getHora_apertura()));
+        statement.setTime(6, Time.valueOf(lugar.getHora_cierre()));
+        statement.setDouble(7, lugar.getPrecio_entrada());
+        statement.setString(8, lugar.getCalidad_recepcion_telefonica());
+        statement.setString(9, lugar.getImagen());
+        statement.setString(10, String.valueOf(lugar.getUbicacion().getId()));
+        statement.setString(11, String.valueOf(lugar.getCodigo()));
+        statement.setString(12, String.valueOf(lugar.getId()));
+        
+        int resultado = statement.executeUpdate();
+        statement.close();
+        conexion.close();
+
+        return resultado==1;
+    }   
     
     public boolean actualizar(Lugar lugar) throws SQLException {
         String sql = "UPDATE " + TBLUGARES + " SET " +

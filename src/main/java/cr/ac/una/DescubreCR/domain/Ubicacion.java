@@ -1,6 +1,7 @@
 
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,7 +51,7 @@ public class Ubicacion {
     @JoinColumn(name = "provincia")
     private Provincia provincia;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lugar")
     private Lugar lugarTuristico;
     

@@ -62,7 +62,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 
                     <label for="precio_entr"><b>Precio de entrada:</b></label>
                     <input type="number" name="precio_entr" required th:value="${lugar.precio_entrada}" style="width:250px"><br />
-
+                    
+                    <input th:value="${ubicacion.id}" name="id_Ubicacion" id="id_Ubicacion" style="display: none;"/>
+                    
                     <label for="provincia"><b>Seleccione una provincia:</b></label>
                     <select name="provincia" id="provincia" required> </select><br>
 
@@ -71,6 +73,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 
                     <label for="distrito"><b>Seleccione un distrito:</b></label>
                     <select name="distrito" id="distrito" required> </select><br>
+                    
+                    <p><b>Cuéntanos sobre la Ubicación del Lugar</b></p><br>
+                    <label for="direccion">Ingresa la dirección lo más exacta posible:</label><br>
+                    <textarea id="direccion" name="direccion" th:text="${ubicacion.direccion}" rows="5" cols="60" required minlength="4" maxlength="100"></textarea>
+                    <br>
                     
                     <label for="calidad_recep"><b>Calidad de la recepción telefónica:</b></label>
                     <select name="calidad_recep" required th:value="${lugar.calidad_recepcion_telefonica}">

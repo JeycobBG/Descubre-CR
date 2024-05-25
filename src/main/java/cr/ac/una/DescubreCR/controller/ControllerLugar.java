@@ -99,17 +99,6 @@ public class ControllerLugar {
                 }
             }
 
-            lugar.setCodigo(codigo);
-            lugar.setNombre(nombre);
-            lugar.setDescripcion(descripcion);
-            lugar.setCategoria(categoria);
-            lugar.setDias_horario(dias_horarioStr);
-            lugar.setHora_apertura(horaApertura);
-            lugar.setHora_cierre(horaCierre);
-            lugar.setPrecio_entrada(precio_entrada);
-            lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
-            ServiciosLugar.insertar(lugar);
-            
             Ubicacion ubicacion = new Ubicacion();
         
             ubicacion.setNombreAutor("AutorDeVariableGlobal");
@@ -122,8 +111,25 @@ public class ControllerLugar {
             ubicacion.setLugarTuristico(ServiciosLugar.consultarEspPorCodigo(codigo));
             
             ubicacionService.guardar(ubicacion);
-            lugar.setUbicacion(ubicacionService.getUbicacionByLugar(ubicacion.getLugarTuristico()));
-            ServiciosLugar.reguardar(lugar);
+            
+            lugar.setCodigo(codigo);
+            lugar.setNombre(nombre);
+            lugar.setDescripcion(descripcion);
+            lugar.setCategoria(categoria);
+            lugar.setDias_horario(dias_horarioStr);
+            lugar.setHora_apertura(horaApertura);
+            lugar.setHora_cierre(horaCierre);
+            lugar.setPrecio_entrada(precio_entrada);
+            lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
+            //ServiciosLugar.insertar(lugar);
+            lugar.setUbicacion(ubicacionService.getUltimaUbicacion());
+            int ultima_ubicacion = lugar.getUbicacion().getId();
+            System.out.println("ubicacion: " + ultima_ubicacion);
+            
+            int ultimoLugar = ServiciosLugar.getUltimoLugar(String.valueOf(ultima_ubicacion));
+            lugar.setId(ultimoLugar);
+            
+            ServiciosLugar.reguardarPorID(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
         
@@ -190,6 +196,8 @@ public class ControllerLugar {
     @GetMapping("/consulta_actualizar")
     public String formularioActualizar(@RequestParam("codigo") String codigo, Model modelo, RedirectAttributes flash) throws SQLException, JsonProcessingException{
         Lugar lugar_editar = ServiciosLugar.consultarEspPorCodigo(codigo);
+        Ubicacion ubicacion = lugar_editar.getUbicacion();
+        modelo.addAttribute("ubicacion", ubicacion);
         modelo.addAttribute("categorias", ServiciosLugar.getCategorias());
         
         if(lugar_editar.getCodigo()!=null){
@@ -272,6 +280,11 @@ public class ControllerLugar {
         
             ubicacion.setId(Integer.parseInt(id));
             ubicacion.setNombreAutor("AutorDeVariableGlobal");
+            
+            System.out.println("provincia: " + provincia);
+            System.out.println("canton: " + canton);
+            System.out.println("distrito: " + distrito);
+            
             ubicacion.setDireccion(direccion);
             ubicacion.setNombreProvincia(provincia);
             ubicacion.setCanton(canton);
@@ -280,7 +293,7 @@ public class ControllerLugar {
             ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
 
             ubicacionService.guardar(ubicacion);
-            
+            lugar.setUbicacion(ubicacion);
             ServiciosLugar.reguardar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }
@@ -343,7 +356,11 @@ public class ControllerLugar {
     @GetMapping("/consulta_individual")
     public String infoIndividual(@RequestParam("codigo") String codigo, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
         Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigo);
+        Ubicacion ubicacion = lugar.getUbicacion();
         
+        
+        
+        modelo.addAttribute("ubicacion", ubicacion);
         modelo.addAttribute("lugar", lugar);
         modelo.addAttribute("paginaComentarios", comentariosLugarServ.listar(pageable, lugar.getId()));
         
