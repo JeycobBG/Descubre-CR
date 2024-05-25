@@ -39,19 +39,13 @@ public class DataLugar extends ConectarDB{
     public boolean insertar(Lugar lugar) throws SQLException{
          String sql = "INSERT INTO " + TBLUGARES + "(" + CODIGO + "," + NOMBRE + "," + DESCRIPCION + "," + CATEGORIA
                 + "," + DIAS_HORARIO + "," + HORA_APERTURA + "," + HORA_CIERRE + "," + PRECIO_ENTRADA 
-                + "," + CALIDAD_RECEP + "," + IMAGENES + "," + UBICACION 
-                +") VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                + "," + CALIDAD_RECEP + "," + IMAGENES
+                +") VALUES (?,?,?,?,?,?,?,?,?,?)";
         
-        String sql_ubicacion = "SELECT LAST_INSERT_ID() as id_ubicacion FROM tb_ubicacion";
+        String sql_ubicacion = "SELECT LAST_INSERT_ID() as id_lugar";
          
         Connection conexion = conectar();
         
-        PreparedStatement sentencia = conexion.prepareStatement(sql_ubicacion);
-        ResultSet rs = sentencia.executeQuery();
-        if (rs.next()) {
-            setId_ubicacion(rs.getString("id_ubicacion"));
-            System.out.println("ultimo id Ubicacion insertado: " + getId_ubicacion());
-        }
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setString(1, lugar.getCodigo());
         statement.setString(2, lugar.getNombre());
@@ -63,9 +57,16 @@ public class DataLugar extends ConectarDB{
         statement.setDouble(8, lugar.getPrecio_entrada());
         statement.setString(9, lugar.getCalidad_recepcion_telefonica());
         statement.setString(10, lugar.getImagen());
-        statement.setString(11, getId_ubicacion());
+        //statement.setString(11, getId_ubicacion());
         
         int resultado = statement.executeUpdate();
+       
+        ResultSet rs = statement.executeQuery(sql_ubicacion);
+        if (rs.next()) {
+            setId_lugar(rs.getString("id_lugar"));
+            System.out.println("ultimo id Lugar insertado: " + getId_lugar());
+        }
+        
         statement.close();
         conexion.close();
         
@@ -248,7 +249,8 @@ public class DataLugar extends ConectarDB{
                      HORA_CIERRE + " = ?," +
                      PRECIO_ENTRADA + " = ?," +
                      CALIDAD_RECEP + " = ?," +
-                     IMAGENES + " = ? " +
+                     IMAGENES + " = ?, " +
+                     UBICACION + " = ? " +
                      "WHERE " + CODIGO + " = ?";
 
         Connection conexion = conectar();
@@ -262,7 +264,8 @@ public class DataLugar extends ConectarDB{
         statement.setDouble(7, lugar.getPrecio_entrada());
         statement.setString(8, lugar.getCalidad_recepcion_telefonica());
         statement.setString(9, lugar.getImagen());
-        statement.setString(10, lugar.getCodigo());
+        statement.setString(10, String.valueOf(lugar.getUbicacion().getId()));
+        statement.setString(11, lugar.getCodigo());
         
         int resultado = statement.executeUpdate();
         statement.close();

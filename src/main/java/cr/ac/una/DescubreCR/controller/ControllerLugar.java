@@ -108,6 +108,7 @@ public class ControllerLugar {
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
+            ServiciosLugar.insertar(lugar);
             
             Ubicacion ubicacion = new Ubicacion();
         
@@ -118,11 +119,11 @@ public class ControllerLugar {
             ubicacion.setDistrito(distrito);
             ubicacion.setFechaCreacion(LocalDate.now());
             ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
-
-            ubicacionService.guardar(ubicacion);
+            ubicacion.setLugarTuristico(ServiciosLugar.consultarEspPorCodigo(codigo));
             
-            lugar.setUbicacion(ubicacion);
-            ServiciosLugar.insertar(lugar);
+            ubicacionService.guardar(ubicacion);
+            lugar.setUbicacion(ubicacionService.getUbicacionByLugar(ubicacion.getLugarTuristico()));
+            ServiciosLugar.reguardar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
         

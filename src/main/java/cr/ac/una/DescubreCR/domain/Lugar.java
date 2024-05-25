@@ -34,7 +34,7 @@ public class Lugar {
     private double precio_entrada;
     private String calidad_recepcion_telefonica;
     private String imagen;
-    @OneToOne(mappedBy = "lugarTuristico", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "lugarTuristico")
     private Ubicacion ubicacion;
     public Lugar() {
     }

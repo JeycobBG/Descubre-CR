@@ -1,6 +1,7 @@
 
 package cr.ac.una.DescubreCR.service;
 
+import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.domain.Ubicacion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public interface IUbicacionService {
     public Page<Ubicacion> getUbicaciones(Pageable pageable);
     
     public Ubicacion getUbicacionById(String id);
+    
+    public Ubicacion getUbicacionByLugar(Lugar lugar);
     
     public void eliminar(String id);
 }

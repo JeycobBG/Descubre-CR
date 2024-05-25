@@ -1,6 +1,7 @@
 
 package cr.ac.una.DescubreCR.service;
 
+import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.domain.Ubicacion;
 import cr.ac.una.DescubreCR.jpa.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class UbicacionService implements IUbicacionService{
     @Override
     public Ubicacion getUbicacionById(String id){
         return ubicacionRepo.getReferenceById(Integer.valueOf(id));
+    }
+    
+    @Override
+    public Ubicacion getUbicacionByLugar(Lugar lugar){
+        return ubicacionRepo.findByLugarTuristico(lugar);
     }
     
     @Override

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConectarDB {
     private static String id_album;
     private static String id_imagen;
-    private static String id_ubicacion;
+    private static String id_lugar;
     
     private final static String databaseName = "bd_descubrecr";
     private final static String user = "root";
@@ -59,11 +59,11 @@ public class ConectarDB {
         ConectarDB.id_imagen = id_imagen;
     }
     
-    public String getId_ubicacion() {
-        return id_ubicacion;
+    public String getId_lugar() {
+        return id_lugar;
     }
 
-    public void setId_ubicacion(String id_ubicacion) {
-        ConectarDB.id_ubicacion = id_ubicacion;
+    public void setId_lugar(String id_lugar) {
+        ConectarDB.id_lugar = id_lugar;
     }
 }
