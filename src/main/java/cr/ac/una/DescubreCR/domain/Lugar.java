@@ -1,9 +1,11 @@
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -30,16 +32,14 @@ public class Lugar {
     @Temporal(TemporalType.TIME)
     private LocalTime hora_cierre;
     private double precio_entrada;
-    private String provincia;
-    private String canton;
-    private String distrito;
     private String calidad_recepcion_telefonica;
     private String imagen;
-
+    @OneToOne(mappedBy = "lugarTuristico", cascade = CascadeType.ALL)
+    private Ubicacion ubicacion;
     public Lugar() {
     }
 
-    public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String provincia, String canton, String distrito, String calidad_recepcion_telefonica, String imagen) {
+    public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String calidad_recepcion_telefonica, String imagen) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -48,9 +48,6 @@ public class Lugar {
         this.hora_apertura = hora_apertura;
         this.hora_cierre = hora_cierre;
         this.precio_entrada = precio_entrada;
-        this.provincia = provincia;
-        this.canton = canton;
-        this.distrito = distrito;
         this.calidad_recepcion_telefonica = calidad_recepcion_telefonica;
         this.imagen = imagen;
     }
@@ -127,30 +124,6 @@ public class Lugar {
         this.precio_entrada = precio_entrada;
     }
 
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getCanton() {
-        return canton;
-    }
-
-    public void setCanton(String canton) {
-        this.canton = canton;
-    }
-
-    public String getDistrito() {
-        return distrito;
-    }
-
-    public void setDistrito(String distrito) {
-        this.distrito = distrito;
-    }
-
     public String getCalidad_recepcion_telefonica() {
         return calidad_recepcion_telefonica;
     }
@@ -166,5 +139,12 @@ public class Lugar {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-    
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
 }

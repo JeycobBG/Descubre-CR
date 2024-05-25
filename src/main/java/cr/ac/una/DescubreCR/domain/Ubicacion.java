@@ -8,12 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  *
@@ -40,7 +39,7 @@ public class Ubicacion {
     @Column(nullable = false)
     private String distrito;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String nombreAutor;
     
     @Column(nullable = false)
@@ -51,14 +50,14 @@ public class Ubicacion {
     @JoinColumn(name = "provincia")
     private Provincia provincia;
     
-    @OneToMany
-    @JoinColumn(name = "ubicacion")
-    private List<Lugar> lugarTuristico;
+    @OneToOne
+    @JoinColumn(name = "lugar")
+    private Lugar lugarTuristico;
     
     
     public Ubicacion(){}
 
-    public Ubicacion(int id, String direccion, String nombreProvincia, String canton, String distrito, String nombreAutor, LocalDate fechaCreacion, Provincia provincia, List<Lugar> lugarTuristico) {
+    public Ubicacion(int id, String direccion, String nombreProvincia, String canton, String distrito, String nombreAutor, LocalDate fechaCreacion, Provincia provincia, Lugar lugarTuristico) {
         this.id = id;
         this.direccion = direccion;
         this.nombreProvincia = nombreProvincia;
@@ -134,11 +133,11 @@ public class Ubicacion {
         this.provincia = provincia;
     }
 
-    public List<Lugar> getLugarTuristico() {
+    public Lugar getLugarTuristico() {
         return lugarTuristico;
     }
 
-    public void setLugarTuristico(List<Lugar> lugarTuristico) {
+    public void setLugarTuristico(Lugar lugarTuristico) {
         this.lugarTuristico = lugarTuristico;
     }
 }

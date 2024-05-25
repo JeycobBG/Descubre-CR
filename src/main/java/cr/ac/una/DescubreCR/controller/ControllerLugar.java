@@ -3,13 +3,17 @@ package cr.ac.una.DescubreCR.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cr.ac.una.DescubreCR.domain.Lugar;
+import cr.ac.una.DescubreCR.domain.Ubicacion;
 import cr.ac.una.DescubreCR.service.IServiciosComentarioLugar;
+import cr.ac.una.DescubreCR.service.ProvinciaService;
 import cr.ac.una.DescubreCR.service.ServiciosLugar;
+import cr.ac.una.DescubreCR.service.UbicacionService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +44,12 @@ public class ControllerLugar {
     @Autowired
     private IServiciosComentarioLugar comentariosLugarServ;
     
+    @Autowired
+    private UbicacionService ubicacionService;
+    
+    @Autowired
+    private ProvinciaService provinciaService;
+    
     @GetMapping("/form_registrar")
     public String registrar(Model modelo){
         modelo.addAttribute("categorias", ServiciosLugar.getCategorias());
@@ -59,6 +69,7 @@ public class ControllerLugar {
               @RequestParam("provincia") String provincia,
               @RequestParam("canton") String canton,
               @RequestParam("distrito") String distrito,
+              @RequestParam("direccion") String direccion,
               @RequestParam("calidad_recep") String calidad_recepcion,
               @RequestParam(name="imagen", required=false) MultipartFile imagen,
               RedirectAttributes flash) throws SQLException {
@@ -96,11 +107,21 @@ public class ControllerLugar {
             lugar.setHora_apertura(horaApertura);
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
-            lugar.setProvincia(provincia);
-            lugar.setCanton(canton);
-            lugar.setDistrito(distrito);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
             
+            Ubicacion ubicacion = new Ubicacion();
+        
+            ubicacion.setNombreAutor("AutorDeVariableGlobal");
+            ubicacion.setDireccion(direccion);
+            ubicacion.setNombreProvincia(provincia);
+            ubicacion.setCanton(canton);
+            ubicacion.setDistrito(distrito);
+            ubicacion.setFechaCreacion(LocalDate.now());
+            ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
+
+            ubicacionService.guardar(ubicacion);
+            
+            lugar.setUbicacion(ubicacion);
             ServiciosLugar.insertar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
@@ -172,9 +193,9 @@ public class ControllerLugar {
         
         if(lugar_editar.getCodigo()!=null){
             Lugar lugarParaJson = new Lugar();
-            lugarParaJson.setProvincia(lugar_editar.getProvincia());
-            lugarParaJson.setCanton(lugar_editar.getCanton());
-            lugarParaJson.setDistrito(lugar_editar.getDistrito());
+            
+            lugarParaJson.setUbicacion(lugar_editar.getUbicacion());
+            
             lugarParaJson.setDias_horario(lugar_editar.getDias_horario());
             ObjectMapper objectMapper = new ObjectMapper();
             
@@ -198,7 +219,7 @@ public class ControllerLugar {
     }
     
     @PostMapping("/actualizar")
-    public String actualizar(@RequestParam("codigo") String codigo,
+    public String actualizar(@RequestParam("codigo") String codigo,@RequestParam("id_Ubicacion") String id,
               @RequestParam("nombre") String nombre,
               @RequestParam("descripcion") String descripcion,
               @RequestParam("categoria") String categoria,
@@ -209,6 +230,7 @@ public class ControllerLugar {
               @RequestParam("provincia") String provincia,
               @RequestParam("canton") String canton,
               @RequestParam("distrito") String distrito,
+              @RequestParam("direccion") String direccion,
               @RequestParam("calidad_recep") String calidad_recepcion,
               @RequestParam(name="imagen", required=false) MultipartFile imagen,
               RedirectAttributes flash) throws SQLException {
@@ -243,11 +265,21 @@ public class ControllerLugar {
             lugar.setHora_apertura(horaApertura);
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
-            lugar.setProvincia(provincia);
-            lugar.setCanton(canton);
-            lugar.setDistrito(distrito);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
 
+            Ubicacion ubicacion = new Ubicacion();
+        
+            ubicacion.setId(Integer.parseInt(id));
+            ubicacion.setNombreAutor("AutorDeVariableGlobal");
+            ubicacion.setDireccion(direccion);
+            ubicacion.setNombreProvincia(provincia);
+            ubicacion.setCanton(canton);
+            ubicacion.setDistrito(distrito);
+            ubicacion.setFechaCreacion(LocalDate.now());
+            ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
+
+            ubicacionService.guardar(ubicacion);
+            
             ServiciosLugar.reguardar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }

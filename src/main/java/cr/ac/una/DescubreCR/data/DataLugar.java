@@ -5,6 +5,7 @@
 package cr.ac.una.DescubreCR.data;
 
 import cr.ac.una.DescubreCR.domain.Lugar;
+import cr.ac.una.DescubreCR.domain.Ubicacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,19 +32,26 @@ public class DataLugar extends ConectarDB{
     private static final String HORA_APERTURA = "hora_apertura";
     private static final String HORA_CIERRE = "hora_cierre";
     private static final String PRECIO_ENTRADA = "precio_entrada";
-    private static final String PROVINCIA = "provincia";
-    private static final String CANTON = "canton";
-    private static final String DISTRITO = "distrito";
-    private static final String CALIDAD_RECEP = "calidad_recep";
+    private static final String CALIDAD_RECEP = "calidad_recepcion_telefonica";
     private static final String IMAGENES = "imagen";
+    private static final String UBICACION = "ubicacion";
     
     public boolean insertar(Lugar lugar) throws SQLException{
          String sql = "INSERT INTO " + TBLUGARES + "(" + CODIGO + "," + NOMBRE + "," + DESCRIPCION + "," + CATEGORIA
                 + "," + DIAS_HORARIO + "," + HORA_APERTURA + "," + HORA_CIERRE + "," + PRECIO_ENTRADA 
-                + "," +PROVINCIA + "," + CANTON + "," + DISTRITO + "," + CALIDAD_RECEP + "," + IMAGENES 
-                +") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                
+                + "," + CALIDAD_RECEP + "," + IMAGENES + "," + UBICACION 
+                +") VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        
+        String sql_ubicacion = "SELECT LAST_INSERT_ID() as id_ubicacion FROM tb_ubicacion";
+         
         Connection conexion = conectar();
+        
+        PreparedStatement sentencia = conexion.prepareStatement(sql_ubicacion);
+        ResultSet rs = sentencia.executeQuery();
+        if (rs.next()) {
+            setId_ubicacion(rs.getString("id_ubicacion"));
+            System.out.println("ultimo id Ubicacion insertado: " + getId_ubicacion());
+        }
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setString(1, lugar.getCodigo());
         statement.setString(2, lugar.getNombre());
@@ -53,11 +61,9 @@ public class DataLugar extends ConectarDB{
         statement.setTime(6, Time.valueOf(lugar.getHora_apertura()));
         statement.setTime(7, Time.valueOf(lugar.getHora_cierre()));
         statement.setDouble(8, lugar.getPrecio_entrada());
-        statement.setString(9, lugar.getProvincia());
-        statement.setString(10, lugar.getCanton());
-        statement.setString(11, lugar.getDistrito());
-        statement.setString(12, lugar.getCalidad_recepcion_telefonica());
-        statement.setString(13, lugar.getImagen());
+        statement.setString(9, lugar.getCalidad_recepcion_telefonica());
+        statement.setString(10, lugar.getImagen());
+        statement.setString(11, getId_ubicacion());
         
         int resultado = statement.executeUpdate();
         statement.close();
@@ -82,11 +88,9 @@ public class DataLugar extends ConectarDB{
             lugar.setHora_apertura(rs.getTime(HORA_APERTURA).toLocalTime());
             lugar.setHora_cierre(rs.getTime(HORA_CIERRE).toLocalTime());
             lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
-            lugar.setProvincia(rs.getString(PROVINCIA));
-            lugar.setCanton(rs.getString(CANTON));
-            lugar.setDistrito(rs.getString(DISTRITO));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
+            lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
             lugares.add(lugar);
         }
         
@@ -120,11 +124,10 @@ public class DataLugar extends ConectarDB{
         lugar.setHora_apertura(rs.getTime(HORA_APERTURA).toLocalTime());
         lugar.setHora_cierre(rs.getTime(HORA_CIERRE).toLocalTime());
         lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
-        lugar.setProvincia(rs.getString(PROVINCIA));
-        lugar.setCanton(rs.getString(CANTON));
-        lugar.setDistrito(rs.getString(DISTRITO));
         lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
         lugar.setImagen(rs.getString(IMAGENES));
+        lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
+        
         lugares.add(lugar);
     }
     
@@ -163,11 +166,9 @@ public class DataLugar extends ConectarDB{
             lugar.setHora_apertura(rs.getTime(HORA_APERTURA).toLocalTime());
             lugar.setHora_cierre(rs.getTime(HORA_CIERRE).toLocalTime());
             lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
-            lugar.setProvincia(rs.getString(PROVINCIA));
-            lugar.setCanton(rs.getString(CANTON));
-            lugar.setDistrito(rs.getString(DISTRITO));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
+            lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
             lugar.setId(rs.getInt("ID"));
         }
         
@@ -191,11 +192,9 @@ public class DataLugar extends ConectarDB{
             lugar.setHora_apertura(rs.getTime(HORA_APERTURA).toLocalTime());
             lugar.setHora_cierre(rs.getTime(HORA_CIERRE).toLocalTime());
             lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
-            lugar.setProvincia(rs.getString(PROVINCIA));
-            lugar.setCanton(rs.getString(CANTON));
-            lugar.setDistrito(rs.getString(DISTRITO));
             lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
             lugar.setImagen(rs.getString(IMAGENES));
+            lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
         }
         
         return lugar;
@@ -230,11 +229,9 @@ public class DataLugar extends ConectarDB{
         lugar.setHora_apertura(rs.getTime(HORA_APERTURA).toLocalTime());
         lugar.setHora_cierre(rs.getTime(HORA_CIERRE).toLocalTime());
         lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
-        lugar.setProvincia(rs.getString(PROVINCIA));
-        lugar.setCanton(rs.getString(CANTON));
-        lugar.setDistrito(rs.getString(DISTRITO));
         lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
         lugar.setImagen(rs.getString(IMAGENES));
+        lugar.setUbicacion((Ubicacion)rs.getObject(UBICACION));
         lugares.add(lugar);
     }
     
@@ -250,9 +247,6 @@ public class DataLugar extends ConectarDB{
                      HORA_APERTURA + " = ?," +
                      HORA_CIERRE + " = ?," +
                      PRECIO_ENTRADA + " = ?," +
-                     PROVINCIA + " = ?," +
-                     CANTON + " = ?," +
-                     DISTRITO + " = ?," +
                      CALIDAD_RECEP + " = ?," +
                      IMAGENES + " = ? " +
                      "WHERE " + CODIGO + " = ?";
@@ -266,13 +260,10 @@ public class DataLugar extends ConectarDB{
         statement.setTime(5, Time.valueOf(lugar.getHora_apertura()));
         statement.setTime(6, Time.valueOf(lugar.getHora_cierre()));
         statement.setDouble(7, lugar.getPrecio_entrada());
-        statement.setString(8, lugar.getProvincia());
-        statement.setString(9, lugar.getCanton());
-        statement.setString(10, lugar.getDistrito());
-        statement.setString(11, lugar.getCalidad_recepcion_telefonica());
-        statement.setString(12, lugar.getImagen());
-        statement.setString(13, lugar.getCodigo());
-
+        statement.setString(8, lugar.getCalidad_recepcion_telefonica());
+        statement.setString(9, lugar.getImagen());
+        statement.setString(10, lugar.getCodigo());
+        
         int resultado = statement.executeUpdate();
         statement.close();
         conexion.close();

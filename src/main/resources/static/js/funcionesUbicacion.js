@@ -52,7 +52,7 @@ function formularioUbicacion(){
 }
 
 function regresarInicio(){
-    window.location='/usuarios/login';
+    window.location='/usuarios/menuPrincipal';
 }
 function regresarListar(){
     window.location='/ubicacion/listarAdmin';
