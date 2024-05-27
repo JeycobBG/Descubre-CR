@@ -121,10 +121,9 @@ public class ControllerLugar {
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
-            //ServiciosLugar.insertar(lugar);
             lugar.setUbicacion(ubicacionService.getUltimaUbicacion());
             int ultima_ubicacion = lugar.getUbicacion().getId();
-            System.out.println("ubicacion: " + ultima_ubicacion);
+            //System.out.println("ubicacion: " + ultima_ubicacion);
             
             int ultimoLugar = ServiciosLugar.getUltimoLugar(String.valueOf(ultima_ubicacion));
             lugar.setId(ultimoLugar);
@@ -188,8 +187,14 @@ public class ControllerLugar {
     }
     
     @GetMapping("/consulta_eliminar")
-    public String eliminar(@RequestParam("codigo") String codigo, RedirectAttributes flash) throws SQLException{
+    public String eliminar(@RequestParam("codigo") String codigo,
+            RedirectAttributes flash) throws SQLException{
+        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigo);
+        int ubicacion = lugar.getUbicacion().getId();
+        ServiciosLugar.actualizarForanea(codigo);
+        ubicacionService.eliminar(String.valueOf(ubicacion));
         ServiciosLugar.eliminar(codigo);
+        
         return "redirect:listar_admin";
     }
     
@@ -277,13 +282,9 @@ public class ControllerLugar {
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
 
             Ubicacion ubicacion = new Ubicacion();
-        
+            
             ubicacion.setId(Integer.parseInt(id));
             ubicacion.setNombreAutor("AutorDeVariableGlobal");
-            
-            System.out.println("provincia: " + provincia);
-            System.out.println("canton: " + canton);
-            System.out.println("distrito: " + distrito);
             
             ubicacion.setDireccion(direccion);
             ubicacion.setNombreProvincia(provincia);
@@ -293,7 +294,7 @@ public class ControllerLugar {
             ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
 
             ubicacionService.guardar(ubicacion);
-            lugar.setUbicacion(ubicacion);
+            //lugar.setUbicacion(ubicacion);
             ServiciosLugar.reguardar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }

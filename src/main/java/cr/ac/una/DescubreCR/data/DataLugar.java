@@ -90,7 +90,7 @@ public class DataLugar extends ConectarDB{
             
             if (rs.next()) {
                 setId_lugar(rs.getString("lugar"));
-                System.out.println("ultimo id Lugar insertado: " + getId_lugar());
+                //System.out.println("ultimo id Lugar insertado: " + getId_lugar());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -152,6 +152,9 @@ public class DataLugar extends ConectarDB{
         lugar.setPrecio_entrada(rs.getDouble(PRECIO_ENTRADA));
         lugar.setCalidad_recepcion_telefonica(rs.getString(CALIDAD_RECEP));
         lugar.setImagen(rs.getString(IMAGENES));
+        Ubicacion ubicacion = new Ubicacion();
+        ubicacion.setId(rs.getInt("ubicacion"));
+        lugar.setUbicacion(ubicacion);
         
         lugares.add(lugar);
     }
@@ -159,13 +162,29 @@ public class DataLugar extends ConectarDB{
     return new PageImpl<>(lugares, pageable, total);
 }
 
+    
+    public boolean actualiarForanea(String codigo) throws SQLException{
+        String sqlUpdate = "UPDATE " + TBLUGARES + " SET " + UBICACION + " = ? " + "WHERE "+ CODIGO +" = ?";
+        Connection conexion = conectar();
+        PreparedStatement statement = conexion.prepareStatement(sqlUpdate);
+        
+        statement.setString(1, null);
+        statement.setString(2, codigo);
+        int resultadoUpdate = statement.executeUpdate();
+        
+        System.out.println("resultado update: "  + resultadoUpdate);
+        
+        return resultadoUpdate==1;
+    }
 
     public boolean eliminar(String codigo) throws SQLException{
         String sql = "DELETE FROM "+ TBLUGARES +" WHERE "+ CODIGO +" = ?;";
         Connection conexion = conectar();
         PreparedStatement statement = conexion.prepareStatement(sql);
+        
+        statement = conexion.prepareStatement(sql);
         statement.setString(1, codigo);
-        int resultado =statement.executeUpdate();
+        int resultado = statement.executeUpdate();
         
         statement.close();
         conexion.close();
@@ -180,7 +199,7 @@ public class DataLugar extends ConectarDB{
         String sql = "SELECT "
                 + " L.id,L.codigo,L.nombre,L.descripcion,L.categoria,L.dias_horario,"
                 + " L.hora_apertura,L.hora_cierre,L.precio_entrada,L.calidad_recepcion_telefonica,"
-                + " L.imagen,U.id,U.canton,U.distrito,U.nombre_provincia,U.direccion"
+                + " L.imagen,L.ubicacion,U.canton,U.distrito,U.nombre_provincia,U.direccion"
                 + " FROM " + TBLUGARES + " L" 
                 + " INNER JOIN " + TBUBICACION + " U ON L.ubicacion = U.id"
                 + " WHERE " + CODIGO + " = ?";
@@ -202,7 +221,7 @@ public class DataLugar extends ConectarDB{
             lugar.setImagen(rs.getString(IMAGENES));
             // Datos de la ubicacion ---
             
-            ubicacion.setId(rs.getInt("id"));
+            ubicacion.setId(rs.getInt("ubicacion"));
             ubicacion.setNombreProvincia(rs.getString("nombre_provincia"));
             ubicacion.setCanton(rs.getString("canton"));
             ubicacion.setDistrito(rs.getString("distrito"));
@@ -325,8 +344,7 @@ public class DataLugar extends ConectarDB{
                      HORA_CIERRE + " = ?," +
                      PRECIO_ENTRADA + " = ?," +
                      CALIDAD_RECEP + " = ?," +
-                     IMAGENES + " = ?, " +
-                     UBICACION + " = ? " +
+                     IMAGENES + " = ? " +
                      "WHERE " + CODIGO + " = ?";
 
         Connection conexion = conectar();
@@ -340,8 +358,7 @@ public class DataLugar extends ConectarDB{
         statement.setDouble(7, lugar.getPrecio_entrada());
         statement.setString(8, lugar.getCalidad_recepcion_telefonica());
         statement.setString(9, lugar.getImagen());
-        statement.setString(10, String.valueOf(lugar.getUbicacion().getId()));
-        statement.setString(11, lugar.getCodigo());
+        statement.setString(10, lugar.getCodigo());
         
         int resultado = statement.executeUpdate();
         statement.close();

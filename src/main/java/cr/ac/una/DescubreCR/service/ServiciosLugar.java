@@ -25,6 +25,10 @@ public class ServiciosLugar {
         return new DataLugar().listarAdmin(pageable);
     }
     
+    public static boolean actualizarForanea(String codigo) throws SQLException{
+        return new DataLugar().actualiarForanea(codigo);
+    }
+    
     public static boolean eliminar(String nombre) throws SQLException{
          return new DataLugar().eliminar(nombre);
     }
