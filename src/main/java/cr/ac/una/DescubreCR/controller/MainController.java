@@ -13,7 +13,7 @@ public class MainController {
     // Modulo Usuario
     @GetMapping({"/","/home","/login"})
     public String inicio(){
-        return "login";
+        return "index";
     }
     // Final Modulo Usuario
     

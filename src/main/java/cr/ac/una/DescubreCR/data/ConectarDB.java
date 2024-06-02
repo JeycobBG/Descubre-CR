@@ -9,7 +9,7 @@ public class ConectarDB {
     private static String id_imagen;
     private static String id_lugar;
     
-    private final static String databaseName = "bd_descubrecr";
+    private final static String databaseName = "bd_descubrecrkevin";
     private final static String user = "root";
     private final static String pass = "";
 

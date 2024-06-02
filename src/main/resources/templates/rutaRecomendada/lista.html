@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Revista de Rutas Recomendadas</title>
+</head>
+<body>
+
+    <h2>Rutas Recomendadas</h2>
+
+    <div th:each="ruta : ${pagina.content}">
+        <div class="info">
+            <p><strong>Codigo Ruta:</strong> <span th:text="${ruta.codigoRuta}"></span></p>
+            <p><strong>Descripción:</strong> <span th:text="${ruta.comentario}"></span></p>
+            <p><strong>Dificultad:</strong> <span th:text="${ruta.dificultad}"></span></p>
+            <p><strong>Tipo:</strong> <span th:text="${ruta.tipo}"></span></p>
+            <p><strong>Transporte recomendado:</strong> <span th:text="${ruta.transporte}"></span></p>
+            <p><strong>Lugares:</strong> <span th:text="${ruta.lugares}"></span></p>
+            
+            <td><a th:href="@{'/rutasRecomendadas/actualizar?codigoRuta=' + ${ruta.codigoRuta}}" th:text="'Editar'"></a></td>
+            <td><a th:href="@{'/rutasRecomendadas/eliminar?codigoRuta=' + ${ruta.codigoRuta}}" th:text="'Eliminar'"></a></td>
+                    
+        </div>
+    </div>
+    
+    <div class="pagination-container">
+        <p>
+            Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros
+        </p>
+        
+        <div>
+            <select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
+                <option th:each="item : ${opcionesCantidadPorPagina}" th:value="${item}"
+                th:text="${item}" th:selected="${pagina.size == size}"></option>    
+            </select>
+        </div> 
+        
+        
+    <ul class="pagination mb-0">
+        <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+            <a class="page-link" th:href="@{(${titulo} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${titulo} + '&page=0&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page=0&size=' + ${pagina.size}}">Primera</a>
+        </li>
+        <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+            <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
+        </li>
+        <li class="page-item" th:each="i : ${numPaginas}" th:classappend="${i == pagina.number + 1} ? 'active' : ''">
+            <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
+        </li>
+        <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+            <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
+        </li>
+        <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+            <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
+        </li>
+    </ul>
+
+
+    </div>
+        
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
+
+    <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+    <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
+</body>
+</html>

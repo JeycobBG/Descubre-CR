@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/CSS/Registrar_Form.css">
+    <title>Actualizar Ruta Recomendada</title>
+</head>
+<body>
+    <h1>Actualizar Ruta Recomendada</h1>
+    
+    <form id="rutaFormulario" action="/rutasRecomendadas/actualizar-rutaRecomendada" method="post">
+        <label for="codigoRuta">Código de Ruta:</label><br>
+        <input required="" type="text" id="codigoRuta" name="codigoRuta" th:value="${ruta.codigoRuta}" class="hidden" readonly /><br><br>
+
+        <label for="comentario">Comentario:</label><br>
+        <textarea required="" id="comentario" name="comentario" rows="4" cols="50" th:text="${ruta.comentario}"></textarea><br><br>
+
+        <label for="montoEntradas">Monto de Entradas:</label><br>
+        <input required="" type="number" id="montoEntradas" name="montoEntradas" step="0.01" th:value="${ruta.montoEntradas}"><br><br>
+
+        <label for="puntuacion">Puntuación de la ruta:</label><br>
+        <input required="" type="number" id="puntuacion" name="puntuacion" step="0.01" min="0" max="10" th:value="${ruta.puntuacion}"><br><br>
+
+        <label for="dificultad">Dificultad:</label><br>
+        <select id="dificultad" name="dificultad">
+            <option value="Fácil" th:selected="${ruta.dificultad == 'Fácil'}">Fácil</option>
+            <option value="Moderada" th:selected="${ruta.dificultad == 'Moderada'}">Moderada</option>
+            <option value="Difícil" th:selected="${ruta.dificultad == 'Difícil'}">Difícil</option>
+        </select><br><br>
+
+        <label for="tipo">Tipo de ruta:</label><br>
+        <input type="text" id="tipo" name="tipo" th:value="${ruta.tipo}"><br><br>
+
+        <label for="transporte">Transporte recomendado:</label><br>
+        <input type="text" id="transporte" name="transporte" th:value="${ruta.transporte}"><br><br>
+
+        <label for="cantidadLugares">Cantidad de Lugares:</label><br>
+        <input required="" type="number" id="cantidadLugares" name="cantidadLugares" min="1" th:value="${cantidadLugares}" readonly><br><br>
+
+        <div id="lugaresContainer" th:each="lugar, iterStat : ${lugaresList}">
+            <label th:for="${'lugar' + iterStat.index}">Lugar [[${iterStat.index + 1}]]:</label><br>
+            <input type="text" th:id="${'lugar' + iterStat.index}" th:name="lugares[]" th:value="${lugar}"><br><br>
+        </div>
+
+        <input type="submit" value="Guardar">
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cantidadLugares = parseInt(document.getElementById('cantidadLugares').value);
+            var lugaresContainer = document.getElementById('lugaresContainer');
+
+            for (var i = lugaresContainer.children.length; i < cantidadLugares; i++) {
+                var label = document.createElement('label');
+                label.textContent = 'Lugar ' + (i + 1) + ':';
+                lugaresContainer.appendChild(label);
+
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'lugares[]';
+                lugaresContainer.appendChild(input);
+
+                lugaresContainer.appendChild(document.createElement('br'));
+            }
+        });
+    </script>
+</body>
+</html>

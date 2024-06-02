@@ -28,10 +28,10 @@ public class DataUsuarios extends ConectarDB{
     private static final String APELLIDO = "apellido";
     private static final String IDIOMA = "idioma";
     private static final String NACIONALIDAD = "nacionalidad";
-    private static final String FECHANACIMIENTO = "fecha_nacimiento";
+    private static final String FECHANACIMIENTO = "fechaNacimiento";
     private static final String TELEFONO = "telefono";
     
-    private static final String TBUSUARIOS = "tb_usuario";
+    private static final String TBUSUARIOS = "tb_usuarios";
     private static final String NOMBREUSUARIO = "nombreUsuario";
     private static final String CONTRASENA = "contraseña";
     private static final String TIPOUSUARIO = "tipoUsuario";
@@ -306,7 +306,6 @@ public class DataUsuarios extends ConectarDB{
     public Persona buscarPersona(int id, Connection conexion) throws SQLException {
         Persona persona = null;
         String sql = "SELECT * FROM " + TBPERSONAS + " WHERE " + ID + " = ?";
-        System.out.println("Aqui 2 id " + id);
 
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setInt(1, id);
@@ -394,7 +393,6 @@ public class DataUsuarios extends ConectarDB{
 
 
     private Usuario construirUsuarioDesdeResultSet(ResultSet result, Connection conexion) throws SQLException {
-        System.out.println("Aqui 1");
         Persona persona = buscarPersona(result.getInt("idPersona"), conexion);
         return new Usuario(
             result.getString("nombreUsuario"),
