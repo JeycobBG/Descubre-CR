@@ -38,6 +38,7 @@
                     <td th:text="${#dates.format(usuario.fechaNacimiento, 'dd-MM-yyyy')}"></td>
                     <td><a class="editar-button" th:href="@{'/usuarios/buscarUsuario?cedula=' + ${usuario.cedula}}" th:text="'Editar'"></a></td>
                     <td><a class="eliminar-button"th:href="@{'/usuarios/eliminar?cedula=' + ${usuario.cedula}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesUsuario(\'' + ${usuario.cedula} + '\')'" th:text="'Ver detalles'"></a></td>
                 </tr>
             </tbody>
         </table>
@@ -86,11 +87,28 @@
         
 	</div>
 	<script>
-		function changePageSize() {
-			const pageSize = document.getElementById("pageSize").value;
-			const currentPage = [[${page.number}]];
-			window.location.href = "?page="+currentPage + "&size=" + pageSize;
-		}
+        function changePageSize() {
+                const pageSize = document.getElementById("pageSize").value;
+                const currentPage = [[${page.number}]];
+                window.location.href = "?page="+currentPage + "&size=" + pageSize;
+        }
+                
+        function cambiarPagTam(){
+            const pageSize = document.getElementById("pageSize").value;
+            const currentPage = [[${pagina.number}]];
+
+            // Verificar si el nombre existe
+            const cedula = "[[${cedula}]]";
+            let url = "";
+            if (titulo.trim() !== "") {
+                url = "/usuarios/buscarUsuario?cedula=" + cedula + "&page=" + currentPage + "&size=" + pageSize;
+            } else {
+                url = "?page=" + currentPage + "&size=" + pageSize;
+            }
+
+            window.location.href = url;
+        }
+
 	</script>
 	<!-- Añadir los scripts de Bootstrap 4 -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

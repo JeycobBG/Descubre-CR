@@ -1,10 +1,9 @@
 <link href="/CSS/login.css" rel="stylesheet" type="text/css"/>
 <div class="container">
-        <div class="heading">Iniciar sesión</div>
-        <form method="get" th:action="@{/usuarios/login}" class="form">
-          <input required="" class="input" type="usuario" name="usuario" id="usuario" placeholder="Usuario">
-          <input required="" class="input" type="password" name="password" id="password" placeholder="Contraseña">
-          <input class="login-button" type="submit" value="Iniciar sesión">
-
-        </form>
-    </div>
+    <div class="heading">Iniciar sesión</div>
+    <form method="post" th:action="@{/usuarios/login}" class="form">
+        <input required="" class="input" type="text" name="usuario" id="usuario" placeholder="Usuario">
+        <input required="" class="input" type="password" name="password" id="password" placeholder="Contraseña">
+        <input class="login-button" type="submit" value="Iniciar sesión">
+    </form>
+</div>

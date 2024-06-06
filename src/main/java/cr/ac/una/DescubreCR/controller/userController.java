@@ -22,6 +22,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -137,7 +138,7 @@ public class userController {
 
 
     
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestParam("usuario") String usuario,
                         @RequestParam("password") String contraseña) throws SQLException{
         
@@ -168,6 +169,11 @@ public class userController {
         }
         model.addAttribute("usuario", usuario);
         return "usuario/modify_usuario"; 
+    }
+    
+    @GetMapping("/getUsuario")
+    public Usuario getUsuario(@RequestParam("cedula") String cedula, Model model){
+        return UsuariosServices.buscar(cedula);
     }
 
     public boolean buscarExistencia(String cedula){

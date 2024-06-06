@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+        <link rel="stylesheet" type="text/css" href="/CSS/listar.css"> 
 <head>
     <title>Revista de Rutas Recomendadas</title>
 </head>
@@ -18,7 +19,7 @@
             
             <td><a th:href="@{'/rutasRecomendadas/actualizar?codigoRuta=' + ${ruta.codigoRuta}}" th:text="'Editar'"></a></td>
             <td><a th:href="@{'/rutasRecomendadas/eliminar?codigoRuta=' + ${ruta.codigoRuta}}" th:text="'Eliminar'"></a></td>
-                    
+            <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(\'' + ${ruta.codigoRuta} + '\')'" th:text="'Ver detalles'"></a></td>
         </div>
     </div>
     
@@ -56,6 +57,23 @@
 
     </div>
         
+    <script>
+        function cambiarPagTam(){
+            const pageSize = document.getElementById("pageSize").value;
+            const currentPage = [[${pagina.number}]];
+
+            // Verificar si el nombre existe
+            const codigo = "[[${codigoRuta}]]";
+            let url = "";
+            if (titulo.trim() !== "") {
+                url = "/rutasRecomendadas/buscarPorCodigo?codigoRuta=" + codigo + "&page=" + currentPage + "&size=" + pageSize;
+            } else {
+                url = "?page=" + currentPage + "&size=" + pageSize;
+            }
+
+            window.location.href = url;
+        }
+      </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
