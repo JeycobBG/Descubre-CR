@@ -56,8 +56,8 @@ public class RutaRecomendadaServices implements IRutaRecomendadaServices{
 
     @Override
     public RutaRecomendada obtenerPorCodigoRuta(int codigo) {
-    Optional<RutaRecomendada> optionalEvento = servRuta.findById(codigo);
-    return optionalEvento.orElse(null);
+        Optional<RutaRecomendada> optionalEvento = servRuta.findById(codigo);
+        return optionalEvento.orElse(null);
     }
     
 }

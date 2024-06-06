@@ -10,16 +10,16 @@
 
     <div th:each="ruta : ${pagina.content}">
         <div class="info">
-            <p><strong>Codigo Ruta:</strong> <span th:text="${ruta.codigoRuta}"></span></p>
+            <p><strong>id </strong> <span th:text="${ruta.id}"></span></p>
             <p><strong>Descripción:</strong> <span th:text="${ruta.comentario}"></span></p>
             <p><strong>Dificultad:</strong> <span th:text="${ruta.dificultad}"></span></p>
             <p><strong>Tipo:</strong> <span th:text="${ruta.tipo}"></span></p>
             <p><strong>Transporte recomendado:</strong> <span th:text="${ruta.transporte}"></span></p>
             <p><strong>Lugares:</strong> <span th:text="${ruta.lugares}"></span></p>
-            
-            <td><a th:href="@{'/rutasRecomendadas/actualizar?codigoRuta=' + ${ruta.codigoRuta}}" th:text="'Editar'"></a></td>
-            <td><a th:href="@{'/rutasRecomendadas/eliminar?codigoRuta=' + ${ruta.codigoRuta}}" th:text="'Eliminar'"></a></td>
-            <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(\'' + ${ruta.codigoRuta} + '\')'" th:text="'Ver detalles'"></a></td>
+          
+            <td><a th:href="@{'/rutasRecomendadas/actualizar/' + ${ruta.id}}" th:text="'Editar'"></a></td>
+            <td><a th:href="@{'/rutasRecomendadas/eliminar/' + ${ruta.id}}" th:text="'Eliminar'"></a></td>
+            <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(' + ${ruta.id} + ')'" th:text="'Ver detalles'"></a></td>
         </div>
     </div>
     
@@ -38,19 +38,19 @@
         
     <ul class="pagination mb-0">
         <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
-            <a class="page-link" th:href="@{(${titulo} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${titulo} + '&page=0&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page=0&size=' + ${pagina.size}}">Primera</a>
+            <a class="page-link" th:href="@{(${titulo} != null) ? '/rutasRecomendada/buscarPorCodigo?id=' + ${ruta.id} + '&page=0&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page=0&size=' + ${pagina.size}}">Primera</a>
         </li>
         <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
-            <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
+            <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${id} != null) ? '/rutasRecomendada/buscarPorCodigo?id=' + ${ruta.id} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
         </li>
         <li class="page-item" th:each="i : ${numPaginas}" th:classappend="${i == pagina.number + 1} ? 'active' : ''">
-            <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
+            <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${id} != null) ? '/rutasRecomendada/buscarPorCodigo?id=' + ${ruta.id} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
         </li>
         <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
-            <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
+            <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${id} != null) ? '/rutasRecomendada/buscarPorCodigo?id=' + ${ruta.id} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
         </li>
         <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
-            <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${codigoRuta} != null) ? '/rutasRecomendada/buscarPorCodigo?codigoRuta=' + ${codigoRuta} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
+            <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${id} != null) ? '/rutasRecomendada/buscarPorCodigo?id=' + ${ruta.id} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/rutasRecomendada/listar' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
         </li>
     </ul>
 

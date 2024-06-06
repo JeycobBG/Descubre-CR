@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +40,6 @@ public class RutaRecomendadaController {
     @GetMapping("/guardar_ruta")
     public String guardarRuta(
             RedirectAttributes flash,
-            @RequestParam("codigoRuta") String codigoRuta,
             @RequestParam("comentario") String comentario,
             @RequestParam("montoEntradas") double montoEntradas,
             @RequestParam("puntuacion") int puntuacion,
@@ -57,15 +57,13 @@ public class RutaRecomendadaController {
 
         String lugaresString = String.join(", ", lugares);
 
-        RutaRecomendada ruta = new RutaRecomendada(codigoRuta, lugaresString, comentario, montoEntradas,
+        RutaRecomendada ruta = new RutaRecomendada(lugaresString, comentario, montoEntradas,
                                 puntuacion, dificultad, tipo, transporte);
 
-        if (rutasServ.obtenerPorCodigoRuta(Integer.parseInt(codigoRuta)) != null) {
-            flash.addFlashAttribute("error", "No se ha podido registrar la ruta, cambiar código de ruta.");
-        } else {
-            rutasServ.guardar(ruta);
-            flash.addFlashAttribute("exito", "Se ha registrado una ruta.");
-        }
+
+        rutasServ.guardar(ruta);
+        flash.addFlashAttribute("exito", "Se ha registrado una ruta.");
+        
         return "redirect:/rutasRecomendadas/form_RutaRecomendada";
     }
     
@@ -92,32 +90,40 @@ public class RutaRecomendadaController {
         return "rutaRecomendada/lista";
     }
     
-    @GetMapping("/eliminar")
-    public String eliminar(@RequestParam("codigoRuta") String codigo, RedirectAttributes flash){
-        
-        if(rutasServ.eliminar(Integer.parseInt(codigo))){
-            flash.addFlashAttribute("exito", "Se ha eliminado la ruta con código " + codigo + ".");
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable("id") int id, RedirectAttributes flash){
+        if (rutasServ.eliminar(id)) {
+            flash.addFlashAttribute("exito", "Se ha eliminado la ruta con código " + id + ".");
         } else {
-            flash.addFlashAttribute("error", "No existe la ruta con código " + codigo + ".");
+            flash.addFlashAttribute("error", "No existe la ruta con código " + id + ".");
         }
         return "index";
     }
-    
-    @GetMapping("/buscarPorCodigo")
-    public RutaRecomendada obtenerDetallesRutaRecomendada(@RequestParam("codigoRuta") int codigo) throws SQLException, JsonProcessingException {
-        return rutasServ.obtenerPorCodigoRuta(codigo);
+
+    @GetMapping("/buscarPorCodigo/{id}")
+    public RutaRecomendada obtenerDetallesRutaRecomendada(@RequestParam("id") int id) throws SQLException, JsonProcessingException {
+        return rutasServ.obtenerPorCodigoRuta(id);
     }
     
-    @GetMapping("/actualizar")
-    public String formularioActualizar(@RequestParam("codigoRuta") String codigo, Model modelo, RedirectAttributes flash) throws SQLException {
-        RutaRecomendada ruta = rutasServ.obtenerPorCodigoRuta(Integer.parseInt(codigo));
+    @GetMapping("/actualizar/{id}")
+    public String formularioActualizar(@PathVariable("id") int codigo, Model modelo, RedirectAttributes flash) throws SQLException {
+        
+        System.out.println("form uptdate ");
+        RutaRecomendada ruta = rutasServ.obtenerPorCodigoRuta(codigo);
+        System.out.println("ruta ");
+        
         if (ruta != null) {
+        System.out.println("ruta se encontro");
             modelo.addAttribute("ruta", ruta);
 
+        System.out.println("ruta modelo");
             // Convertir la cadena de lugares a una lista y agregarla al modelo
             List<String> lugaresList = Arrays.asList(ruta.getLugares().split(",\\s*"));
+        System.out.println("lugaresList modelo");
             modelo.addAttribute("lugaresList", lugaresList);
+        System.out.println("lugaresList modelo");
             modelo.addAttribute("cantidadLugares", lugaresList.size());
+        System.out.println("cant modelo");
 
             return "rutaRecomendada/actualizarRutaRecomendada";
         } else {

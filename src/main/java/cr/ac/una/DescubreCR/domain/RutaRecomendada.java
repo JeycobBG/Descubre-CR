@@ -5,6 +5,8 @@
 package cr.ac.una.DescubreCR.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -17,7 +19,9 @@ import jakarta.persistence.Table;
 public class RutaRecomendada {
     
     @Id
-    private String codigoRuta;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
     private String lugares;
     private String comentario;
     private double montoEntradas;
@@ -29,8 +33,8 @@ public class RutaRecomendada {
     public RutaRecomendada() {
     }
 
-    public RutaRecomendada(String codigoRuta, String lugares, String comentario, double montoEntradas, int puntuacion, String dificultad, String tipo, String transporte) {
-        this.codigoRuta = codigoRuta;
+    public RutaRecomendada(int id, String lugares, String comentario, double montoEntradas, int puntuacion, String dificultad, String tipo, String transporte) {
+        this.id = id;
         this.lugares = lugares;
         this.comentario = comentario;
         this.montoEntradas = montoEntradas;
@@ -40,12 +44,22 @@ public class RutaRecomendada {
         this.transporte = transporte;
     }
 
-    public String getCodigoRuta() {
-        return codigoRuta;
+    public RutaRecomendada(String lugares, String comentario, double montoEntradas, int puntuacion, String dificultad, String tipo, String transporte) {
+        this.lugares = lugares;
+        this.comentario = comentario;
+        this.montoEntradas = montoEntradas;
+        this.puntuacion = puntuacion;
+        this.dificultad = dificultad;
+        this.tipo = tipo;
+        this.transporte = transporte;
     }
 
-    public void setCodigoRuta(String codigoRuta) {
-        this.codigoRuta = codigoRuta;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLugares() {
@@ -106,7 +120,7 @@ public class RutaRecomendada {
 
     @Override
     public String toString() {
-        return "RutaRecomendada{" + "codigoRuta=" + codigoRuta + ", lugares=" + lugares + ", comentario=" + comentario + ", montoEntradas=" + montoEntradas + ", puntuacion=" + puntuacion + ", dificultad=" + dificultad + ", tipo=" + tipo + ", transporte=" + transporte + '}';
+        return "RutaRecomendada{" + "id=" + id + ", lugares=" + lugares + ", comentario=" + comentario + ", montoEntradas=" + montoEntradas + ", puntuacion=" + puntuacion + ", dificultad=" + dificultad + ", tipo=" + tipo + ", transporte=" + transporte + '}';
     }
     
 }

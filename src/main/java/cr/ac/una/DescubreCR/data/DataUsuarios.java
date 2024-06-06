@@ -31,7 +31,7 @@ public class DataUsuarios extends ConectarDB{
     private static final String FECHANACIMIENTO = "fechaNacimiento";
     private static final String TELEFONO = "telefono";
     
-    private static final String TBUSUARIOS = "tb_usuarios";
+    private static final String TBUSUARIOS = "tb_usuario";
     private static final String NOMBREUSUARIO = "nombreUsuario";
     private static final String CONTRASENA = "contraseña";
     private static final String TIPOUSUARIO = "tipoUsuario";
