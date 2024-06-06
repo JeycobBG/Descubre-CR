@@ -1,7 +1,10 @@
 package cr.ac.una.DescubreCR.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.domain.RutaRecomendada;
 import cr.ac.una.DescubreCR.service.IRutaRecomendadaServices;
+import cr.ac.una.DescubreCR.service.ServiciosLugar;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -62,10 +66,8 @@ public class RutaRecomendadaController {
             rutasServ.guardar(ruta);
             flash.addFlashAttribute("exito", "Se ha registrado una ruta.");
         }
-
         return "redirect:/rutasRecomendadas/form_RutaRecomendada";
     }
-
     
     @GetMapping("/listarRutas")
     public String listar(@PageableDefault(size=5, page=0) Pageable pageable, Model model) throws SQLException {
@@ -90,7 +92,6 @@ public class RutaRecomendadaController {
         return "rutaRecomendada/lista";
     }
     
-    
     @GetMapping("/eliminar")
     public String eliminar(@RequestParam("codigoRuta") String codigo, RedirectAttributes flash){
         
@@ -99,8 +100,12 @@ public class RutaRecomendadaController {
         } else {
             flash.addFlashAttribute("error", "No existe la ruta con código " + codigo + ".");
         }
-        
         return "index";
+    }
+    
+    @GetMapping("/buscarPorCodigo")
+    public RutaRecomendada obtenerDetallesRutaRecomendada(@RequestParam("codigoRuta") int codigo) throws SQLException, JsonProcessingException {
+        return rutasServ.obtenerPorCodigoRuta(codigo);
     }
     
     @GetMapping("/actualizar")
@@ -126,17 +131,5 @@ public class RutaRecomendadaController {
         rutasServ.guardar(ruta);
         return "index";
     }
-    
-    /*
-    @PostMapping("/buscar-codigoRuta")
-    public String buscarEventoTuristico(@RequestParam("id") int id, Model model) throws SQLException {
-        RutaRecomendada ruta = rutasServ.getPorCodigoRuta(id);
-        if (ruta != null) {
-            model.addAttribute("ruta", ruta);
-            return "eventuris/actualizarEventoTuristico";
-        } else {
-            return "eventuris/error";
-        }
-    }*/
     
 }

@@ -30,13 +30,20 @@
         </select><br><br>
 
         <label for="tipo">Tipo de ruta:</label><br>
-        <input type="text" id="tipo" name="tipo" th:value="${ruta.tipo}"><br><br>
-
+        <select id="tipo" name="tipo">
+            <option value="Turismo" th:selected="${ruta.tipo == 'Turismo'}">Turismo</option>
+            <option value="Senderismo" th:selected="${ruta.tipo == 'Senderismo'}">Senderismo</option>
+        </select><br><br>
+        
         <label for="transporte">Transporte recomendado:</label><br>
-        <input type="text" id="transporte" name="transporte" th:value="${ruta.transporte}"><br><br>
-
+        <select id="transporte" name="transporte">
+            <option value="Carro" th:selected="${ruta.transporte == 'Carro'}">Carro</option>
+            <option value="Bicicleta" th:selected="${ruta.transporte == 'Bicicleta'}">Bicicleta</option>
+            <option value="Caminando" th:selected="${ruta.transporte == 'Caminando'}">Caminando</option>
+        </select><br><br>
+        
         <label for="cantidadLugares">Cantidad de Lugares:</label><br>
-        <input required="" type="number" id="cantidadLugares" name="cantidadLugares" min="1" th:value="${cantidadLugares}" readonly><br><br>
+        <input required="" type="number" id="cantidadLugares" name="cantidadLugares" min="1" th:value="${cantidadLugares}"><br><br>
 
         <div id="lugaresContainer" th:each="lugar, iterStat : ${lugaresList}">
             <label th:for="${'lugar' + iterStat.index}">Lugar [[${iterStat.index + 1}]]:</label><br>
@@ -47,11 +54,14 @@
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var cantidadLugares = parseInt(document.getElementById('cantidadLugares').value);
-            var lugaresContainer = document.getElementById('lugaresContainer');
 
-            for (var i = lugaresContainer.children.length; i < cantidadLugares; i++) {
+        
+        document.getElementById('cantidadLugares').addEventListener('change', function() {
+            var cantidad = parseInt(this.value);
+            var lugaresContainer = document.getElementById('lugaresContainer');
+            lugaresContainer.innerHTML = '';
+
+            for (var i = 0; i < cantidad; i++) {
                 var label = document.createElement('label');
                 label.textContent = 'Lugar ' + (i + 1) + ':';
                 lugaresContainer.appendChild(label);
@@ -62,6 +72,23 @@
                 lugaresContainer.appendChild(input);
 
                 lugaresContainer.appendChild(document.createElement('br'));
+            }
+        });
+
+        document.getElementById('rutaFormulario').addEventListener('submit', function(event) {
+            var inputsLugares = document.getElementsByName('lugares[]');
+            var camposVacios = false;
+
+            for (var i = 0; i < inputsLugares.length; i++) {
+                if (inputsLugares[i].value.trim() === '' || inputsLugares[i].value.trim() === ', ') {
+                    camposVacios = true;
+                    break;
+                }
+            }
+
+            if (camposVacios) {
+                event.preventDefault();
+                alert('Por favor, complete todos los campos de lugares antes de enviar el formulario.');
             }
         });
     </script>
