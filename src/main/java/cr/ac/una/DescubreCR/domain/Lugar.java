@@ -1,6 +1,5 @@
 package cr.ac.una.DescubreCR.domain;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,14 +31,14 @@ public class Lugar {
     @Temporal(TemporalType.TIME)
     private LocalTime hora_cierre;
     private double precio_entrada;
-    private String calidad_recepcion_telefonica;
+    private String calidad_recep;
     private String imagen;
     @OneToOne(mappedBy = "lugarTuristico")
     private Ubicacion ubicacion;
     public Lugar() {
     }
 
-    public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String calidad_recepcion_telefonica, String imagen) {
+    public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String calidad_recep, String imagen) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -48,7 +47,7 @@ public class Lugar {
         this.hora_apertura = hora_apertura;
         this.hora_cierre = hora_cierre;
         this.precio_entrada = precio_entrada;
-        this.calidad_recepcion_telefonica = calidad_recepcion_telefonica;
+        this.calidad_recep = calidad_recep;
         this.imagen = imagen;
     }
 
@@ -125,11 +124,11 @@ public class Lugar {
     }
 
     public String getCalidad_recepcion_telefonica() {
-        return calidad_recepcion_telefonica;
+        return calidad_recep;
     }
 
     public void setCalidad_recepcion_telefonica(String calidad_recepcion_telefonica) {
-        this.calidad_recepcion_telefonica = calidad_recepcion_telefonica;
+        this.calidad_recep = calidad_recepcion_telefonica;
     }
 
     public String getImagen() {

@@ -66,9 +66,7 @@ public class ControllerLugar {
               @RequestParam("hora_apertura") String hora_aperturaStr,
               @RequestParam("hora_cierre") String hora_cierreStr,
               @RequestParam("precio_entr") double precio_entrada,
-              @RequestParam("provincia") String provincia,
-              @RequestParam("canton") String canton,
-              @RequestParam("distrito") String distrito,
+              
               @RequestParam("direccion") String direccion,
               @RequestParam("calidad_recep") String calidad_recepcion,
               @RequestParam(name="imagen", required=false) MultipartFile imagen,
@@ -103,14 +101,12 @@ public class ControllerLugar {
         
             ubicacion.setNombreAutor("AutorDeVariableGlobal");
             ubicacion.setDireccion(direccion);
-            ubicacion.setNombreProvincia(provincia);
-            ubicacion.setCanton(canton);
-            ubicacion.setDistrito(distrito);
+            ubicacion.setNombreProvincia("Provincia1");
+            ubicacion.setCanton("Canton1");
+            ubicacion.setDistrito("Distrito1");
             ubicacion.setFechaCreacion(LocalDate.now());
-            ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
-            ubicacion.setLugarTuristico(ServiciosLugar.consultarEspPorCodigo(codigo));
-            
-            ubicacionService.guardar(ubicacion);
+            //ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
+            ubicacion.setLugarTuristico(lugar);
             
             lugar.setCodigo(codigo);
             lugar.setNombre(nombre);
@@ -121,14 +117,10 @@ public class ControllerLugar {
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
-            lugar.setUbicacion(ubicacionService.getUltimaUbicacion());
-            int ultima_ubicacion = lugar.getUbicacion().getId();
-            //System.out.println("ubicacion: " + ultima_ubicacion);
             
-            int ultimoLugar = ServiciosLugar.getUltimoLugar(String.valueOf(ultima_ubicacion));
-            lugar.setId(ultimoLugar);
-            
-            ServiciosLugar.reguardarPorID(lugar);
+            //ServiciosLugar.insertar(lugar);
+            ubicacionService.guardar(ubicacion);
+         
             flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
         
@@ -189,10 +181,6 @@ public class ControllerLugar {
     @GetMapping("/consulta_eliminar")
     public String eliminar(@RequestParam("codigo") String codigo,
             RedirectAttributes flash) throws SQLException{
-        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigo);
-        int ubicacion = lugar.getUbicacion().getId();
-        ServiciosLugar.actualizarForanea(codigo);
-        ubicacionService.eliminar(String.valueOf(ubicacion));
         ServiciosLugar.eliminar(codigo);
         
         return "redirect:listar_admin";

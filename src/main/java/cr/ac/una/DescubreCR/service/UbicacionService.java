@@ -24,7 +24,7 @@ public class UbicacionService implements IUbicacionService{
     
     @Override // guarda y actualiza
     public void guardar(Ubicacion ubicacion) {
-        ubicacionRepo.save(ubicacion);
+            ubicacionRepo.save(ubicacion);
     }
     
     @Override

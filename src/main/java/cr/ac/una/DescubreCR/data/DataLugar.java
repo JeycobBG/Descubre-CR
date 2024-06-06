@@ -14,8 +14,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -35,15 +33,15 @@ public class DataLugar extends ConectarDB{
     private static final String HORA_APERTURA = "hora_apertura";
     private static final String HORA_CIERRE = "hora_cierre";
     private static final String PRECIO_ENTRADA = "precio_entrada";
-    private static final String CALIDAD_RECEP = "calidad_recepcion_telefonica";
+    private static final String CALIDAD_RECEP = "calidad_recep";
     private static final String IMAGENES = "imagen";
     private static final String UBICACION = "ubicacion";
     
     public boolean insertar(Lugar lugar) throws SQLException{
          String sql = "INSERT INTO " + TBLUGARES + "(" + CODIGO + "," + NOMBRE + "," + DESCRIPCION + "," + CATEGORIA
                 + "," + DIAS_HORARIO + "," + HORA_APERTURA + "," + HORA_CIERRE + "," + PRECIO_ENTRADA 
-                + "," + CALIDAD_RECEP + "," + IMAGENES
-                +") VALUES (?,?,?,?,?,?,?,?,?,?)";
+                + "," + CALIDAD_RECEP + "," + IMAGENES + "," + UBICACION
+                +") VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         
         String sql_ubicacion = "SELECT LAST_INSERT_ID() as id_lugar";
          
@@ -60,6 +58,7 @@ public class DataLugar extends ConectarDB{
         statement.setDouble(8, lugar.getPrecio_entrada());
         statement.setString(9, lugar.getCalidad_recepcion_telefonica());
         statement.setString(10, lugar.getImagen());
+        statement.setNull(11, java.sql.Types.INTEGER);
         //statement.setString(11, getId_ubicacion());
         
         int resultado = statement.executeUpdate();
@@ -74,8 +73,7 @@ public class DataLugar extends ConectarDB{
         conexion.close();
         
         return resultado==1;
-    }
-    
+    }    
     public int getUltimoLugar(String ultimo_id_ubicacion){
         String sql_ubicacion = "SELECT u.lugar FROM tb_ubicacion u WHERE u.id = ?";
         Connection conexion = conectar();
@@ -162,21 +160,6 @@ public class DataLugar extends ConectarDB{
     return new PageImpl<>(lugares, pageable, total);
 }
 
-    
-    public boolean actualiarForanea(String codigo) throws SQLException{
-        String sqlUpdate = "UPDATE " + TBLUGARES + " SET " + UBICACION + " = ? " + "WHERE "+ CODIGO +" = ?";
-        Connection conexion = conectar();
-        PreparedStatement statement = conexion.prepareStatement(sqlUpdate);
-        
-        statement.setString(1, null);
-        statement.setString(2, codigo);
-        int resultadoUpdate = statement.executeUpdate();
-        
-        System.out.println("resultado update: "  + resultadoUpdate);
-        
-        return resultadoUpdate==1;
-    }
-
     public boolean eliminar(String codigo) throws SQLException{
         String sql = "DELETE FROM "+ TBLUGARES +" WHERE "+ CODIGO +" = ?;";
         Connection conexion = conectar();
@@ -198,7 +181,7 @@ public class DataLugar extends ConectarDB{
         
         String sql = "SELECT "
                 + " L.id,L.codigo,L.nombre,L.descripcion,L.categoria,L.dias_horario,"
-                + " L.hora_apertura,L.hora_cierre,L.precio_entrada,L.calidad_recepcion_telefonica,"
+                + " L.hora_apertura,L.hora_cierre,L.precio_entrada,L.calidad_recep,"
                 + " L.imagen,L.ubicacion,U.canton,U.distrito,U.nombre_provincia,U.direccion"
                 + " FROM " + TBLUGARES + " L" 
                 + " INNER JOIN " + TBUBICACION + " U ON L.ubicacion = U.id"
@@ -381,20 +364,5 @@ public class DataLugar extends ConectarDB{
         
         return categorias;
     }
-    
-    public LinkedList<String> getProvincias(){
-        LinkedList<String> provincias = new LinkedList();
-        
-        provincias.add("San José");
-        provincias.add("Alajuela");
-        provincias.add("Cartago");
-        provincias.add("Heredia");
-        provincias.add("Guanacaste");
-        provincias.add("Puntarenas");
-        provincias.add("Limón");
-        
-        return provincias;
-    }
-    
     
 }
