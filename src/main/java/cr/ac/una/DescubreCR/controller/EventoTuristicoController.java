@@ -3,7 +3,7 @@ package cr.ac.una.DescubreCR.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.EventoTuristico;
 import cr.ac.una.DescubreCR.service.IEventoTuristicoServices;
-import cr.ac.una.DescubreCR.service.ServiciosLugar;
+import cr.ac.una.DescubreCR.service.ILugarService;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,9 +33,12 @@ public class EventoTuristicoController {
     @Autowired
     private IEventoTuristicoServices evenTurisSer;
     
+    @Autowired
+    private ILugarService lugarService;
+    
     @GetMapping("/agregar")
     public String mostrarFormularioAgregarArticulo(Model model) throws SQLException {
-        model.addAttribute("lugar",ServiciosLugar.listar());
+        model.addAttribute("lugar",lugarService.listar());
         return "eventuris/escribirEventoTuristico";
     }
     
@@ -56,7 +58,7 @@ public class EventoTuristicoController {
     eventoTuristico.setNombreEvento(nombreEvento);
     eventoTuristico.setDescripcion(descripcion);
     eventoTuristico.setFecha(fecha);
-    eventoTuristico.setLugar(ServiciosLugar.consultarEspPorCodigo(lugarCodigo));
+    eventoTuristico.setLugar(lugarService.consultarEspPorCodigo(lugarCodigo));
     eventoTuristico.setTitulo(titulo);
     eventoTuristico.setNombreAutor(nombreAutor);
     eventoTuristico.setHoraInicial(horaInicial);
@@ -182,7 +184,7 @@ public class EventoTuristicoController {
 
     if (eventoTuristico != null) {
         modelo.addAttribute("eventoTuristico", eventoTuristico);
-        modelo.addAttribute("lugares", ServiciosLugar.listar());
+        modelo.addAttribute("lugares", lugarService.listar());
         return "eventuris/actualizarEventoTuristico";
     } else {
         flash.addFlashAttribute("error", "No existe el evento turistico con ese id ");
@@ -221,7 +223,7 @@ public class EventoTuristicoController {
     eventoTuristico.setNombreEvento(nombreEvento);
     eventoTuristico.setDescripcion(descripcion);
     eventoTuristico.setFecha(fecha);
-    eventoTuristico.setLugar(ServiciosLugar.consultarEspPorCodigo(lugarCodigo));
+    eventoTuristico.setLugar(lugarService.consultarEspPorCodigo(lugarCodigo));
     eventoTuristico.setTitulo(titulo);
     eventoTuristico.setNombreAutor(nombreAutor);
     eventoTuristico.setHoraInicial(horaInicial);
