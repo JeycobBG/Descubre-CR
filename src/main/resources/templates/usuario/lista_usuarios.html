@@ -48,7 +48,7 @@
         </p>
        
 			<div>
-				<select id="pageSize" name="size" class="form-control" onchange="changePageSize()">
+				<select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
 					<option th:each="size : ${pageSizeOptions}" th:value="${size}"
 						th:text="${size}" th:selected="${page.size == size}"></option>
 				</select>
@@ -87,15 +87,9 @@
         
 	</div>
 	<script>
-        function changePageSize() {
-                const pageSize = document.getElementById("pageSize").value;
-                const currentPage = [[${page.number}]];
-                window.location.href = "?page="+currentPage + "&size=" + pageSize;
-        }
-                
         function cambiarPagTam(){
             const pageSize = document.getElementById("pageSize").value;
-            const currentPage = [[${pagina.number}]];
+            const currentPage = [[${page.number}]];
 
             // Verificar si el nombre existe
             const cedula = "[[${cedula}]]";

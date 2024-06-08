@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.domain.Ubicacion;
+import cr.ac.una.DescubreCR.service.ILugarService;
 import cr.ac.una.DescubreCR.service.IServiciosComentarioLugar;
 import cr.ac.una.DescubreCR.service.ProvinciaService;
-import cr.ac.una.DescubreCR.service.ServiciosLugar;
 import cr.ac.una.DescubreCR.service.UbicacionService;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +43,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ControllerLugar {
     
     @Autowired
+    private ILugarService lugarService;
+    
+    @Autowired
     private IServiciosComentarioLugar comentariosLugarServ;
     
     @Autowired
@@ -50,9 +54,12 @@ public class ControllerLugar {
     @Autowired
     private ProvinciaService provinciaService;
     
+    @Autowired
+    private ObjectMapper objectMapper; 
+    
     @GetMapping("/form_registrar")
     public String registrar(Model modelo){
-        modelo.addAttribute("categorias", ServiciosLugar.getCategorias());
+        modelo.addAttribute("categorias", lugarService.getCategorias());
         
         return "lugar/form_registrar";
     }
@@ -66,15 +73,13 @@ public class ControllerLugar {
               @RequestParam("hora_apertura") String hora_aperturaStr,
               @RequestParam("hora_cierre") String hora_cierreStr,
               @RequestParam("precio_entr") double precio_entrada,
-              @RequestParam("provincia") String provincia,
-              @RequestParam("canton") String canton,
-              @RequestParam("distrito") String distrito,
+              
               @RequestParam("direccion") String direccion,
               @RequestParam("calidad_recep") String calidad_recepcion,
               @RequestParam(name="imagen", required=false) MultipartFile imagen,
               RedirectAttributes flash) throws SQLException {
 
-        if(ServiciosLugar.consultarEspPorCodigo(codigo).getCodigo()!=null){
+        if(lugarService.consultarEspPorCodigo(codigo)!=null){
             flash.addFlashAttribute("error", "Ya existe un lugar con el codigo ingresado.");
         }
         else if(LocalTime.parse(hora_aperturaStr).isAfter(LocalTime.parse(hora_cierreStr))){
@@ -103,14 +108,12 @@ public class ControllerLugar {
         
             ubicacion.setNombreAutor("AutorDeVariableGlobal");
             ubicacion.setDireccion(direccion);
-            ubicacion.setNombreProvincia(provincia);
-            ubicacion.setCanton(canton);
-            ubicacion.setDistrito(distrito);
+            ubicacion.setNombreProvincia("Provincia1");
+            ubicacion.setCanton("Canton1");
+            ubicacion.setDistrito("Distrito1");
             ubicacion.setFechaCreacion(LocalDate.now());
-            ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
-            ubicacion.setLugarTuristico(ServiciosLugar.consultarEspPorCodigo(codigo));
-            
-            ubicacionService.guardar(ubicacion);
+            ubicacion.setProvincia(provinciaService.getProvinciaByName(ubicacion.getNombreProvincia()));
+            ubicacion.setLugarTuristico(lugar);
             
             lugar.setCodigo(codigo);
             lugar.setNombre(nombre);
@@ -121,14 +124,10 @@ public class ControllerLugar {
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
-            lugar.setUbicacion(ubicacionService.getUltimaUbicacion());
-            int ultima_ubicacion = lugar.getUbicacion().getId();
-            //System.out.println("ubicacion: " + ultima_ubicacion);
             
-            int ultimoLugar = ServiciosLugar.getUltimoLugar(String.valueOf(ultima_ubicacion));
-            lugar.setId(ultimoLugar);
-            
-            ServiciosLugar.reguardarPorID(lugar);
+            //ServiciosLugar.insertar(lugar);
+            ubicacionService.guardar(ubicacion);
+         
             flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
         
@@ -137,7 +136,7 @@ public class ControllerLugar {
     
     @GetMapping("/listar")
     public String listar(@PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Page<Lugar> pagina = ServiciosLugar.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        Page<Lugar> pagina = lugarService.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
         modelo.addAttribute("pagina", pagina);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
         
@@ -163,7 +162,7 @@ public class ControllerLugar {
     
     @GetMapping("/listar_admin")
     public String listarAdmin(@PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Page<Lugar> pagina = ServiciosLugar.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        Page<Lugar> pagina = lugarService.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
         modelo.addAttribute("pagina", pagina);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
         
@@ -187,49 +186,42 @@ public class ControllerLugar {
     }
     
     @GetMapping("/consulta_eliminar")
-    public String eliminar(@RequestParam("codigo") String codigo,
+    public String eliminar(@RequestParam("id") int id,
             RedirectAttributes flash) throws SQLException{
-        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigo);
-        int ubicacion = lugar.getUbicacion().getId();
-        ServiciosLugar.actualizarForanea(codigo);
-        ubicacionService.eliminar(String.valueOf(ubicacion));
-        ServiciosLugar.eliminar(codigo);
+        System.out.print("\n\n\n" + id + "\n\n\n");
+        lugarService.eliminar(id);
         
         return "redirect:listar_admin";
     }
     
     @GetMapping("/consulta_actualizar")
-    public String formularioActualizar(@RequestParam("codigo") String codigo, Model modelo, RedirectAttributes flash) throws SQLException, JsonProcessingException{
-        Lugar lugar_editar = ServiciosLugar.consultarEspPorCodigo(codigo);
+    public String formularioActualizar(@RequestParam("codigo") String codigo, Model modelo, RedirectAttributes flash) throws SQLException, JsonProcessingException {
+        Lugar lugar_editar = lugarService.consultarEspPorCodigo(codigo);
         Ubicacion ubicacion = lugar_editar.getUbicacion();
         modelo.addAttribute("ubicacion", ubicacion);
-        modelo.addAttribute("categorias", ServiciosLugar.getCategorias());
+        modelo.addAttribute("categorias", lugarService.getCategorias());
         
-        if(lugar_editar.getCodigo()!=null){
+        if (lugar_editar.getCodigo() != null) {
             Lugar lugarParaJson = new Lugar();
-            
             lugarParaJson.setUbicacion(lugar_editar.getUbicacion());
-            
             lugarParaJson.setDias_horario(lugar_editar.getDias_horario());
-            ObjectMapper objectMapper = new ObjectMapper();
             
+            // Use the injected ObjectMapper
             String lugarJson = objectMapper.writeValueAsString(lugarParaJson);
             modelo.addAttribute("lugar", lugar_editar);
             modelo.addAttribute("lugarJson", lugarJson);
             
             return "lugar/form_actualizar";
-        }
-        else{
+        } else {
             flash.addFlashAttribute("error", "No existe el lugar con código " + codigo);
             return "redirect:listar_admin";
         }
-      
     }
     
     @GetMapping("/consulta_verDetalles")
     @ResponseBody
     public Lugar obtenerDetallesLugar(@RequestParam("codigo") String codigo) throws SQLException, JsonProcessingException {
-        return ServiciosLugar.consultarEspPorCodigo(codigo);
+        return lugarService.consultarEspPorCodigo(codigo);
     }
     
     @PostMapping("/actualizar")
@@ -295,7 +287,7 @@ public class ControllerLugar {
 
             ubicacionService.guardar(ubicacion);
             //lugar.setUbicacion(ubicacion);
-            ServiciosLugar.reguardar(lugar);
+            lugarService.insertar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }
         
@@ -304,7 +296,7 @@ public class ControllerLugar {
     
     @GetMapping("/consulta_buscar")
     public String buscar(@PageableDefault(size=5, page=0) Pageable pageable, @RequestParam("nombre") String nombre, Model modelo) throws SQLException{
-        Page<Lugar> pagina = ServiciosLugar.consultarPorNombre(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), nombre);
+        Page<Lugar> pagina = lugarService.consultarPorNombre(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), nombre);
         modelo.addAttribute("pagina", pagina);
         modelo.addAttribute("nombre", nombre);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
@@ -330,7 +322,7 @@ public class ControllerLugar {
     
     @GetMapping("/consulta_buscarAdmin")
     public String buscarAdmin(@PageableDefault(size=5, page=0) Pageable pageable, @RequestParam("nombre") String nombre, Model modelo) throws SQLException{
-        Page<Lugar> pagina = ServiciosLugar.consultarPorNombre(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), nombre);
+        Page<Lugar> pagina = lugarService.consultarPorNombre(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), nombre);
         modelo.addAttribute("pagina", pagina);
         modelo.addAttribute("nombre", nombre);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
@@ -356,10 +348,8 @@ public class ControllerLugar {
     
     @GetMapping("/consulta_individual")
     public String infoIndividual(@RequestParam("codigo") String codigo, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigo);
+        Lugar lugar = lugarService.consultarEspPorCodigo(codigo);
         Ubicacion ubicacion = lugar.getUbicacion();
-        
-        
         
         modelo.addAttribute("ubicacion", ubicacion);
         modelo.addAttribute("lugar", lugar);

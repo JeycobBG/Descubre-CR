@@ -53,8 +53,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td><a class="editar-button"th:href="@{'/lugares/consulta_actualizar?codigo=' + ${lugar.codigo}}" th:text="'Editar'"></a></td>
                     <td>
                         <a class="eliminar-button" href="#"
-                        th:data-codigo="${lugar.codigo}"
-                        th:data-url-eliminar="@{/lugares/consulta_eliminar?codigo=}"
+                        th:data-codigo="${lugar.id}"
+                        th:data-url-eliminar="@{/lugares/consulta_eliminar?id=}"
                         th:data-url-listar="@{/lugares/listar_admin}"
                         onclick="eliminar(this)">Eliminar</a>
                     </td>
