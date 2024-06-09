@@ -127,7 +127,7 @@ public class ControllerLugar {
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
             lugar.setUbicacion(ubicacion);
             
-            ubicacionService.guardar(ubicacion);
+            lugarService.insertar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha guardado con éxito!");
         }
         
@@ -188,7 +188,7 @@ public class ControllerLugar {
     @GetMapping("/consulta_eliminar")
     public String eliminar(@RequestParam("id") int id,
             RedirectAttributes flash) throws SQLException{
-        ubicacionService.eliminar(String.valueOf(lugarService.tomar(id).getUbicacion().getId()));
+        lugarService.eliminar(id);
         
         return "redirect:listar_admin";
     }
@@ -244,7 +244,20 @@ public class ControllerLugar {
             flash.addFlashAttribute("error", "La hora de apertura es posterior a la hora de cierre. Corrija los datos.");
         }
         else{
-            Lugar lugar = new Lugar();
+            Lugar lugar = lugarService.consultarEspPorCodigo(codigo);
+            if (lugar == null) {
+                flash.addFlashAttribute("error", "Lugar no encontrado.");
+                return "redirect:/listar_admin";
+            }
+
+            Ubicacion ubicacion = lugar.getUbicacion();
+
+            if (ubicacion == null) {
+                flash.addFlashAttribute("error", "Ubicación no encontrada.");
+                return "redirect:/listar_admin";
+            }
+
+            
             String dias_horarioStr = String.join(", ", dias_horario);
             LocalTime horaApertura = LocalTime.parse(hora_aperturaStr);
             LocalTime horaCierre = LocalTime.parse(hora_cierreStr);
@@ -261,6 +274,15 @@ public class ControllerLugar {
                     e.printStackTrace();
                 }
             }
+            
+            ubicacion.setId(Integer.parseInt(id));
+            ubicacion.setNombreAutor("AutorDeVariableGlobal");
+            ubicacion.setDireccion(direccion);
+            ubicacion.setNombreProvincia(provincia);
+            ubicacion.setCanton(canton);
+            ubicacion.setDistrito(distrito);
+            ubicacion.setFechaCreacion(LocalDate.now());
+            ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
 
             lugar.setCodigo(codigo);
             lugar.setNombre(nombre);
@@ -271,20 +293,8 @@ public class ControllerLugar {
             lugar.setHora_cierre(horaCierre);
             lugar.setPrecio_entrada(precio_entrada);
             lugar.setCalidad_recepcion_telefonica(calidad_recepcion);
+            lugar.setUbicacion(ubicacion);
 
-            Ubicacion ubicacion = new Ubicacion();
-            
-            ubicacion.setId(Integer.parseInt(id));
-            ubicacion.setNombreAutor("AutorDeVariableGlobal");
-            
-            ubicacion.setDireccion(direccion);
-            ubicacion.setNombreProvincia(provincia);
-            ubicacion.setCanton(canton);
-            ubicacion.setDistrito(distrito);
-            ubicacion.setFechaCreacion(LocalDate.now());
-            ubicacion.setProvincia(provinciaService.getProvinciaByName(provincia));
-
-            ubicacionService.guardar(ubicacion);
             lugarService.insertar(lugar);
             flash.addFlashAttribute("exito", "¡El lugar se ha actualizado con éxito!");
         }
@@ -345,9 +355,10 @@ public class ControllerLugar {
     }
     
     @GetMapping("/consulta_individual")
-    public String infoIndividual(@RequestParam("codigo") String codigo, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Lugar lugar = lugarService.consultarEspPorCodigo(codigo);
+    public String infoIndividual(@RequestParam("codigo") int id, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
+        Lugar lugar = lugarService.tomar(id);
         Ubicacion ubicacion = lugar.getUbicacion();
+        System.out.print("\n\n\n" + ubicacion.getNombreProvincia() + "\n\n\n") ;
         
         modelo.addAttribute("ubicacion", ubicacion);
         modelo.addAttribute("lugar", lugar);

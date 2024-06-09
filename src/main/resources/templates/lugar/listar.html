@@ -21,7 +21,7 @@
                     
                     <img th:src="@{'/imagenes/' + ${lugar.imagen}}" th:alt="${lugar.imagen}">
                     <div class="categoria-container">
-                        <p><span th:text="${lugar.categoria}" id="categoria"></span><a th:href="@{/lugares/consulta_individual(codigo=${lugar.codigo})}">Ver más info</a></p>
+                        <p><span th:text="${lugar.categoria}" id="categoria"></span><a th:href="@{/lugares/consulta_individual(codigo=${lugar.id})}">Ver más info</a></p>
                         
                     </div>
                     <div class="info"> 
