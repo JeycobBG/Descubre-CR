@@ -44,6 +44,11 @@ public class LugarService implements ILugarService{
     public void eliminar(int id) {
        lugarRepo.deleteById(id);
     }
+    
+    @Override
+    public Lugar tomar(int id) {
+        return lugarRepo.getReferenceById(id);
+    }
 
     @Override
     public Lugar consultarEspPorCodigo(String codigo) {
