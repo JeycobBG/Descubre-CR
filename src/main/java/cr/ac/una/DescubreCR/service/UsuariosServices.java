@@ -4,65 +4,68 @@
  */
 package cr.ac.una.DescubreCR.service;
 
-import cr.ac.una.DescubreCR.data.DataUsuarios;
 import cr.ac.una.DescubreCR.domain.Usuario;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.codec.digest.DigestUtils;
+import cr.ac.una.DescubreCR.jpa.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-/**
- *
- * @author kvene
- */
-public class UsuariosServices {
+import java.util.List;
+import org.apache.commons.codec.digest.DigestUtils;
 
-    public static LinkedList<Usuario> getUsuarios(){
-        return new DataUsuarios().getUsuarios();
+@Service
+public class UsuariosServices implements IUsuariosServices {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Override
+    public boolean guardar(Usuario user) {
+        usuarioRepository.save(user);
+        return true;
     }
 
-    public static boolean eliminar(String cedula) {
-        return new DataUsuarios().eliminarPersona(cedula);
-    }
-    
-    public static boolean insertar(Usuario usuario) throws SQLException {
-        usuario.setContraseña(encriptar(usuario.getContraseña()));
-        return new DataUsuarios().insertarPersona(usuario);
-    }
-    
-    public static String encriptar(String passwordSinEncriptar){
-        return DigestUtils.md5Hex(passwordSinEncriptar);
-    }
-    
-    public static boolean modificar(Usuario usuario) {
-        try {
-            System.out.println("Service Modificar " + usuario.toString());
-            return(new DataUsuarios().modificarPersona(usuario));
-        } catch (SQLException ex) {
-            Logger.getLogger(UsuariosServices.class.getName()).log(Level.SEVERE, null, ex);
+    @Override
+    public boolean eliminar(int id) {
+        if (usuarioRepository.existsById(id)) {
+            System.out.println("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii UuS");
+            usuarioRepository.deleteById(id);
+            return true;
         }
         return false;
     }
-    
-    public static Usuario buscar(String cedula) {
-        Usuario usuario = null;
-        try {
-            usuario = new DataUsuarios().buscarPersonaCedula(cedula);
-        } catch (SQLException ex) {
-            Logger.getLogger(UsuariosServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return usuario;
+
+    @Override
+    public Page<Usuario> listar(Pageable pageable) {
+        return usuarioRepository.findAll(pageable);
     }
-    
-    public static boolean login(String nameUser, String contraseña) throws SQLException {
-        return new DataUsuarios().login(nameUser, contraseña);
+
+    @Override
+    public boolean login(String nombre, String contrasena) {
+        String encryptedPassword = encriptar(contrasena);
+        
+        System.out.println("aquiiiiiiiii   encrip= " + encryptedPassword);
+        return usuarioRepository.findByNombreUsuarioAndContrasena(nombre, contrasena).isPresent();
     }
-    
-    public static Page<Usuario> listar(Pageable pageable) throws SQLException{
-        return new DataUsuarios().listar(pageable);
+
+    @Override
+    public List<Usuario> getServicios() {
+        return usuarioRepository.findAll();
     }
-    
+
+    @Override
+    public Usuario obtenerPorId(int id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public String encriptar(String passwordSinEncriptar) {
+        return DigestUtils.md5Hex(passwordSinEncriptar);
+    }
+
+    @Override
+    public Usuario buscar(String cedula) {
+        return usuarioRepository.findByCedula(cedula).orElse(null);
+    }
 }

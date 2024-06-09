@@ -8,16 +8,18 @@
     <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css">
 </head>
 <body>
+
     <h1>Lista de usuarios</h1>
     <div class="container mt-4">
         <h1>Datos de personas</h1>
         <table class="table table-bordered">
         <thead>
                 <tr>
+                    <th>id</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Cédula</th>
-                    <th>Nombre de Usuario</th>
+                    <th>Usuario</th>
                     <th>Tipo de Usuario</th>
                     <th>Correo</th>
                     <th>Teléfono</th>
@@ -28,6 +30,7 @@
             </thead>
             <tbody>
                 <tr th:each="usuario : ${page.content}">
+                    <td th:text="${usuario.per_id}"></td>
                     <td th:text="${usuario.nombre}"></td>
                     <td th:text="${usuario.apellido}"></td>
                     <td th:text="${usuario.cedula}"></td>
@@ -36,8 +39,11 @@
                     <td th:text="${usuario.correo}"></td>
                     <td th:text="${usuario.telefono}"></td>
                     <td th:text="${#dates.format(usuario.fechaNacimiento, 'dd-MM-yyyy')}"></td>
-                    <td><a class="editar-button" th:href="@{'/usuarios/buscarUsuario?cedula=' + ${usuario.cedula}}" th:text="'Editar'"></a></td>
-                    <td><a class="eliminar-button"th:href="@{'/usuarios/eliminar?cedula=' + ${usuario.cedula}}" th:text="'Eliminar'"></a></td>
+                    
+                    <td><a class="editar-button" th:href="@{'/usuarios/buscarUsuario?per_id=' + ${usuario.per_id}}" th:text="'Editar'"></a></td>
+                    <td><a class="eliminar-button"th:href="@{'/usuarios/eliminar?per_id=' + ${usuario.per_id}}" th:text="'Eliminar'"></a></td>
+                   
+                    
                     <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesUsuario(\'' + ${usuario.cedula} + '\')'" th:text="'Ver detalles'"></a></td>
                 </tr>
             </tbody>
@@ -87,28 +93,23 @@
         
 	</div>
 	<script>
-        function changePageSize() {
-                const pageSize = document.getElementById("pageSize").value;
-                const currentPage = [[${page.number}]];
-                window.location.href = "?page="+currentPage + "&size=" + pageSize;
-        }
-                
+        
         function cambiarPagTam(){
-            const pageSize = document.getElementById("pageSize").value;
-            const currentPage = [[${pagina.number}]];
+                const pageSize = document.getElementById("pageSize").value;
+                const currentPage = "[[${page.number}]]";
 
-            // Verificar si el nombre existe
-            const cedula = "[[${cedula}]]";
-            let url = "";
-            if (titulo.trim() !== "") {
-                url = "/usuarios/buscarUsuario?cedula=" + cedula + "&page=" + currentPage + "&size=" + pageSize;
-            } else {
-                url = "?page=" + currentPage + "&size=" + pageSize;
+                // Verificar si el nombre existe
+                const descripcion = "[[${cedula}]]";
+                let url = "";
+                if (titulo.trim() !== "") {
+                    url = "/usuarios/buscarUsuario?cedula=" + cedula + "&page=" + currentPage + "&size=" + pageSize;
+                } else {
+                    url = "?page=" + currentPage + "&size=" + pageSize;
+                }
+
+                window.location.href = url;
             }
-
-            window.location.href = url;
-        }
-
+            
 	</script>
 	<!-- Añadir los scripts de Bootstrap 4 -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

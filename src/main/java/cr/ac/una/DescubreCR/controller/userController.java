@@ -1,8 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cr.ac.una.DescubreCR.controller;
 
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.Persona;
 import cr.ac.una.DescubreCR.domain.Usuario;
-import cr.ac.una.DescubreCR.service.UsuariosServices;
+import cr.ac.una.DescubreCR.service.IUsuariosServices;
 import java.sql.SQLException;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +29,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -32,36 +38,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/usuarios")
 public class userController {
+   
+    @Autowired
+    private IUsuariosServices usuariosServices;
     
-    
-    @GetMapping("/menuPrincipal")
-    public String menuPrincipal(){
-        return "index";
-    }
+    //@Autowired
+    //private IPersonaService personaServices;
     
     @GetMapping("/listaUsuarios")
-    public String findAll(@PageableDefault(size=5, page=0) Pageable pageable, Model model) throws SQLException{
-        Page<Usuario> page = UsuariosServices.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
-
+    public String listar(@PageableDefault(size=5, page=0) Pageable pageable, Model model) throws SQLException {
+        Page<Usuario> page = usuariosServices.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
         model.addAttribute("page", page);
-        List<Integer> pageSizeOptions = Arrays.asList(10,20, 50, 100);
+
+        List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
+        int paginasTotal = page.getTotalPages();
+        int paginaActual = page.getNumber();
+        int inicio = Math.max(1, paginaActual);
+        int termina = Math.min(paginaActual + 5, paginasTotal);
         
-        var totalPages = page.getTotalPages();
-        var currentPage = page.getNumber();
-        var start = Math.max(1, currentPage);
-        var end = Math.min(currentPage + 5, totalPages);
-
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = new ArrayList<>();
-            for (int i = start; i <= end; i++) {
-                    pageNumbers.add(i);
+        if (paginasTotal > 0) {
+            List<Integer> numPaginas = new ArrayList<>();
+            for (int i = inicio; i <= termina; i++) {
+                numPaginas.add(i);
             }
-
-            model.addAttribute("pageNumbers", pageNumbers);
+            model.addAttribute("pageNumbers", numPaginas);
         }
-
-        model.addAttribute("pageSizeOptions", pageSizeOptions);
-
+        model.addAttribute("pageSizeOptions", opcionesCantidadPorPagina);
 
         return "usuario/lista_usuarios";
     }
@@ -71,14 +73,7 @@ public class userController {
     public String agregar(){
         return "usuario/form_usuario";
     }
-    /*
-    @GetMapping("/listaUsuarios")
-    public String listar(Model model){
-        System.out.println("Lista de Usuarios");
-        LinkedList<Usuario> usuarios = UsuariosServices.getUsuarios();
-        model.addAttribute("usuarios", usuarios);
-        return "usuario/lista_usuarios";
-    }*/
+
 
     @GetMapping("/registrar") 
     public String save( 
@@ -105,10 +100,9 @@ public class userController {
             fechaNacimiento,
             telefono
         );
-        
         Usuario user = new Usuario(
             nombreUsuario,
-            contraseña,
+            usuariosServices.encriptar(contraseña),
             tipoUsuario,
             correo,
             fechaRegistro,
@@ -121,11 +115,12 @@ public class userController {
             person.getTelefono()
         );
 
-        if(buscarExistencia(user.getCedula())){
+        
+        if(usuariosServices.buscar(cedula) != null){
             flash.addFlashAttribute("error","Cédula ya existe");
         }else{
-            if(UsuariosServices.insertar(user)){
-                    flash.addFlashAttribute("exito","Se a registrado con éxito un usuario");
+            if(usuariosServices.guardar(user)){
+                flash.addFlashAttribute("exito","Se a registrado con éxito un usuario");
             }else{
                 flash.addFlashAttribute("error","No se a podido registrar un usuario");
             }
@@ -142,17 +137,18 @@ public class userController {
     public String login(@RequestParam("usuario") String usuario,
                         @RequestParam("password") String contraseña) throws SQLException{
         
-        if(!UsuariosServices.login(usuario,UsuariosServices.encriptar(contraseña))){
+        System.out.println("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii eliminar uspss = " + usuario +" y "+ contraseña);
+        if(!usuariosServices.login(usuario,contraseña)){
+        System.out.println("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii 22222222222222222222222");
             return "redirect:login";
         }
         return "index";
     }
     
     @GetMapping("/eliminar")
-    public String eliminar(RedirectAttributes flash, 
-        @RequestParam("cedula") String cedula){
+    public String eliminar(@RequestParam("per_id") int per_id, RedirectAttributes flash){
 
-        if(!UsuariosServices.eliminar(cedula)){
+        if(!usuariosServices.eliminar(per_id)){
             return "error";
         }
         flash.addFlashAttribute("exito","Se elimino con exito un usuario");
@@ -161,28 +157,20 @@ public class userController {
     }
     
     @GetMapping("/buscarUsuario")
-    public String buscarExistencia(@RequestParam("cedula") String cedula, Model model){
-        Usuario usuario = UsuariosServices.buscar(cedula);
-        System.out.println("Cedula = " +  cedula);
+    public String buscarExistencia(@RequestParam("per_id") int per_id, Model model) throws SQLException, JsonProcessingException {
+        Usuario usuario = usuariosServices.obtenerPorId(per_id);
+        
         if(usuario == null){
             return "error";
         }
         model.addAttribute("usuario", usuario);
+        
         return "usuario/modify_usuario"; 
     }
-    
-    @GetMapping("/getUsuario")
-    public Usuario getUsuario(@RequestParam("cedula") String cedula, Model model){
-        return UsuariosServices.buscar(cedula);
-    }
 
-    public boolean buscarExistencia(String cedula){
-        return UsuariosServices.buscar(cedula) != null;
-    }
     
     @PostMapping("/modificar")
     public String modificarUsuario(
-        
         RedirectAttributes flash, 
         @RequestParam("nombre") String nombre,
         @RequestParam("apellido") String apellido,
@@ -196,27 +184,31 @@ public class userController {
         @RequestParam("tipoUsuario") String tipoUsuario,
         @RequestParam("correo") String correo,
         @RequestParam("fechaRegistro") @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaRegistro){
-        
-        Usuario user = new Usuario(
-            nombreUsuario,
-            contraseña,
-            tipoUsuario,
-            correo,
-            fechaRegistro,
-            nombre,
-            apellido,
-            cedula,
-            idioma,
-            nacionalidad,
-            fechaNacimiento,
-            telefono
-        );
-        System.out.println("Controller");
 
-        if(UsuariosServices.modificar(user)) {
-            flash.addFlashAttribute("exito","Usuario modificado");
-            return "redirect:/usuarios/listaUsuarios";
+        Usuario usuarioExistente = usuariosServices.buscar(cedula);
+
+        if (usuarioExistente != null) {
+            usuarioExistente.setNombre(nombre);
+            usuarioExistente.setApellido(apellido);
+            usuarioExistente.setIdioma(idioma);
+            usuarioExistente.setNacionalidad(nacionalidad);
+            usuarioExistente.setFechaNacimiento(fechaNacimiento);
+            usuarioExistente.setTelefono(telefono);
+
+            usuarioExistente.setNombreUsuario(nombreUsuario);
+            usuarioExistente.setContrasena(contraseña);
+            usuarioExistente.setTipoUsuario(tipoUsuario);
+            usuarioExistente.setCorreo(correo);
+            usuarioExistente.setFechaRegistro(fechaRegistro);
+
+            if (usuariosServices.guardar(usuarioExistente)) {
+                flash.addFlashAttribute("exito", "Usuario modificado");
+                return "redirect:/usuarios/listaUsuarios";
+            }
+        } else {
+            flash.addFlashAttribute("error", "No se encontró el usuario");
         }
+
         return "error";
     }
 

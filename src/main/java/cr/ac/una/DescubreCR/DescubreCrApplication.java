@@ -3,7 +3,7 @@ package cr.ac.una.DescubreCR;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication////////////Revisando
+@SpringBootApplication
 public class DescubreCrApplication {
 
 	public static void main(String[] args) {
