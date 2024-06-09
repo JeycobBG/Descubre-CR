@@ -137,9 +137,7 @@ public class userController {
     public String login(@RequestParam("usuario") String usuario,
                         @RequestParam("password") String contraseña) throws SQLException{
         
-        System.out.println("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii eliminar uspss = " + usuario +" y "+ contraseña);
         if(!usuariosServices.login(usuario,contraseña)){
-        System.out.println("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii 22222222222222222222222");
             return "redirect:login";
         }
         return "index";

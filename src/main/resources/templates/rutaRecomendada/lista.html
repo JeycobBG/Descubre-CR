@@ -10,8 +10,8 @@
 
     <div th:each="ruta : ${pagina.content}">
         <div class="info">
-            <p><strong>id </strong> <span th:text="${ruta.id}"></span></p>
-            <p><strong>Descripción:</strong> <span th:text="${ruta.comentario}"></span></p>
+            <p><strong>Codigo: </strong> <span th:text="${ruta.id}"></span></p>
+            <p><strong>Comentario: </strong> <span th:text="${ruta.comentario}"></span></p>
             <p><strong>Dificultad:</strong> <span th:text="${ruta.dificultad}"></span></p>
             <p><strong>Tipo:</strong> <span th:text="${ruta.tipo}"></span></p>
             <p><strong>Transporte recomendado:</strong> <span th:text="${ruta.transporte}"></span></p>

@@ -21,7 +21,6 @@ public class RutaRecomendada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
     private String lugares;
     private String comentario;
     private double montoEntradas;

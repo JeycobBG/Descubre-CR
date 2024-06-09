@@ -29,7 +29,6 @@ public class UsuariosServices implements IUsuariosServices {
     @Override
     public boolean eliminar(int id) {
         if (usuarioRepository.existsById(id)) {
-            System.out.println("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii UuS");
             usuarioRepository.deleteById(id);
             return true;
         }
@@ -45,7 +44,6 @@ public class UsuariosServices implements IUsuariosServices {
     public boolean login(String nombre, String contrasena) {
         String encryptedPassword = encriptar(contrasena);
         
-        System.out.println("aquiiiiiiiii   encrip= " + encryptedPassword);
         return usuarioRepository.findByNombreUsuarioAndContrasena(nombre, contrasena).isPresent();
     }
 

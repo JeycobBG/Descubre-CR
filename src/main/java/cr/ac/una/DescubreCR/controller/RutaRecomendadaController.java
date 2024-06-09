@@ -105,16 +105,11 @@ public class RutaRecomendadaController {
     @GetMapping("/actualizar/{id}")
     public String formularioActualizar(@PathVariable("id") int codigo, Model modelo, RedirectAttributes flash) throws SQLException {
         
-        System.out.println("form uptdate ");
         RutaRecomendada ruta = rutasServ.obtenerPorCodigoRuta(codigo);
-        System.out.println("ruta ");
         
         if (ruta != null) {
-        System.out.println("ruta se encontro");
             modelo.addAttribute("ruta", ruta);
 
-        System.out.println("ruta modelo");
-            // Convertir la cadena de lugares a una lista y agregarla al modelo
             List<String> lugaresList = Arrays.asList(ruta.getLugares().split(",\\s*"));
             modelo.addAttribute("lugaresList", lugaresList);
             modelo.addAttribute("cantidadLugares", lugaresList.size());
