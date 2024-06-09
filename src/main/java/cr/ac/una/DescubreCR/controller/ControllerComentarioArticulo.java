@@ -2,7 +2,7 @@ package cr.ac.una.DescubreCR.controller;
 
 import cr.ac.una.DescubreCR.domain.Articulo;
 import cr.ac.una.DescubreCR.domain.ComentarioArticulo;
-import cr.ac.una.DescubreCR.service.ArticuloServices;
+import cr.ac.una.DescubreCR.service.IArticuloServices;
 import cr.ac.una.DescubreCR.service.IServiciosComentarioArticulo;
 import java.security.SecureRandom;
 import java.sql.SQLException;
@@ -34,6 +34,9 @@ public class ControllerComentarioArticulo {
     
     @Autowired
     private IServiciosComentarioArticulo comentariosArticuloServ;
+    
+    @Autowired
+    private IArticuloServices artService;
     
     private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static SecureRandom random = new SecureRandom();
@@ -69,7 +72,7 @@ public class ControllerComentarioArticulo {
             comentario.setCantidadDislikes(0);
             comentario.setVisibilidad(visible);
             comentario.setEtiquetas(etiquetas);
-            comentario.setArticulo(ArticuloServices.obtenerArticuloPorID(idArticulo));
+            comentario.setArticulo(artService.getArticuloPorId(idArticulo));
             comentario.setNombreUsuario(nombreUsuario);
             
             comentariosArticuloServ.guardar(comentario);
@@ -82,7 +85,7 @@ public class ControllerComentarioArticulo {
     
     @GetMapping("/listar")
     public String listar(@RequestParam("idArticulo") int idArticulo, @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Articulo articulo = ArticuloServices.obtenerArticuloPorID(idArticulo);
+        Articulo articulo = artService.getArticuloPorId(idArticulo);
         Page<ComentarioArticulo> pagina = comentariosArticuloServ.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idArticulo);
         
         modelo.addAttribute("articulo", articulo);
@@ -145,7 +148,7 @@ public class ControllerComentarioArticulo {
         comentario.setCantidadDislikes(dislikes);
         comentario.setVisibilidad(visible);
         comentario.setEtiquetas(etiquetas);
-        comentario.setArticulo(ArticuloServices.obtenerArticuloPorID(idArticulo));
+        comentario.setArticulo(artService.getArticuloPorId(idArticulo));
         comentario.setNombreUsuario(nombreUsuario);
         
         comentariosArticuloServ.guardar(comentario);
@@ -174,7 +177,7 @@ public class ControllerComentarioArticulo {
     
     @GetMapping("/buscar")
     public String buscar(@RequestParam("nombre") String nombre, @RequestParam("idArticulo") int idArticulo , @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Articulo articulo = ArticuloServices.obtenerArticuloPorID(idArticulo);
+        Articulo articulo = artService.getArticuloPorId(idArticulo);
         Page<ComentarioArticulo> pagina = comentariosArticuloServ.filtrarPorUsuario(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idArticulo, nombre);
         
         modelo.addAttribute("articulo", articulo);

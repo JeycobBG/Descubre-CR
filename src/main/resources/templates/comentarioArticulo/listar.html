@@ -49,7 +49,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         th:data-url-listar="@{'/comentariosArticulo/listar?idArticulo=' + ${comentario.articulo.idArticulo}}"
                         onclick="eliminar(this)">Eliminar</a>
                     </td>
-                    <td><a class="eliminar-button" href="#" th:data-codigo-articulo="${comentario.articulo.idArticulo}" th:data-codigo="${comentario.codigo}">Eliminar</a></td>
                     <td><a class="ver-detalles"href="#" th:attr="onclick='cargarDetallesComentarioArticulo(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
                 </tr>
             </table>

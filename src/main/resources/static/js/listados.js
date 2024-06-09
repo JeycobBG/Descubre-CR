@@ -50,7 +50,7 @@ function cargarDetallesArticulo(id) {
                 <p><strong>Tema:</strong> <span>${response.tema}</span></p>
                 <p><strong>Descripción:</strong> <span>${response.descripcion}</span></p>
                 <p><strong>Nombre del Autor:</strong> <span>${response.nombreAutor}</span></p>
-                <p><strong>Fecha:</strong> <span>${response.fecha}</span></p>
+                <p><strong>Fecha:</strong> <span>${response.fechaFormateada}</span></p>
                 <p><strong>Acerca del Autor:</strong> <span>${response.acercaDelAutor}</span></p>
                 <p><strong>Texto del Artículo:</strong> <span>${response.textoArticulo}</span></p>
                 `;
@@ -79,7 +79,7 @@ function cargarDetallesEventoTuristico(id) {
                     <p><strong>Identificador:</strong> <span>${eventoTuristico.codigo}</span></p>
                     <p><strong>Nombre del Evento:</strong> <span>${eventoTuristico.nombreEvento}</span></p>
                     <p><strong>Descripción:</strong> <span>${eventoTuristico.descripcion}</span></p>
-                    <p><strong>Fecha:</strong> <span>${eventoTuristico.fecha}</span></p>
+                    <p><strong>Fecha:</strong> <span>${eventoTuristico.fechaFormateada}</span></p>
                     <p><strong>Nombre del Lugar:</strong> <span>${eventoTuristico.lugar.nombre}</span></p>
                     <p><strong>Título:</strong> <span>${eventoTuristico.titulo}</span></p>
                     <p><strong>Nombre del Autor:</strong> <span>${eventoTuristico.nombreAutor}</span></p>

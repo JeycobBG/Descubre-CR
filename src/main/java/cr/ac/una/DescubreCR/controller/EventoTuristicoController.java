@@ -46,7 +46,7 @@ public class EventoTuristicoController {
     public String guardarEventoTuristico(@RequestParam("codigo") String codigo,
         @RequestParam("nombreEvento") String nombreEvento,
         @RequestParam("descripcion") String descripcion,
-        @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+        @RequestParam("fecha") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fecha,
         @RequestParam("lugar") String lugarCodigo,
         @RequestParam("titulo") String titulo,
         @RequestParam("nombreAutor") String nombreAutor,
@@ -199,18 +199,12 @@ public class EventoTuristicoController {
         return "redirect:/eventoTuristico/listarAdmin";
     }
 
- /*   @PostMapping("/actualizar-eventoTuristico")
-    public String actualizarEventoTuristico(@ModelAttribute EventoTuristico eventoTuristico) throws SQLException {
-        evenTurisSer.guardar(eventoTuristico);
-        return "redirect:/eventoTuristico/listarAdmin";
-    }
-  */  
     @PostMapping("/actualizar-eventoTuristico")
     public String actualizarEventoTuristico(@RequestParam("id") int id,
         @RequestParam("codigo") String codigo,
         @RequestParam("nombreEvento") String nombreEvento,
         @RequestParam("descripcion") String descripcion,
-        @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+        @RequestParam("fecha") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fecha,
         @RequestParam("lugar") String lugarCodigo,
         @RequestParam("titulo") String titulo,
         @RequestParam("nombreAutor") String nombreAutor,
@@ -243,7 +237,6 @@ public class EventoTuristicoController {
     @GetMapping("/consultaIndividual")
     public String infoIndividual(@RequestParam("id") int id, Model modelo) throws SQLException{
         modelo.addAttribute("eventoTuristico", evenTurisSer.getEventoPorId(id));
-        System.out.println(evenTurisSer.getEventoPorId(id).getNombreEvento());
         return "eventuris/eventoTuristicoIndividual";
     }
 }

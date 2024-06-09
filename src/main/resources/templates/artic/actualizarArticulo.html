@@ -18,7 +18,7 @@
     <div>    
     <form action="/articulos/actualizar-articulo" method="post">
          
-        <input type="hidden" name="idArticulo" th:value="${articulo.idArticulo}" class="hidden" />
+        <input type="hidden" id="idArticulo" th:field="${articulo.idArticulo}" /><br>
            
         <label for="identificador">Identificador</label><br>
         <input type="text" id="identificador" th:field="${articulo.identificador}"><br>

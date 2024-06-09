@@ -7,7 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -26,15 +27,15 @@ public class Articulo {
     private String descripcion;
     private String nombreAutor;
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fecha;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fecha;
     private String acercaDelAutor;
     private String textoArticulo;
 
     public Articulo() {
     }
 
-    public Articulo(int idArticulo, String identificador, String titulo, String tema, String descripcion, String nombreAutor, Date fecha, String acercaDelAutor, String textoArticulo) {
+    public Articulo(int idArticulo, String identificador, String titulo, String tema, String descripcion, String nombreAutor, LocalDate fecha, String acercaDelAutor, String textoArticulo) {
         this.idArticulo = idArticulo;
         this.identificador = identificador;
         this.titulo = titulo;
@@ -94,11 +95,11 @@ public class Articulo {
         this.nombreAutor = nombreAutor;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -118,5 +119,9 @@ public class Articulo {
         this.textoArticulo = textoArticulo;
     }
 
+     public String getFechaFormateada() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return fecha.format(formatter);
+    }
   
 }

@@ -2,19 +2,18 @@ package cr.ac.una.DescubreCR.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.Articulo;
-import cr.ac.una.DescubreCR.service.ArticuloServices;
+import cr.ac.una.DescubreCR.service.IArticuloServices;
 import cr.ac.una.DescubreCR.service.IServiciosComentarioArticulo;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +32,11 @@ public class ArticuloController {
     @Autowired
     private IServiciosComentarioArticulo comentariosArticuloServ;
     
+    @Autowired
+    private IArticuloServices artService;
     
+    
+
     @GetMapping("/agregar")
     public String mostrarFormularioAgregarArticulo() {
         return "artic/escribirArticulo";
@@ -45,7 +48,7 @@ public class ArticuloController {
             @RequestParam("tema") String tema,
             @RequestParam("nombreAutor") String nombreAutor,
             @RequestParam("descripcion") String descripcion,
-            @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
+            @RequestParam("fecha") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fecha,
             @RequestParam("acercaDelAutor") String acercaDelAutor,
             @RequestParam("textoArticulo") String textoArticulo) {
 
@@ -59,14 +62,14 @@ public class ArticuloController {
         articulo.setAcercaDelAutor(acercaDelAutor);
         articulo.setTextoArticulo(textoArticulo);
 
-        ArticuloServices.insertarArticulo(articulo);
+        artService.guardar(articulo);
 
         return "redirect:/articulos/listar";
     }
 
     @GetMapping("/listar")
     public String listarArticulos(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
-    Page<Articulo> pagina = ArticuloServices.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    Page<Articulo> pagina = artService.listarArticulos(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
     model.addAttribute("pagina", pagina);
 
     List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
@@ -90,7 +93,7 @@ public class ArticuloController {
 
     @GetMapping("/listarAdmin")
     public String listarArticulosAdmin(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
-    Page<Articulo> pagina = ArticuloServices.listarAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    Page<Articulo> pagina = artService.listarArticulos(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
     model.addAttribute("pagina", pagina);
 
     List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
@@ -114,7 +117,7 @@ public class ArticuloController {
 
     @PostMapping("/buscar-articulo")
     public String buscarArticulo(@RequestParam("idArticulo") int idArticulo, Model model) throws SQLException {
-        Articulo articulo = ArticuloServices.obtenerArticuloPorID(idArticulo);
+        Articulo articulo = artService.getArticuloPorId(idArticulo);
         if (articulo != null) {
             model.addAttribute("articulo", articulo);
             return "artic/actualizarArticulo";
@@ -123,12 +126,12 @@ public class ArticuloController {
         }
     }
 
-    @GetMapping("/buscarPorTitulo")
-    public String buscarPorTitulo(@RequestParam(name = "titulo", required = false) String titulo,@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
+    @GetMapping("/buscarPorDescripcion")
+    public String buscarPorDescripcion(@RequestParam(name = "descripcion", required = false) String descripcion,@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
     Page<Articulo> pagina;
-    pagina = ArticuloServices.obtenerPorTitulo(titulo,PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    pagina = artService.obtenerPorDescripción(descripcion,PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
     model.addAttribute("pagina", pagina);
-    model.addAttribute("titulo", titulo);
+    model.addAttribute("descripcion", descripcion);
     List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
     var paginasTotal = pagina.getTotalPages();
     var paginaActual = pagina.getNumber();
@@ -148,12 +151,12 @@ public class ArticuloController {
     return "artic/listaArticulos";
 }
 
-    @GetMapping("/buscarPorTituloAdmin")
-    public String buscarPorTituloAdmin(@RequestParam(name = "titulo", required = false) String titulo,@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
+    @GetMapping("/buscarPorDescripcionAdmin")
+    public String buscarPorDescripcionAdmin(@RequestParam(name = "descripcion", required = false) String descripcion,@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) throws SQLException {
     Page<Articulo> pagina;
-    pagina = ArticuloServices.obtenerPorTitulo(titulo,PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    pagina = artService.obtenerPorDescripción(descripcion,PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
     model.addAttribute("pagina", pagina);
-    model.addAttribute("titulo", titulo);
+    model.addAttribute("descripcion", descripcion);
 
     List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
     var paginasTotal = pagina.getTotalPages();
@@ -175,7 +178,7 @@ public class ArticuloController {
 
    @GetMapping("/actualizar")
     public String formularioActualizar(@RequestParam("id") int id, Model modelo, RedirectAttributes flash) throws SQLException {
-    Articulo articulo = ArticuloServices.obtenerArticuloPorID(id);
+    Articulo articulo = artService.getArticuloPorId(id);
 
     if (articulo != null) {
         modelo.addAttribute("articulo", articulo);
@@ -187,34 +190,49 @@ public class ArticuloController {
   }
 
     @GetMapping("/eliminar")
-    public String eliminar(@RequestParam("id") int codigo, RedirectAttributes flash) throws SQLException{
-        
-        if(ArticuloServices.eliminarArticulo(codigo)){
-            flash.addFlashAttribute("exito", "Se ha eliminado el articulo");
-        } else {
-            flash.addFlashAttribute("error", "No existe el articulo " );
-        }
-        
+    public String eliminar(@RequestParam("id") int codigo, RedirectAttributes flash) throws SQLException{    
+        artService.eliminar(codigo);
         return "redirect:/articulos/listarAdmin";
     }
 
-    @PostMapping("/actualizar-articulo")
-    public String actualizarArticulo(@ModelAttribute Articulo articulo) throws SQLException {
-        ArticuloServices.actualizarArticulo(articulo);
-        return "redirect:/articulos/listarAdmin";
+   @PostMapping("/actualizar-articulo")
+    public String actualizarArticulo(@RequestParam("idArticulo") int idArticulo,
+            @RequestParam("identificador") String identificador,
+            @RequestParam("titulo") String titulo,
+            @RequestParam("tema") String tema,
+            @RequestParam("nombreAutor") String nombreAutor,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("fecha") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fecha,
+            @RequestParam("acercaDelAutor") String acercaDelAutor,
+            @RequestParam("textoArticulo") String textoArticulo) {
+
+        Articulo articulo = new Articulo();
+        articulo.setIdArticulo(idArticulo);
+        articulo.setIdentificador(identificador);
+        articulo.setTitulo(titulo);
+        articulo.setTema(tema);
+        articulo.setNombreAutor(nombreAutor);
+        articulo.setDescripcion(descripcion);
+        articulo.setFecha(fecha);
+        articulo.setAcercaDelAutor(acercaDelAutor);
+        articulo.setTextoArticulo(textoArticulo);
+
+        artService.guardar(articulo);
+
+        return "redirect:/articulos/listar";
     }
     
     @GetMapping("/verDetallesArticulo")
     @ResponseBody
     public Articulo obtenerDetallesArticulo(@RequestParam("idArticulo") int id) throws SQLException, JsonProcessingException {
-        return ArticuloServices.obtenerArticuloPorID(id);
+        return artService.getArticuloPorId(id);
     }
     
         
     @GetMapping("/consultaIndividual")
     public String infoIndividual(@RequestParam("id") int id,@PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
        
-        modelo.addAttribute("articulo", ArticuloServices.obtenerArticuloPorID(id));
+        modelo.addAttribute("articulo", artService.getArticuloPorId(id));
         modelo.addAttribute("paginaComentarios", comentariosArticuloServ.listar(pageable, id));
 
         return "artic/articuloIndividual";

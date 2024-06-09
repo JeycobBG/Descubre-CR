@@ -11,6 +11,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "tb_eventos_turisticos")
@@ -22,6 +24,7 @@ public class EventoTuristico {
     private String nombreEvento;
     private String descripcion;
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate fecha;
     @ManyToOne
     @JoinColumn(name = "codigo_lugar", nullable = false)
@@ -97,7 +100,10 @@ public class EventoTuristico {
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
-
+   public String getFechaFormateada() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return fecha.format(formatter);
+    }
     public String getTitulo() {
         return titulo;
     }
