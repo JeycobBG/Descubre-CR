@@ -87,7 +87,7 @@ public class DataUsuarios extends ConectarDB{
             statement = conexion.prepareStatement(sql);
 
             statement.setString(1, user.getNombreUsuario());
-            statement.setString(2, user.getContraseña());
+            statement.setString(2, user.getContrasena());
             statement.setString(3, user.getTipoUsuario());
             statement.setString(4, user.getCorreo());
             statement.setDate(5, new java.sql.Date(user.getFechaRegistro().getTime()));
@@ -185,7 +185,7 @@ public class DataUsuarios extends ConectarDB{
         PreparedStatement statement = conexion.prepareStatement(sql);
 
         statement.setString(1, user.getNombreUsuario());
-        statement.setString(2, user.getContraseña());
+        statement.setString(2, user.getContrasena());
         statement.setString(3, user.getTipoUsuario());
         statement.setString(4, user.getCorreo());
         statement.setDate(5, new java.sql.Date(user.getFechaRegistro().getTime()));
@@ -400,7 +400,6 @@ public class DataUsuarios extends ConectarDB{
             result.getString("tipoUsuario"),
             result.getString("correo"),
             result.getDate("fechaRegistro"),
-            result.getInt("idPersona"),
             persona.getNombre(),
             persona.getApellido(),
             persona.getCedula(),
