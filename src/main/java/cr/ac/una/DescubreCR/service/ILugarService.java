@@ -19,6 +19,7 @@ public interface ILugarService {
     public Page<Lugar> listar(Pageable pageable);
     public List<Lugar> listar();
     public void eliminar(int id);
+    public Lugar tomar(int id);
     public Lugar consultarEspPorCodigo(String codigo);
     public Lugar consultarEspPorNombre(String nombre);
     public Page<Lugar> consultarPorNombre(Pageable pageable, String nombre);

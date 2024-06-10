@@ -8,39 +8,52 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.util.Date;
 
-/**
- *
- * @author JEYCOB
- */
-@Entity
-@Table(name="tb_persona")
+@Entity (name = "tb_persona")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; 
-    String nombre;
-    String apellido;
-    String cedula;
-    String idioma;
-    String nacionalidad;
-    @Temporal(TemporalType.DATE)
-    Date fechaNacimiento;
-    String telefono;
+    private int per_id;
 
-    public Persona(String nombre, String apellido, String cedula, String idioma, String nacionalidad, Date fechaNacimiento, String telefono) {
+    private String cedula;
+    private String nombre;
+    private String apellido;
+    private String idioma;
+    private String nacionalidad;
+
+    @Temporal(TemporalType.DATE)
+    private Date fechaNacimiento;
+
+    private String telefono;
+
+    public Persona() {
+    }
+
+    public Persona(String cedula, String nombre, String apellido, String idioma, String nacionalidad, Date fechaNacimiento, String telefono) {
+        this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cedula = cedula;
         this.idioma = idioma;
         this.nacionalidad = nacionalidad;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
+    }
+
+    
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
     public String getNombre() {
@@ -57,14 +70,6 @@ public class Persona {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
     }
 
     public String getIdioma() {
@@ -98,4 +103,14 @@ public class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public int getPer_id() {
+        return per_id;
+    }
+
+    public void setPer_id(int per_id) {
+        this.per_id = per_id;
+    }
+    
+    
 }

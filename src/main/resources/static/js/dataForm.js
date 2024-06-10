@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', async function() {
+    
     // Obtener toda la información de provincias, cantones y distritos de una vez
     const response = await fetch('https://territorios.fetchcr.com/todos');
     const data = await response.json();
+    
     const lugarDataDiv = document.getElementById('datosLugar'); //si esto se carga, es porque es el de actualizar
     const ubicacionDataDiv = document.getElementById('datosUbicacion');
     
@@ -94,9 +96,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             distritoSelect.appendChild(option);
         });
     };
-    
-    
-    
+   
     // Obtener el formulario
     const formulario = document.getElementById('formRegistrar');
 

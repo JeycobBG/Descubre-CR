@@ -13,6 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <body>
     <div>Modificar usuario</div>
     
+    
     <form method="post" th:action="@{/usuarios/modificar}">
         <input type="hidden" name="cedula" th:value="${usuario.cedula}" />
         Nombre: <input type="text" name="nombre" th:value="${usuario.nombre}" /><br />
@@ -22,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         Fecha Nacimiento: <input type="date" name="fechaNacimiento" th:value="${usuario.fechaNacimiento}" /><br />
         Teléfono: <input type="text" name="telefono" th:value="${usuario.telefono}" /><br />
         Nombre Usuario: <input type="text" name="nombreUsuario" th:value="${usuario.nombreUsuario}" /><br />
-        Contraseña: <input type="text" name="contraseña" th:value="${usuario.contraseña}" /><br />
+        Contraseña: <input type="text" name="contraseña" th:value="${usuario.contrasena}" /><br />
         Tipo Usuario: 
         <select name="tipoUsuario" th:value="${usuario.tipoUsuario}">
             <option value="administrador">Administrador</option>

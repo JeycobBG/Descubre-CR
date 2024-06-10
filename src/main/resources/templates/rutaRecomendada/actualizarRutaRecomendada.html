@@ -10,9 +10,8 @@
     <h1>Actualizar Ruta Recomendada</h1>
     
     <form id="rutaFormulario" action="/rutasRecomendadas/actualizar-rutaRecomendada" method="post">
-        <label for="codigoRuta">Código de Ruta:</label><br>
-        <input required="" type="text" id="codigoRuta" name="codigoRuta" th:value="${ruta.codigoRuta}" class="hidden" readonly /><br><br>
-
+    <input type="hidden" id="id" th:field="${ruta.id}" /><br>
+        
         <label for="comentario">Comentario:</label><br>
         <textarea required="" id="comentario" name="comentario" rows="4" cols="50" th:text="${ruta.comentario}"></textarea><br><br>
 

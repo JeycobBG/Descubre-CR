@@ -1,9 +1,11 @@
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -26,17 +28,22 @@ public class Lugar {
     private String descripcion;
     private String categoria;
     private String dias_horario;
+    
     @Temporal(TemporalType.TIME)
     private LocalTime hora_apertura;
+    
     @Temporal(TemporalType.TIME)
     private LocalTime hora_cierre;
+    
     private double precio_entrada;
     private String calidad_recep;
     private String imagen;
-    @OneToOne(mappedBy = "lugarTuristico")
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
-    public Lugar() {
-    }
+    
+    public Lugar() {}
 
     public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String calidad_recep, String imagen) {
         this.codigo = codigo;
