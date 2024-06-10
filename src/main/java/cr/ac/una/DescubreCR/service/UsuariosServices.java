@@ -42,8 +42,6 @@ public class UsuariosServices implements IUsuariosServices {
 
     @Override
     public boolean login(String nombre, String contrasena) {
-        String encryptedPassword = encriptar(contrasena);
-        
         return usuarioRepository.findByNombreUsuarioAndContrasena(nombre, contrasena).isPresent();
     }
 

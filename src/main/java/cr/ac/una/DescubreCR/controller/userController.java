@@ -137,7 +137,7 @@ public class userController {
     public String login(@RequestParam("usuario") String usuario,
                         @RequestParam("password") String contraseña) throws SQLException{
         
-        if(!usuariosServices.login(usuario,contraseña)){
+        if(!usuariosServices.login(usuario,usuariosServices.encriptar(contraseña))){
             return "redirect:login";
         }
         return "index";
