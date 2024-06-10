@@ -2,8 +2,8 @@ package cr.ac.una.DescubreCR.controller;
 
 import cr.ac.una.DescubreCR.domain.ComentarioLugar;
 import cr.ac.una.DescubreCR.domain.Lugar;
+import cr.ac.una.DescubreCR.service.ILugarService;
 import cr.ac.una.DescubreCR.service.IServiciosComentarioLugar;
-import cr.ac.una.DescubreCR.service.ServiciosLugar;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -34,6 +34,9 @@ public class ControllerComentarioLugar {
     
     @Autowired
     private IServiciosComentarioLugar comentariosLugarServ;
+    
+    @Autowired
+    private ILugarService lugarService;
     
     private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static SecureRandom random = new SecureRandom();
@@ -69,7 +72,7 @@ public class ControllerComentarioLugar {
             comentario.setCantidadDislikes(0);
             comentario.setVisibilidad(visible);
             comentario.setEtiquetas(etiquetas);
-            comentario.setLugar(ServiciosLugar.consultarEspPorCodigo(codLugar));
+            comentario.setLugar(lugarService.consultarEspPorCodigo(codLugar));
             comentario.setNombreUsuario(nombreUsuario);
             
             comentariosLugarServ.guardar(comentario);
@@ -81,7 +84,7 @@ public class ControllerComentarioLugar {
     
     @GetMapping("/listar")
     public String listar(@RequestParam("codigoLugar") String codigoLugar, @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigoLugar);
+        Lugar lugar = lugarService.consultarEspPorCodigo(codigoLugar);
         Page<ComentarioLugar> pagina = comentariosLugarServ.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), lugar.getId());
         
         modelo.addAttribute("lugar", lugar);
@@ -143,7 +146,7 @@ public class ControllerComentarioLugar {
         comentario.setCantidadDislikes(dislikes);
         comentario.setVisibilidad(visible);
         comentario.setEtiquetas(etiquetas);
-        comentario.setLugar(ServiciosLugar.consultarEspPorCodigo(codLugar));
+        comentario.setLugar(lugarService.consultarEspPorCodigo(codLugar));
         comentario.setNombreUsuario(nombreUsuario);
         
         comentariosLugarServ.guardar(comentario);
@@ -172,7 +175,7 @@ public class ControllerComentarioLugar {
     
     @GetMapping("/buscar")
     public String buscar(@RequestParam("nombre") String nombre, @RequestParam("codigoLugar") String codigoLugar , @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Lugar lugar = ServiciosLugar.consultarEspPorCodigo(codigoLugar);
+        Lugar lugar = lugarService.consultarEspPorCodigo(codigoLugar);
         Page<ComentarioLugar> pagina = comentariosLugarServ.filtrarPorUsuario(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), lugar.getId(), nombre);
         
         modelo.addAttribute("lugar", lugar);

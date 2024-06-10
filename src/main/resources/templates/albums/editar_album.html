@@ -82,7 +82,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <!-- Necesito desplegar en forma de un album con JS y CSS-->
                     <div class="container" th:each="imagen:${imagenes}">
                         <div class="container-imagenes">  
-                            <img alt="" th:src="@{'data:image/jpeg;base64,'+${imagen.src}}">
+                            <img alt="" th:src="@{'data:image/png;base64,'+${imagen.src_String}}">
                             <a for="imagen" th:onclick="eliminarImagen([[${imagen.id}]],[[${temp.id}]])"> <!-- con esta linea al seleccionar cualquier imagen obtengo su id -->                                                      
                                 <div id="capa">
                                     <img id="imagen" alt="" src="/img/eliminar.png" style="width:34px; margin:0px;"> 

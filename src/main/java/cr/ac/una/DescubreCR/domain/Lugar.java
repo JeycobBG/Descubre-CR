@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -27,19 +28,24 @@ public class Lugar {
     private String descripcion;
     private String categoria;
     private String dias_horario;
+    
     @Temporal(TemporalType.TIME)
     private LocalTime hora_apertura;
+    
     @Temporal(TemporalType.TIME)
     private LocalTime hora_cierre;
+    
     private double precio_entrada;
-    private String calidad_recepcion_telefonica;
+    private String calidad_recep;
     private String imagen;
-    @OneToOne(mappedBy = "lugarTuristico")
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
-    public Lugar() {
-    }
+    
+    public Lugar() {}
 
-    public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String calidad_recepcion_telefonica, String imagen) {
+    public Lugar(String codigo, String nombre, String descripcion, String categoria, String dias_horario, LocalTime hora_apertura, LocalTime hora_cierre, double precio_entrada, String calidad_recep, String imagen) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -48,7 +54,7 @@ public class Lugar {
         this.hora_apertura = hora_apertura;
         this.hora_cierre = hora_cierre;
         this.precio_entrada = precio_entrada;
-        this.calidad_recepcion_telefonica = calidad_recepcion_telefonica;
+        this.calidad_recep = calidad_recep;
         this.imagen = imagen;
     }
 
@@ -125,11 +131,11 @@ public class Lugar {
     }
 
     public String getCalidad_recepcion_telefonica() {
-        return calidad_recepcion_telefonica;
+        return calidad_recep;
     }
 
     public void setCalidad_recepcion_telefonica(String calidad_recepcion_telefonica) {
-        this.calidad_recepcion_telefonica = calidad_recepcion_telefonica;
+        this.calidad_recep = calidad_recepcion_telefonica;
     }
 
     public String getImagen() {

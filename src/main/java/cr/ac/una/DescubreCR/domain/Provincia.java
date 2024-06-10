@@ -13,6 +13,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,9 @@ public class Provincia {
     @OneToMany(mappedBy = "provincia")
     private List<Ubicacion> ubicaciones;
     
-    public Provincia(){}
+    public Provincia(){
+        ubicaciones = new ArrayList<>();
+    }
 
     public Provincia(int id, String nombre, Blob imagen) {
         this.id = id;

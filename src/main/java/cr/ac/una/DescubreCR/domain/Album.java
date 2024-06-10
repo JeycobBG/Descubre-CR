@@ -4,27 +4,61 @@
  */
 package cr.ac.una.DescubreCR.domain;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author JEYCOB
  */
+@Entity
+@Table(name = "tb_album")
 public class Album {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     private String nombreAutor;
+    
     private int provincia;
+    
     private String nombreLugar;
+    
     private String descripcion;
+    
     private String etiquetasAsociadas;
-    private ArrayList<String> imagenes;
+    
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+             name = "tb_album_imagen",
+             joinColumns = @JoinColumn(name = "id_album"),
+             inverseJoinColumns = @JoinColumn(name = "id_imagen")
+     )
+    private List<Imagen> imagenes;
+    
+    @Temporal(TemporalType.DATE)
     private LocalDate fechaCreacion;
+    
     private int id_autor;
     
-    public Album(){}
+    public Album(){
+        imagenes = new ArrayList<>();
+    }
 
-    public Album(int id, String nombreAutor, int provincia, String nombreLugar, String descripcion, String etiquetasAsociadas, ArrayList<String> imagenes, LocalDate fechaCreacion, int id_autor) {
+    public Album(int id, String nombreAutor, int provincia, String nombreLugar, String descripcion, String etiquetasAsociadas, ArrayList<Imagen> imagenes, LocalDate fechaCreacion, int id_autor) {
         this.id = id;
         this.nombreAutor = nombreAutor;
         this.provincia = provincia;
@@ -84,11 +118,11 @@ public class Album {
         this.etiquetasAsociadas = etiquetasAsociadas;
     }
 
-    public ArrayList<String> getImagenes() {
+    public List<Imagen> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(ArrayList<String> imagenes) {
+    public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
     }
 

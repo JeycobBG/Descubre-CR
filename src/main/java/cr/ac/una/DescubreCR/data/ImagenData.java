@@ -23,7 +23,7 @@ public class ImagenData extends ConectarDB{
             Connection connection = conectar();
             PreparedStatement sentencia = connection.prepareStatement(sql);
             
-            sentencia.setString(1, img.getSrc());
+            sentencia.setBlob(1, img.getSrc());
             sentencia.setDate(2, Date.valueOf(img.getFecha()));
             
             resultado = sentencia.executeUpdate();
@@ -70,7 +70,7 @@ public class ImagenData extends ConectarDB{
             while(rs.next()){
                 Imagen img = new Imagen();
                 img.setId(rs.getInt("id"));
-                img.setSrc(rs.getString("src"));
+                img.setSrc(rs.getBlob("src"));
                 img.setFecha(rs.getDate("fecha_ingreso").toLocalDate());
                 
                 imagenes.add(img);

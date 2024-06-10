@@ -6,47 +6,44 @@ package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.data.AlbumData;
 import cr.ac.una.DescubreCR.domain.Album;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import cr.ac.una.DescubreCR.jpa.AlbumRepository;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author JEYCOB
  */
-public class AlbumService {
-    public boolean guardarEnBD(Album album){
-        
-        try {
-            // metodo de accesoDatos para guardar la entidad
-            return new AlbumData().insertar(album);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
+@Service
+@Primary
+public class AlbumService implements IAlbumService{
     
-    public boolean actualizarEnBD(Album album){
-        
-        // metodo de accesoDatos para guardar la entidad
-        return new AlbumData().actualizar(album);
-    }
+    @Autowired
+    private AlbumRepository albumRepo;
     
-    public ArrayList<Album> listarAlbums(){
-        return new AlbumData().listarAlbums();
+    @Override
+    public void guardarEnBD(Album album){
+        albumRepo.save(album);
     }
-    
+    @Override
+    public List<Album> listarAlbums(){
+        return albumRepo.findAll();
+    }
+    @Override
     public Page<Album> listarAlbumsParaPaginacion(Pageable pageable){
-        return new AlbumData().listarAlbumsParaPaginacion(pageable);
+        return albumRepo.findAll(pageable);
     }
-    
-    public Album getAlbumById(String id){
-        return new AlbumData().consultar(id);
+    @Override
+    public Optional<Album> getAlbumById(String id){
+        return albumRepo.findById(Integer.valueOf(id));
     }
-    
-    public boolean eliminarAlbumById(String id){
-        return new AlbumData().eliminar(id);
+    @Override
+    public void eliminarAlbumById(String id){
+        albumRepo.deleteById(Integer.valueOf(id));
     }
 }
