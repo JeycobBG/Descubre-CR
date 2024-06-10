@@ -45,6 +45,11 @@ public class userController {
     //@Autowired
     //private IPersonaService personaServices;
     
+    @GetMapping("/menuPrincipal")
+    public String menuPrincipal(){
+        return "index";
+    }
+    
     @GetMapping("/listaUsuarios")
     public String listar(@PageableDefault(size=5, page=0) Pageable pageable, Model model) throws SQLException {
         Page<Usuario> page = usuariosServices.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
