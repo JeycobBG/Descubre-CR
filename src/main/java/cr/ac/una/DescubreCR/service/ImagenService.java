@@ -5,6 +5,7 @@ import cr.ac.una.DescubreCR.domain.Imagen;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Base64;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,26 +14,24 @@ import org.springframework.web.multipart.MultipartFile;
  * @author JEYCOB
  */
 public class ImagenService {
-    public boolean guardar(MultipartFile imagenes, LocalDate fecha){
+    public Imagen setImagen(MultipartFile imagenes, LocalDate fecha){
         
         Imagen img = new Imagen();
         String fileName = StringUtils.cleanPath(imagenes.getOriginalFilename());
         
         if(fileName.contains("..")){
             System.out.println("extensión de archivo inválida");
-            return false;
+            return null;
         }
         img.setFecha(fecha);
     // Pasa a string (BLOB) el archivo
         try {
             //System.out.println("img = " + Base64.getEncoder().encodeToString(imagenes.getBytes()));
-            img.setSrc(Base64.getEncoder().encodeToString(imagenes.getBytes()));
-            if(img.getSrc().isEmpty()){
-                return false;
-            }
-            return new ImagenData().insertar(img);
+            img.setSrc(BlobProxy.generateProxy(imagenes.getInputStream(),
+                                    imagenes.getSize()));
+            return img;
         } catch (IOException ex) {}
-        return false;
+        return null;
     }
     
     public boolean tamanioArchivoExcede(MultipartFile[] imagenes){

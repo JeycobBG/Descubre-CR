@@ -5,11 +5,17 @@ import cr.ac.una.DescubreCR.domain.Imagen;
 import cr.ac.una.DescubreCR.service.AlbumImagenService;
 import cr.ac.una.DescubreCR.service.AlbumService;
 import cr.ac.una.DescubreCR.service.ImagenService;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -30,6 +36,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/albums")
 public class ControllerAlbum {
     
+    @Autowired
+    private AlbumService albumService;
+    
     @GetMapping({"/formularioAlbum"})  //Deberá estar en el index.htmml
     public String agregarAlbum(){
         
@@ -45,6 +54,13 @@ public class ControllerAlbum {
             @RequestParam("etiquetas") String etiquetas,
             @RequestParam("imagenes") MultipartFile[] imagenes, RedirectAttributes redirectAtt){
         
+        
+        System.out.println("nombre autor:" + nombreAutor);
+        System.out.println("provincia:" + provincia);
+                
+        
+        
+        
         Album album = new Album();
         
         album.setNombreAutor(nombreAutor);
@@ -54,29 +70,26 @@ public class ControllerAlbum {
         album.setEtiquetasAsociadas(etiquetas);
         album.setFechaCreacion(LocalDate.now());
         album.setId_autor(1);  // asociado al usuario correspondiente 
-        
-        
-        boolean informacionSqlAlbum;
-        boolean informacionSqlImagen = false;
-        boolean informacionSqlAlbumImagen = false;
+
         boolean tamanoExcede;
         
-        informacionSqlAlbum = new AlbumService().guardarEnBD(album);
+        //informacionSqlAlbum = new AlbumService().guardarEnBD(album);
+        
         tamanoExcede = new ImagenService().tamanioArchivoExcede(imagenes);
         
-        if (!tamanoExcede) {   
+        List<Imagen> imgs = new ArrayList<>();
+        if (!tamanoExcede) {
             for (MultipartFile imagen : imagenes) {
-                informacionSqlImagen = new ImagenService().guardar(imagen, LocalDate.now()); // se deben de guardar las imágenes correspondientes en BD también
-                informacionSqlAlbumImagen = new AlbumImagenService().guardar(); // se asocia una imagen o varias a un album
+                //informacionSqlImagen = new ImagenService().guardar(imagen, LocalDate.now()); // se deben de guardar las imágenes correspondientes en BD también
+                //informacionSqlAlbumImagen = new AlbumImagenService().guardar(); // se asocia una imagen o varias a un album
+                imgs.add(new ImagenService().setImagen(imagen, LocalDate.now()));
             }
-        }
-        if(informacionSqlAlbum && informacionSqlImagen && informacionSqlAlbumImagen){
-            redirectAtt.addFlashAttribute("exito", "Registro Actualizado con Exito!!");
-        }else if(tamanoExcede){
+            album.setImagenes(imgs);
+            albumService.guardarEnBD(album);
+            redirectAtt.addFlashAttribute("exito", "Registro guardado con exito!!");
+        }else{
             redirectAtt.addFlashAttribute("error", "El tamaño del archivo es muy grande!");
-        }else if(informacionSqlAlbum==false || informacionSqlImagen==false || informacionSqlAlbumImagen==false){
-            redirectAtt.addFlashAttribute("error", "Ha ocurrido un error.");
-        }
+        } 
         return "redirect:/albums/listarAdmin";
     }
     
@@ -90,9 +103,6 @@ public class ControllerAlbum {
             @RequestParam("etiquetas") String etiquetas,
             @RequestParam("imagenesNuevas") MultipartFile[] imagenes, RedirectAttributes redirectAtt){
         
-        boolean informacionSqlAlbum;
-        boolean informacionSqlImagen = false;
-        boolean informacionSqlAlbumImagen = false;
         boolean tamanoExcede;
         
         Album album = new Album();
@@ -106,36 +116,38 @@ public class ControllerAlbum {
         album.setFechaCreacion(LocalDate.now());
         album.setId_autor(1);
         
-        informacionSqlAlbum = new AlbumService().actualizarEnBD(album);
+        //informacionSqlAlbum = new AlbumService().actualizarEnBD(album);
         
+        
+        List<Imagen> imgs = new AlbumImagenService().getImagenesOfAlbumById(id);
         tamanoExcede = new ImagenService().tamanioArchivoExcede(imagenes);
         if (!tamanoExcede) {
             for (MultipartFile imagen : imagenes) {
-                informacionSqlImagen = new ImagenService().guardar(imagen, LocalDate.now()); // se deben de guardar las imágenes correspondientes en BD también
-                if (informacionSqlImagen) {
+                //informacionSqlImagen = new ImagenService().guardar(imagen, LocalDate.now()); // se deben de guardar las imágenes correspondientes en BD también
+                imgs.add(new ImagenService().setImagen(imagen, LocalDate.now()));
+                
+                /*if (informacionSqlImagen) {
                     informacionSqlAlbumImagen = new AlbumImagenService().agregarImagenesDeAlbumById(id); // se asocia una imagen o varias a un album
                 }else{
                     informacionSqlImagen = true;
                     informacionSqlAlbumImagen = true;
-                }
+                }*/
             }
+            album.setImagenes(imgs);
+            albumService.guardarEnBD(album);
+            redirectAtt.addFlashAttribute("exito", "Registro actualizado con exito!!");
         }
-        if(informacionSqlAlbum && informacionSqlImagen && informacionSqlAlbumImagen){
-            redirectAtt.addFlashAttribute("exito", "Registro Actualizado con Exito!!");
-        }else if(tamanoExcede){
+        if(tamanoExcede){
             redirectAtt.addFlashAttribute("error", "El tamaño del archivo es muy grande!");
-        }else if(informacionSqlAlbum==false || informacionSqlImagen==false || informacionSqlAlbumImagen==false){
-            redirectAtt.addFlashAttribute("error", "Ha ocurrido un error.");
         }
-       
-        
         return "redirect:/albums/listarAdmin";
     }
     
     @GetMapping({"/listarAdmin"})         //lista de albums para administrador
     public String listarAdmin(@PageableDefault(size = 10, page = 0) Pageable pageable, Model modelo){
         
-        Page<Album> pagina = new AlbumService().listarAlbumsParaPaginacion(pageable);
+        //Page<Album> pagina = new AlbumService().listarAlbumsParaPaginacion(pageable);
+        Page<Album> pagina = albumService.listarAlbumsParaPaginacion(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
         
         modelo.addAttribute("pagina", pagina);
         var totalPages = pagina.getTotalPages();
@@ -153,14 +165,7 @@ public class ControllerAlbum {
         }
         
         List<Integer> pageSizeOptions = Arrays.asList(10, 20, 50, 100);
-        modelo.addAttribute("pageSizeOptions", pageSizeOptions);
-        
-        
-        /* antigua implementacion sin paginación
-        ArrayList<Album> albums = new AlbumService().listarAlbums();
-        model.addAttribute("albums",albums);
-        */
-        
+        modelo.addAttribute("pageSizeOptions", pageSizeOptions);        
         return "albums/lista_albums_admin";
     }
     
@@ -168,7 +173,8 @@ public class ControllerAlbum {
     @GetMapping({"/listar"})         //lista de albums para usuario
     public String listar(@PageableDefault(size = 10, page = 0) Pageable pageable, Model modelo){
         
-        Page<Album> pagina = new AlbumService().listarAlbumsParaPaginacion(pageable);
+        Page<Album> pagina = albumService.listarAlbumsParaPaginacion(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        //Page<Album> pagina = new AlbumService().listarAlbumsParaPaginacion(pageable);
         
         modelo.addAttribute("pagina", pagina);
         var totalPages = pagina.getTotalPages();
@@ -194,7 +200,11 @@ public class ControllerAlbum {
     @GetMapping("/{id}")  // display_album
     public String mostrar(@PathVariable("id") String id, Model model){
         
-        Album album = new AlbumService().getAlbumById(id);
+        //Album album = new AlbumService().getAlbumById(id);
+        Optional<Album> albumOptional = albumService.getAlbumById(id);
+        Album album = albumOptional.get();
+                
+                
         ArrayList<Imagen> imagenes = new AlbumImagenService().getImagenesOfAlbumById(id);
         
         model.addAttribute("album",album);
@@ -206,9 +216,11 @@ public class ControllerAlbum {
     @GetMapping("/eliminar/{id}") // eliminar Album
     public String eliminar(@PathVariable int id, Model model){
         
-        new AlbumService().eliminarAlbumById(String.valueOf(id));
-        new AlbumImagenService().eliminarAsociacionDeAlbumById(String.valueOf(id));
-        ArrayList<Album> albums = new AlbumService().listarAlbums();
+        //new AlbumService().eliminarAlbumById(String.valueOf(id));
+        //new AlbumImagenService().eliminarAsociacionDeAlbumById(String.valueOf(id));
+        //ArrayList<Album> albums = new AlbumService().listarAlbums();
+        albumService.eliminarAlbumById(String.valueOf(id));
+        List<Album> albums = albumService.listarAlbums();
         model.addAttribute("albums",albums);
         return "redirect:/albums/listarAdmin";
     }
@@ -216,8 +228,11 @@ public class ControllerAlbum {
    @GetMapping({"/editar/{id}"})
    public String editar(@PathVariable String id, Model model){
        
-       Album album = new AlbumService().getAlbumById(id);
+       //Album album = new AlbumService().getAlbumById(id);
+       Optional<Album> albumOptional = albumService.getAlbumById(id);
+       Album album = albumOptional.get();
        ArrayList<Imagen> imagenes = new AlbumImagenService().getImagenesOfAlbumById(id);
+       
        model.addAttribute("album", album);
        model.addAttribute("imagenes", imagenes);
        // obtener los nuevos datos del formulario
@@ -229,7 +244,10 @@ public class ControllerAlbum {
    public String eliminarImagen(@PathVariable ("id_imagen") String id_imagen, @PathVariable ("id_album") String id_album, Model modelo){
        
        new AlbumImagenService().eliminarImagenDeAlbum(id_imagen, id_album);
-       Album album = new AlbumService().getAlbumById(id_album);
+       //Album album = new AlbumService().getAlbumById(id_album);
+       Optional<Album> albumOptional = albumService.getAlbumById(id_album);
+       Album album = albumOptional.get();
+       
        modelo.addAttribute("imagenes", new AlbumImagenService().getImagenesOfAlbumById(id_album));
        modelo.addAttribute("album", album);
        String url = "redirect:/albums/editar/"+id_album;

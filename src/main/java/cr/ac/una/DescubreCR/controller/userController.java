@@ -134,9 +134,10 @@ public class userController {
 
     
     @PostMapping("/login")
-    public String login(@RequestParam("usuario") String usuario, @RequestParam("password") String contraseña) throws SQLException{
+    public String login(@RequestParam("usuario") String usuario,
+                        @RequestParam("password") String contrasena) throws SQLException{
         
-        if(!usuariosServices.login(usuario,usuariosServices.encriptar(contraseña))){
+        if(!usuariosServices.login(usuario,usuariosServices.encriptar(contrasena))){
             return "redirect:login";
         }
         return "index";

@@ -57,7 +57,7 @@ public class AlbumImagenData extends ConectarDB{
             while(rs.next()){
                 Imagen img = new Imagen();
                 img.setId(rs.getInt("id"));
-                img.setSrc(rs.getString("src"));
+                img.setSrc(rs.getBlob("src"));
                 img.setFecha(rs.getDate("fecha_ingreso").toLocalDate());
                 imagenes.add(img);
             }

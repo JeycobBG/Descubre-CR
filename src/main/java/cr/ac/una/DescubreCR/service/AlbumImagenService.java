@@ -2,7 +2,10 @@ package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.data.AlbumImagenData;
 import cr.ac.una.DescubreCR.domain.Imagen;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 /**
  *
@@ -10,7 +13,26 @@ import java.util.ArrayList;
  */
 public class AlbumImagenService {
     public ArrayList <Imagen> getImagenesOfAlbumById(String id){
-        return new AlbumImagenData().getImagenesDeAlbumById(id);
+        ArrayList<Imagen> imagenes = new AlbumImagenData().getImagenesDeAlbumById(id);
+        
+        Blob imgBlob;
+        String imagen;
+        
+        
+        for(Imagen imgs: imagenes){
+            imgBlob = imgs.getSrc();
+            byte[] losBytes = {};
+            try {
+                byte[] bytes = imgBlob.getBytes(1, (int) imgBlob.length());
+                losBytes = bytes;
+            } catch (SQLException ex) {
+                System.out.println("Error parseando la imagen blob");
+            }
+            imagen = Base64.getEncoder().encodeToString(losBytes);
+            imgs.setSrc_String(imagen);
+        }
+        
+        return imagenes;
     }
     
     public boolean guardar(){
