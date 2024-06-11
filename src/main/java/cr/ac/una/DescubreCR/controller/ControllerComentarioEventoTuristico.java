@@ -1,9 +1,9 @@
 package cr.ac.una.DescubreCR.controller;
 
-import cr.ac.una.DescubreCR.domain.Articulo;
-import cr.ac.una.DescubreCR.domain.ComentarioArticulo;
-import cr.ac.una.DescubreCR.service.IArticuloServices;
-import cr.ac.una.DescubreCR.service.IServiciosComentarioArticulo;
+import cr.ac.una.DescubreCR.domain.ComentarioEventoTuristico;
+import cr.ac.una.DescubreCR.domain.EventoTuristico;
+import cr.ac.una.DescubreCR.service.IEventoTuristicoServices;
+import cr.ac.una.DescubreCR.service.IServiciosComentarioEventoTuristico;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -29,14 +29,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author gerald
  */
 @Controller
-@RequestMapping("/comentariosArticulo")
-public class ControllerComentarioArticulo {
+@RequestMapping("/comentariosEventoTuristico")
+public class ControllerComentarioEventoTuristico {
     
     @Autowired
-    private IServiciosComentarioArticulo comentariosArticuloServ;
+    private IServiciosComentarioEventoTuristico comentariosEventServ;
     
     @Autowired
-    private IArticuloServices artService;
+    private IEventoTuristicoServices eventService;
     
     private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static SecureRandom random = new SecureRandom();
@@ -53,16 +53,16 @@ public class ControllerComentarioArticulo {
     public String guardarNuevoComentario(@RequestParam("contenido") String contenido,
               @RequestParam("visible") Boolean visible,
               @RequestParam("etiquetas") String etiquetas,
-              @RequestParam("idArticulo") int idArticulo,
+              @RequestParam("idEventoTuristico") int idEventoTuristico,
               @RequestParam("nombreUsuario") String nombreUsuario,
               RedirectAttributes flash) throws SQLException{
         
         String codigo = generarCodigo();
-        if(comentariosArticuloServ.existe(codigo)){
+        if(comentariosEventServ.existe(codigo)){
             flash.addFlashAttribute("error", "Ocurrió un error al guardar el comentario. Inténtelo de nuevo.");
         }
         else{
-            ComentarioArticulo comentario = new ComentarioArticulo();
+            ComentarioEventoTuristico comentario = new ComentarioEventoTuristico();
            
             
             comentario.setCodigo(codigo);
@@ -72,23 +72,23 @@ public class ControllerComentarioArticulo {
             comentario.setCantidadDislikes(0);
             comentario.setVisibilidad(visible);
             comentario.setEtiquetas(etiquetas);
-            comentario.setArticulo(artService.getArticuloPorId(idArticulo));
+            comentario.setEventoTuristico(eventService.getEventoPorId(idEventoTuristico));
             comentario.setNombreUsuario(nombreUsuario);
             
-            comentariosArticuloServ.guardar(comentario);
+            comentariosEventServ.guardar(comentario);
             flash.addFlashAttribute("exito", "¡El comentario se ha guardado con éxito!");
         }
         
         
-        return "redirect:/articulos/consultaIndividual?id=" + idArticulo;
+        return "redirect:/eventoTuristico/consultaIndividual?id=" + idEventoTuristico;
     }
     
     @GetMapping("/listar")
-    public String listar(@RequestParam("idArticulo") int idArticulo, @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Articulo articulo = artService.getArticuloPorId(idArticulo);
-        Page<ComentarioArticulo> pagina = comentariosArticuloServ.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idArticulo);
+    public String listar(@RequestParam("idEventoTuristico") int idEventoTuristico, @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
+        EventoTuristico eventoTuristico = eventService.getEventoPorId(idEventoTuristico);
+        Page<ComentarioEventoTuristico> pagina = comentariosEventServ.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idEventoTuristico);
         
-        modelo.addAttribute("articulo", articulo);
+        modelo.addAttribute("eventoTuristico", eventoTuristico);
         modelo.addAttribute("paginaComentarios", pagina);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
         
@@ -108,17 +108,17 @@ public class ControllerComentarioArticulo {
         
         modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
         
-        return "comentarioArticulo/listar";
+        return "comentarioEventoTuristico/listar";
     }
     
     @GetMapping("/actualizar")
     public String actualizar (@RequestParam("codigo") String codigo, RedirectAttributes flash, Model modelo){
-        ComentarioArticulo comentario = comentariosArticuloServ.buscar(codigo);
+        ComentarioEventoTuristico comentario = comentariosEventServ.buscar(codigo);
         
         if(comentario!=null){
             modelo.addAttribute("comentario", comentario);
             
-            return "comentarioArticulo/actualizar";
+            return "comentarioEventoTuristico/actualizar";
         }else{
             flash.addFlashAttribute("error", "No existe un comentario con el codigo solicitado.");
             
@@ -134,12 +134,12 @@ public class ControllerComentarioArticulo {
               @RequestParam("likes") int likes,
               @RequestParam("dislikes") int dislikes,
               @RequestParam("etiquetas") String etiquetas,
-              @RequestParam("idArticulo") int idArticulo,
+              @RequestParam("id") int idEventoTuristico,
               @RequestParam("nombreUsuario") String nombreUsuario,
 
               RedirectAttributes flash) throws SQLException{
         
-        ComentarioArticulo comentario = new ComentarioArticulo();
+        ComentarioEventoTuristico comentario = new ComentarioEventoTuristico();
 
         comentario.setCodigo(codigo);
         comentario.setContenido(contenido);
@@ -148,39 +148,39 @@ public class ControllerComentarioArticulo {
         comentario.setCantidadDislikes(dislikes);
         comentario.setVisibilidad(visible);
         comentario.setEtiquetas(etiquetas);
-        comentario.setArticulo(artService.getArticuloPorId(idArticulo));
+        comentario.setEventoTuristico(eventService.getEventoPorId(idEventoTuristico));
         comentario.setNombreUsuario(nombreUsuario);
         
-        comentariosArticuloServ.guardar(comentario);
+        comentariosEventServ.guardar(comentario);
         flash.addFlashAttribute("exito", "¡El comentario se ha actualizado con éxito!");
         
-        return "redirect:listar?idArticulo=" + idArticulo;
+        return "redirect:listar?idEventoTuristico=" + idEventoTuristico;
     }
     
     @GetMapping("/eliminar")
-    public String eliminar(@RequestParam("codigo") String codigo, @RequestParam("idArticulo") int idArticulo, RedirectAttributes flash){
+    public String eliminar(@RequestParam("codigo") String codigo, @RequestParam("idEventoTuristico") int idEventoTuristico, RedirectAttributes flash){
         
-        if(comentariosArticuloServ.eliminar(codigo)){
-            flash.addFlashAttribute("exito", "Se ha eliminado el comentario con identificador " + idArticulo + ".");
+        if(comentariosEventServ.eliminar(codigo)){
+            flash.addFlashAttribute("exito", "Se ha eliminado el comentario con identificador " + idEventoTuristico + ".");
         } else {
-            flash.addFlashAttribute("error", "No existe el comentario con identificador " + idArticulo + ".");
+            flash.addFlashAttribute("error", "No existe el comentario con identificador " + idEventoTuristico + ".");
         }
         
-        return "redirect:listar?idArticulo=" + idArticulo;
+        return "redirect:listar?idEventoTuristico=" + idEventoTuristico;
     }
     
     @GetMapping("/verDetalles")
     @ResponseBody
-    public ComentarioArticulo obtenerDetalles(@RequestParam("codigo") String codigo){
-        return comentariosArticuloServ.buscar(codigo);
+    public ComentarioEventoTuristico obtenerDetalles(@RequestParam("codigo") String codigo){
+        return comentariosEventServ.buscar(codigo);
     }
     
     @GetMapping("/buscar")
-    public String buscar(@RequestParam("nombre") String nombre, @RequestParam("idArticulo") int idArticulo , @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Articulo articulo = artService.getArticuloPorId(idArticulo);
-        Page<ComentarioArticulo> pagina = comentariosArticuloServ.filtrarPorUsuario(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idArticulo, nombre);
+    public String buscar(@RequestParam("nombre") String nombre, @RequestParam("idEventoTuristico") int idEventoTuristico , @PageableDefault(size=5, page=0) Pageable pageable, Model modelo) throws SQLException{
+        EventoTuristico eventoTuristico = eventService.getEventoPorId(idEventoTuristico);
+        Page<ComentarioEventoTuristico> pagina = comentariosEventServ.filtrarPorUsuario(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()),idEventoTuristico, nombre);
         
-        modelo.addAttribute("articulo", articulo);
+        modelo.addAttribute("eventoTuristico", eventoTuristico);
         modelo.addAttribute("nombre", nombre);
         modelo.addAttribute("paginaComentarios", pagina);
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5,10, 25,50,100);
@@ -201,7 +201,7 @@ public class ControllerComentarioArticulo {
         
         modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
         
-        return "comentarioArticulo/listar";   
+        return "comentarioEventoTuristico/listar";   
     }
     
 }

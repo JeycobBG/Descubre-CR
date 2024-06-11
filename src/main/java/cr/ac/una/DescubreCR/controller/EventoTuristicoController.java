@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.EventoTuristico;
 import cr.ac.una.DescubreCR.service.IEventoTuristicoServices;
 import cr.ac.una.DescubreCR.service.ILugarService;
+import cr.ac.una.DescubreCR.service.IServiciosComentarioEventoTuristico;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -36,6 +37,9 @@ public class EventoTuristicoController {
     @Autowired
     private ILugarService lugarService;
     
+    @Autowired
+    private IServiciosComentarioEventoTuristico comentEventSer;
+    
     @GetMapping("/agregar")
     public String mostrarFormularioAgregarArticulo(Model model) throws SQLException {
         model.addAttribute("lugar",lugarService.listar());
@@ -46,7 +50,7 @@ public class EventoTuristicoController {
     public String guardarEventoTuristico(@RequestParam("codigo") String codigo,
         @RequestParam("nombreEvento") String nombreEvento,
         @RequestParam("descripcion") String descripcion,
-        @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+        @RequestParam("fecha") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fecha,
         @RequestParam("lugar") String lugarCodigo,
         @RequestParam("titulo") String titulo,
         @RequestParam("nombreAutor") String nombreAutor,
@@ -199,18 +203,12 @@ public class EventoTuristicoController {
         return "redirect:/eventoTuristico/listarAdmin";
     }
 
- /*   @PostMapping("/actualizar-eventoTuristico")
-    public String actualizarEventoTuristico(@ModelAttribute EventoTuristico eventoTuristico) throws SQLException {
-        evenTurisSer.guardar(eventoTuristico);
-        return "redirect:/eventoTuristico/listarAdmin";
-    }
-  */  
     @PostMapping("/actualizar-eventoTuristico")
     public String actualizarEventoTuristico(@RequestParam("id") int id,
         @RequestParam("codigo") String codigo,
         @RequestParam("nombreEvento") String nombreEvento,
         @RequestParam("descripcion") String descripcion,
-        @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha,
+        @RequestParam("fecha") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate fecha,
         @RequestParam("lugar") String lugarCodigo,
         @RequestParam("titulo") String titulo,
         @RequestParam("nombreAutor") String nombreAutor,
@@ -241,9 +239,9 @@ public class EventoTuristicoController {
     
         
     @GetMapping("/consultaIndividual")
-    public String infoIndividual(@RequestParam("id") int id, Model modelo) throws SQLException{
+    public String infoIndividual(@RequestParam("id") int id,@PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
         modelo.addAttribute("eventoTuristico", evenTurisSer.getEventoPorId(id));
-        System.out.println(evenTurisSer.getEventoPorId(id).getNombreEvento());
+        modelo.addAttribute("paginaComentarios", comentEventSer.listar(pageable, id));
         return "eventuris/eventoTuristicoIndividual";
     }
 }

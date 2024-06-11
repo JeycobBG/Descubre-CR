@@ -29,8 +29,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <a href="/articulos/listar" class="button">Vista de usuario regular</a>
         </div>
             
-        <form action="/articulos/buscarPorTituloAdmin" method="GET">
-        <input type="text" id="titulo" name="titulo" placeholder="Ingrese el titulo">
+        <form action="/articulos/buscarPorDescripcionAdmin" method="GET">
+        <input type="text" id="descripcion" name="descripcion" placeholder="Ingrese la descripcion">
         <button type="submit">Buscar</button>
         </form>
             
@@ -73,19 +73,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <ul class="pagination mb-0">
                 
             <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
-                <a class="page-link" th:href="@{(${titulo} != null) ? '/articulos/buscarPorTituloAdmin?titulo=' + ${titulo} + '&page=0&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page=0&size=' + ${pagina.size}}">Primera</a>
+                <a class="page-link" th:href="@{(${descripcion} != null) ? '/articulos/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page=0&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page=0&size=' + ${pagina.size}}">Primera</a>
             </li>
             <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
-                <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${titulo} != null) ? '/articulos/buscarPorTituloAdmin?titulo=' + ${titulo} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
+                <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${descripcion} != null) ? '/articulos/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
             </li>
             <li class="page-item" th:each="i : ${numPaginas}" th:classappend="${i == pagina.number + 1} ? 'active' : ''">
-                <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${titulo} != null) ? '/articulos/buscarPorTituloAdmin?titulo=' + ${titulo} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
+                <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${descripcion} != null) ? '/articulos/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
             </li>
             <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
-                <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${titulo} != null) ? '/articulos/buscarPorTituloAdmin?titulo=' + ${titulo} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
+                <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${descripcion} != null) ? '/articulos/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
             </li>
             <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
-                <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${titulo} != null) ? '/articulos/buscarPorTituloAdmin?titulo=' + ${titulo} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
+                <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${descripcion} != null) ? '/articulos/buscarPorDescripcionAdmin?descripcion=' + ${descripcion} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/articulos/listarAdmin' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
             </li>
             </ul>
             </div>
@@ -104,10 +104,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 const currentPage = [[${pagina.number}]];
 
                 // Verificar si el nombre existe
-                const titulo = "[[${titulo}]]";
+                const descripcion = "[[${descripcion}]]";
                 let url = "";
-                if (titulo.trim() !== "") {
-                    url = "/articulos/buscarPorTituloAdmin?titulo=" + titulo + "&page=" + currentPage + "&size=" + pageSize;
+                if (descripcion.trim() !== "") {
+                    url = "/articulos/buscarPorDescripcionAdmin?descripcion=" + descripcion + "&page=" + currentPage + "&size=" + pageSize;
                 } else {
                     url = "?page=" + currentPage + "&size=" + pageSize;
                 }

@@ -23,9 +23,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <p><strong>Más información</strong></p>
                 <p><strong>Horario:</strong> <span th:text="${lugar.dias_horario}"></span> de <span th:text="${lugar.hora_apertura}"></span> a <span th:text="${lugar.hora_cierre}"></span></p>
                 <p><strong>Precio de la entrada:</strong> <span th:text="${lugar.precio_entrada}"></span> colones</p>
-                <p><strong>Provincia:</strong> <span th:text="${ubicacion.nombre_provincia}"></span></p>
-                <p><strong>Cantón:</strong> <span th:text="${ubicacion.canton}"></span></p>
-                <p><strong>Distrito:</strong> <span th:text="${ubicacion.distrito}"></span></p>
+                <p><strong>Provincia:</strong> <span th:text="${lugar.ubicacion.nombreProvincia}"></span></p>
+                <p><strong>Cantón:</strong> <span th:text="${lugar.ubicacion.canton}"></span></p>
+                <p><strong>Distrito:</strong> <span th:text="${lugar.ubicacion.distrito}"></span></p>
                 <p><strong>Calidad de la recepción telefónica:</strong> <span th:text="${lugar.calidad_recepcion_telefonica}"></span></p>
             </div>
             

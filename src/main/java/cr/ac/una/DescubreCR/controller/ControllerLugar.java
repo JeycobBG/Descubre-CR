@@ -7,7 +7,6 @@ import cr.ac.una.DescubreCR.domain.Ubicacion;
 import cr.ac.una.DescubreCR.service.ILugarService;
 import cr.ac.una.DescubreCR.service.IServiciosComentarioLugar;
 import cr.ac.una.DescubreCR.service.ProvinciaService;
-import cr.ac.una.DescubreCR.service.UbicacionService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,8 +46,6 @@ public class ControllerLugar {
     @Autowired
     private IServiciosComentarioLugar comentariosLugarServ;
     
-    @Autowired
-    private UbicacionService ubicacionService;
     
     @Autowired
     private ProvinciaService provinciaService;
@@ -155,8 +152,6 @@ public class ControllerLugar {
         }
         
         modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
-        
-        
         return "lugar/listar";
     }
     
@@ -181,7 +176,6 @@ public class ControllerLugar {
         }
         
         modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
-        
         return "lugar/listar_admin";
     }
     
@@ -205,7 +199,6 @@ public class ControllerLugar {
             lugarParaJson.setUbicacion(lugar_editar.getUbicacion());
             lugarParaJson.setDias_horario(lugar_editar.getDias_horario());
             
-            // Use the injected ObjectMapper
             String lugarJson = objectMapper.writeValueAsString(lugarParaJson);
             modelo.addAttribute("lugar", lugar_editar);
             modelo.addAttribute("lugarJson", lugarJson);
@@ -324,7 +317,6 @@ public class ControllerLugar {
         }
         
         modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
-        
         return "lugar/listar";
     }
     
@@ -350,17 +342,13 @@ public class ControllerLugar {
         }
         
         modelo.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
-        
         return "lugar/listar_admin";
     }
     
     @GetMapping("/consulta_individual")
-    public String infoIndividual(@RequestParam("codigo") int id, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
-        Lugar lugar = lugarService.tomar(id);
-        Ubicacion ubicacion = lugar.getUbicacion();
-        System.out.print("\n\n\n" + ubicacion.getNombreProvincia() + "\n\n\n") ;
+    public String infoIndividual(@RequestParam("codigo") String codigo, @PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
+        Lugar lugar = lugarService.consultarEspPorCodigo(codigo);
         
-        modelo.addAttribute("ubicacion", ubicacion);
         modelo.addAttribute("lugar", lugar);
         modelo.addAttribute("paginaComentarios", comentariosLugarServ.listar(pageable, lugar.getId()));
         

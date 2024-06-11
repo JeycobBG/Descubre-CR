@@ -24,7 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <p><strong>Tema:</strong> <span th:text="${articulo.tema}"></span></p>
             <p><strong>Descripción:</strong> <span th:text="${articulo.descripcion}"></span></p>
             <p><strong>Nombre del Autor:</strong> <span th:text="${articulo.nombreAutor}"></span></p>
-            <p><strong>Fecha:</strong> <span th:text="${#dates.format(articulo.fecha, 'dd/MM/yyyy')}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${articulo.fechaFormateada}"></span></p>
             <p><strong>Acerca del Autor:</strong> <span th:text="${articulo.acercaDelAutor}"></span></p>
             <p><strong>Texto del Artículo:</strong> <span th:text="${articulo.textoArticulo}"></span></p>
             </div>

@@ -6,7 +6,7 @@
 </head>
 <body>
    
-    <h2>Actualizar Evento Turistico</h2>     
+    <h2>Actualizar Evento Turístico</h2>     
     
     <a href="/eventoTuristico/listarAdmin" class="boton-volver">
     <img src="/img/volver.png" alt="Volver" width="20" height="20">
@@ -18,6 +18,7 @@
  <div class="container">   
      <div>
         <form action="/eventoTuristico/actualizar-eventoTuristico" method="post">
+            
         <input type="hidden" id="id" th:field="${eventoTuristico.id}" /><br>
 
         <label for="codigo">Código:</label><br>
