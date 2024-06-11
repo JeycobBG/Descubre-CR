@@ -30,8 +30,9 @@
 
         <label for="tipo">Tipo de ruta:</label><br>
         <select id="tipo" name="tipo">
-            <option value="Turismo" th:selected="${ruta.tipo == 'Turismo'}">Turismo</option>
             <option value="Senderismo" th:selected="${ruta.tipo == 'Senderismo'}">Senderismo</option>
+            <option value="Turismo Cultural" th:selected="${ruta.tipo == 'Turismo Cultural'}">Turismo Cultural</option>
+            <option value="Turismo Gastronómico" th:selected="${ruta.tipo == 'Turismo Gastronómico'}">Turismo Gastronómico</option>
         </select><br><br>
         
         <label for="transporte">Transporte recomendado:</label><br>
@@ -51,10 +52,7 @@
 
         <input type="submit" value="Guardar">
     </form>
-
     <script>
-
-        
         document.getElementById('cantidadLugares').addEventListener('change', function() {
             var cantidad = parseInt(this.value);
             var lugaresContainer = document.getElementById('lugaresContainer');

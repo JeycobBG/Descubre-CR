@@ -24,10 +24,10 @@ public class RutaRecomendada {
     private String lugares;
     private String comentario;
     private double montoEntradas;
-    private int puntuacion;// Una puntuación o calificación dada por los usuarios que han realizado la ruta
-    private String dificultad;//: El nivel de dificultad de la ruta, por ejemplo, fácil, moderado, difícil.
-    private String tipo; // tipo de ruta, como senderismo, turismo cultural, turismo gastronómico, 
-    private String transporte;//El medio de transporte recomendado para realizar la ruta, como caminar, conducir, bicicleta, transporte público, etc.
+    private int puntuacion;
+    private String dificultad;
+    private String tipo;
+    private String transporte;
 
     public RutaRecomendada() {
     }
