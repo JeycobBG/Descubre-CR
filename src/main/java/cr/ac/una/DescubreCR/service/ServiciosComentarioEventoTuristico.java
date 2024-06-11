@@ -72,11 +72,11 @@ public class ServiciosComentarioEventoTuristico implements IServiciosComentarioE
     
     
     @Override
-    public Page<ComentarioEventoTuristico> filtrarPorUsuario(Pageable pageable, int idArticulo, String nombreUsuario){
+    public Page<ComentarioEventoTuristico> filtrarPorUsuario(Pageable pageable, int idEventoTuristico, String nombreUsuario){
         Specification<ComentarioEventoTuristico> spec = new Specification<ComentarioEventoTuristico>() {
             @Override
             public Predicate toPredicate(Root<ComentarioEventoTuristico> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                Predicate predicado1 = criteriaBuilder.equal(root.get("articulo").get("idArticulo"), idArticulo);
+                Predicate predicado1 = criteriaBuilder.equal(root.get("eventoTuristico").get("id"), idEventoTuristico);
                 Predicate predicado2 = criteriaBuilder.equal(root.get("nombreUsuario"), nombreUsuario);
                 Predicate predicadoFinal = criteriaBuilder.and(predicado1, predicado2);
                 

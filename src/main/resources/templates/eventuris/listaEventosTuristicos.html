@@ -16,8 +16,8 @@
     <div th:each="eventoTuristico : ${pagina.content}">
         <div class="info">
             <h3 th:text="${eventoTuristico.titulo}"></h3>
-            <p><strong>Codigo</strong> <span th:text="${eventoTuristico.codigo}"></span></p>
-            <p><strong>Titulo</strong> <span th:text="${eventoTuristico.titulo}"></span></p>
+            <p><strong>Código</strong> <span th:text="${eventoTuristico.codigo}"></span></p>
+            <p><strong>Título</strong> <span th:text="${eventoTuristico.titulo}"></span></p>
             <p><strong>Descripción:</strong> <span th:text="${eventoTuristico.descripcion}"></span></p>
             <a th:href="@{/eventoTuristico/consultaIndividual(id=${eventoTuristico.id})}">Ver más información</a>
         </div>

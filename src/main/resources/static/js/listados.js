@@ -44,7 +44,7 @@ function cargarDetallesArticulo(id) {
             if (xhr.status === 200) {
                var response = JSON.parse(xhr.responseText);
                var detallesHtml = `
-                <h2>DETALLES DEL ARTICULO</h2>
+                <h2>DETALLES DEL ARTÍCULO</h2>
                 <p><strong>Identificador:</strong> <span>${response.identificador}</span></p>
                 <p><strong>Título:</strong> <span>${response.titulo}</span></p>
                 <p><strong>Tema:</strong> <span>${response.tema}</span></p>

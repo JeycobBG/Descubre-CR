@@ -15,6 +15,6 @@ public interface IServiciosComentarioEventoTuristico{
     public boolean eliminar(String codigo);
     public boolean existe(String codigo);
     public ComentarioEventoTuristico buscar(String codigo);
-    public Page<ComentarioEventoTuristico> filtrarPorUsuario(Pageable pageable, int articulo, String nombreUsuario);
+    public Page<ComentarioEventoTuristico> filtrarPorUsuario(Pageable pageable, int idEventoTuristico, String nombreUsuario);
     
 }

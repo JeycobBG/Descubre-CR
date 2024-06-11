@@ -61,28 +61,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <ul class="pagination mb-0">
                         
                         <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
-                            <a class="page-link" th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=0&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
+                            <a class="page-link" th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.idArticulo} + '&page=0&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.idArticulo} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
                         </li>
                         
                         <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
                             <a class="page-link" th:with="prevPag=${paginaComentarios.number-1}"
-                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
+                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.idArticulo} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.idArticulo} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
                         </li>
                         
                         <li class="page-item" th:each="i : ${numPaginas}" 
                             th:classappend="${i == paginaComentarios.number + 1} ? 'active' : ''">
                             <a class="page-link" th:with="pagNum=${i-1}"
-                                th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
+                                th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.idArticulo} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.idArticulo} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
                         </li>
                         
                         <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
                             <a class="page-link" th:with="sigPag=${paginaComentarios.number+1}"
-                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
+                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.idArticulo} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.idArticulo} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
                         </li>
                         
                         <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
                             <a class="page-link" th:with="ultPag=${paginaComentarios.totalPages-1}"
-                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.identificador} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.identificador} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
+                               th:href="@{(${nombre} != null) ? '/comentariosArticulo/buscar?nombre=' + ${nombre} + '&idArticulo=' + ${articulo.idArticulo} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size} : '?idArticulo=' + ${articulo.idArticulo} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
                         </li>
                     </ul>
                 </nav>

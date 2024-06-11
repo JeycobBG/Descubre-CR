@@ -23,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <div th:if="${!paginaComentarios.content.isEmpty()}">
             <form method="get" th:action="@{/comentariosEventoTuristico/buscar}" enctype="multipart/form-data">
                 <input type="text" name="nombre" placeholder="Ingrese el nombre del usuario" required>
-                <input type="hidden" name="id" th:value="${eventoTuristico.id}">
+                <input type="hidden" name="idEventoTuristico" th:value="${eventoTuristico.id}">
                 <button type="submit">Buscar</button>
             </form>
         </div>
@@ -46,7 +46,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <a class="eliminar-button" href="#"
                         th:data-codigo="${comentario.codigoComentario}"
                         th:data-url-eliminar="@{'/comentariosEventoTuristico/eliminar?idEventoTuristico=' + ${comentario.eventoTuristico.id} + '&codigo='}"
-                        th:data-url-listar="@{'/comentariosEventoTuristico/listar?id=' + ${comentario.eventoTuristico.id}}"
+                        th:data-url-listar="@{'/comentariosEventoTuristico/listar?idEventoTuristico=' + ${comentario.eventoTuristico.id}}"
                         onclick="eliminar(this)">Eliminar</a>
                     </td>
                     <td><a class="ver-detalles"href="#" th:attr="onclick='cargarDetallesComentarioEventoTuristico(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
@@ -61,35 +61,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <ul class="pagination mb-0">
                         
                         <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
-                            <a class="page-link" th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=0&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
+                            <a class="page-link" th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.id} + '&page=0&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.id} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
                         </li>
                         
                         <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
                             <a class="page-link" th:with="prevPag=${paginaComentarios.number-1}"
-                               th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
+                               th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
                         </li>
                         
                         <li class="page-item" th:each="i : ${numPaginas}" 
                             th:classappend="${i == paginaComentarios.number + 1} ? 'active' : ''">
                             <a class="page-link" th:with="pagNum=${i-1}"
-                                th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
+                                th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
                         </li>
                         
                         <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
                             <a class="page-link" th:with="sigPag=${paginaComentarios.number+1}"
-                               th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
+                               th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
                         </li>
                         
                         <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
                             <a class="page-link" th:with="ultPag=${paginaComentarios.totalPages-1}"
-                               th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.codigo} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
+                               th:href="@{(${nombre} != null) ? '/comentariosEventoTuristico/buscar?nombre=' + ${nombre} + '&idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size} : '?idEventoTuristico=' + ${eventoTuristico.id} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
                         </li>
                     </ul>
                 </nav>
             </div>
         </div>
         <div th:if="${paginaComentarios.content.isEmpty()}"> 
-            <p th:text="'Aún no se han hecho comentarios sobre el artículo ' + ${eventoTuristico.nombreEvento} + '.'"></p>
+            <p th:text="'Aún no se han hecho comentarios sobre el evento'+ '.'"></p>
         </div>
         
         <div id="verDetalles"></div>
