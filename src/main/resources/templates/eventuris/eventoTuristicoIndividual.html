@@ -9,11 +9,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="/CSS/articuloIndividual.css"> 
+        <script text="text/javascript" th:src="@{/js/comentariosFunc.js}"></script>
     </head>
     <body>
         <div class="info-container">
             <div class="info-encabezado">
-                <h4 th:text="${eventoTuristico.titulo}"></h4>
+                <h4 th:text="${eventoTuristico.nombreEvento}"></h4>
                 <p><span th:text="${eventoTuristico.descripcion}"></span></p>
             </div>
             <div class="info-body">
@@ -30,12 +31,95 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
             
         </div>
-        <div class="comentarios-container">
-            <h1>
-                Sección de comentarios
-            </h1>
-            Pronto...
+        <div class="comentarios-container"> 
+            <h2>Sección de comentarios</h2>
+            
+            <div class="nuevo-comentario">
+                <img id="mostrarFormulario" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAshJREFUSEt91c/LZmMYB/DPpTGjzIaYZrKRIjVl/gEmEobFmPwaP5KNBSYLGwt/ATvFZEokFL1kI5LelMVIWWBh8UqajVFeodQ0XjWX5z7nPmfu8zzncddT57nPde7rur4/rjs0K5Dd//p0caMNq69nYtqt4bk9NKRcOXRdlrGMafKhuFpo+XqmunHrKtwZHEkOEdeSpckz+A6f4XP8MY9EX8TcOohXcNv4smuk7SZ0HfeobuIZ/DTtq8SscvAw3sEunMf7wYfZV/pvDb+0dIaHcJzYQ/6D+/HJpIwlYo+UAFyCDeGE9Pt6Fjo97JNex9FawGF83epk6Gpv8GNygDgV8uleUXX1EFVEyueTtKWg0vWjxBZ5E3ZKTAvR83hJ+Eq6BRcmZ/d/BhZWuAsuS75dQHojHhfeLez0gX1133eZw63Sl60dmj5WE1TyK+EPEhtkUdfdw9HD939jLy4nzg2WG723Rm61vAGw/fgV29jXJWiQ/A1X96TFdpegfzkx90xnHQq1kStk54k/ceVyB0XLt9ffF1PFjyMkKxQdyfW57e2eqsLTC2/cvEzyU3itmuaO+QTrSUbxxjfEIfJZ4dUOhMYHu8mfcQ2ew8ursFeZ9sW3q8j0beEx6WxwfXJumYOC4+EMm7KrpoyKF3G2xX2mswM4FRzNzulxjPy0lfh0/PIA8R65S7gg42Py2JIn9uAuPCLcJ+3GL8Jx6XQ7tlqIWkVeVzsopPViCAelj3DDUrIdvLFw7gv4a3mI9wlmhk3dGpB+ciHhk3Wo7QhnZPxAbi4SfyBtXzxnqq65adrOn84FTf4NPFGn7HrrjW9iYrQBjHbiDDYrijiBt/73wluDRAPzcN5YdYFoC/cKW0vSbDprYZlmWXOjjUFvlpsqOD+Q0d4fK3f4RD49uascrCd8HvMa3yZuBuXaO3l6ncwevXLyCHUzKP0HqScCLoR2OhAAAAAASUVORK5CYII="/>
+                
+                <form id="formRegistrar" method="post" th:action="@{/comentariosEventoTuristico/nuevoComentario}" enctype="multipart/form-data" style="display: none;">
+                    <textarea name="contenido" placeholder="Escriba un comentario" required form="formRegistrar"></textarea><br/><br/>
+
+                    <p>Visibilidad de su comentario:</p>
+                    <input type="radio" id="publico" name="visible" value="true" required>
+                    <label for="publico">Público</label>
+                    <input type="radio" id="privado" name="visible" value="false" required>
+                    <label for="privado">Privado</label><br><br>
+
+                    <input type="text" name="etiquetas" placeholder="Ingrese las #etiquetas relacionadas" required><br>
+                    <input type="hidden" name="idEventoTuristico" th:value="${eventoTuristico.id}">
+                    <input type="hidden" name="nombreUsuario" value="Gerald"><br>
+                    <input type="submit" value="Guardar comentario">
+                </form>
+            </div>
+            
+            <div th:if="${paginaComentarios.content!=null && !paginaComentarios.content.isEmpty()}" class="comentarios">
+                <h3>Lea las opiniones de otros usuarios</h3>
+                
+                <ul class="listadoComentarios">
+                    <li th:each="comentario:${paginaComentarios.content}" class="comentario">
+
+                        <div class="comentarioIndividual">
+                            <h4 th:text="${comentario.nombreUsuario}"></h4>
+                            <p th:text="${comentario.fecha}"></p>
+                            <p th:text="${comentario.contenido}"></p>
+                            
+                            <div class="likesContainer">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAkVJREFUSEuVlT9IVlEYxn9vkQ1NSYtIYgUq0WiD4dBQs4tDk+TgKEhCIGIUOegkOBoE0dDUHAWCDi7W1iAtgWBD4RxGyNu99/w/91z7/Ibvu5x7zvuc533e5/kE/xFAwf6EdfvUrMcvBUHrE3QfMm9SiC4AWygUbV2hsFBfImcQ38je2ha9BnwGhhFOUT4Cs8Avz6DFMmMQgzVFw4FLwC4wEZaap5fAs+IdXWdDR+Ketti+RphFORYYV5gHWRT0RaXB85RBqkiiQVkPmQfdRPiDyiTol6o1h8AQcN8yM7NR0E/KmvqJmkRlR9CLCtPAe4G7CvvAT2DAjF5RXzOU6eAlu29aUfuBFYRVe8V14CmwATxpl06vHANMAWvAWHboLTATrX0DRvLCUdkDYBH44Bzi9h4JDCZ8zak+4G9kwK8Id3LTBe7Noe/ArQxA1Dq5Go5mk8WqSZbaXHC+WXJaNwNkWmS+DEDwhqvadnshR6xvLqByGteJAGLkmIF1+5kR4vPqIcongQOF24GBeZ9QC+OXtug/OO9AHoEuIazlY5q3RK172hqUUa4Ax8Bl4DrwI2MgakPN9bygwZn3nwO2gG3ggZMp0cB30ijtx6i3YGZP4R7IDGjtHZ/L7rndIrNFQrKmUNEE3rCzfwJcBU6cbyInn3dMYx/IqqDLCm+Ax3n8ODKHoENJLHa1vOAxW8Sna6lFdRatI4ymxu2u5pus/K5i5pUKC+3/7V4UPNeeUpr25tKu5M/gM4BAsxeUuFZn2IX5rLLhHyRc3By4tlskAAAAAElFTkSuQmCC"
+                                    th:attr="onclick='manejarLikes()'"
+                                    data-comentario-id="${comentario.codigo}" class="pulgarArriba" alt="iconoLike.png">
+                                <span class="likesCount" th:text="${comentario.cantidadLikes}"</span>
+                            </div>
+                            <div class="dislikesContainer">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAmZJREFUSEuVlj2MTVEQx39DgohKhEJiYyUrWskWGh8RrWY70WxEKRrFKlgUEjSKLRSyjWynptkgWR2JRMM2a1EoVnQKERn3fN0z557znucW9703d858/P//mfuE4SWARqP9PtYRKtdocB+NaKX7f+QZlCGIP5xvVZ3OUPmY6lKz/mDVvXhT/yA/lyXQeYTdPVw2dcwoaCzOxpYPgl5TeJZCD6s+C6zaphqF+bZ9ggpg770BHPEJGuSsoFwQuKPCYl9i1UFftc8hIAHqmDPkjxDlKvYobIHsAp1G+FRCVIIfu7QhXWddXd7k4Tcq8lnmgWVgTeBkrKhJvDFalJw5aSZ0YIh1z14Bp0AugS4b+TTE3J/MCVoQGQ4OAl8RfqHsA34m2VmZWmKjApOUEhohoecgyTTUd8MTCyvAxQan6dRQuRFuj8xYiNZBZ4BzIKu50n/ujqyimCB3UJKcyNnmlOAX0qgdUeZMknGHfAcjEpTyik6DxdfspiLZ7jkr088Ch4rdYqc0MP1O0ONGlzs0iCJcOfKmwmFvMjWdB+4jHC0XTDFcH4FjRgBPgiAKLN8DC8DzYYJ6oPK5hwhXUe4JLESybnYt3QZ+gMwKupHAt/wV23TEyDqfb8ABFwj0LcIcylOBPwqnQV5X82FQGxE3meWMoC8UvoBMgZ7opv0lsBO4Aiw1AyRkB6ui5XsXuA48AB4Bb4C9II9BLyd223NTzEHc7+XCdOcXu9utvp8g9LVuIbr3xu+BvSrQyLScKvNrf/fycGpxAbcDm8AsyPdJ/h0UJFeDO3aSJxnz+n3Qt9g+Xk7yJPvqL9T/+xx4ebmLAAAAAElFTkSuQmCC"
+                                    th:attr="onclick='manejarDislikes()'"
+                                    data-comentario-id="${comentario.codigo}" class="pulgarAbajo" alt="iconoDislike.png">
+                                <span class="dislikesCount" th:text="${comentario.cantidadDislikes}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                    </li>
+                </ul>
+                
+                <nav aria-label="Page navigation" class="d-flex justify-content-between"> 
+                    <ul class="pagination mb-0">
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
+                            <a class="page-link" th:href="@{'?id=' + ${eventoTuristico.id} + '&page=0&size=' + ${paginaComentarios.size}}">Primera</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.first} ? 'disabled': ''">
+                            <a class="page-link" th:with="prevPag=${paginaComentarios.number-1}"
+                               th:href="@{'?id=' + ${eventoTuristico.id} + '&page=' + ${prevPag} + '&size=' + ${paginaComentarios.size}}">Anterior</a>
+                        </li>
+                        
+                        <li class="page-item" th:each="i : ${numPaginas}" 
+                            th:classappend="${i == paginaComentarios.number + 1} ? 'active' : ''">
+                            <a class="page-link" th:with="pagNum=${i-1}"
+                                th:href="@{'?id=' + ${eventoTuristico.id} + '&page=' + ${pagNum} + '&size=' + ${paginaComentarios.size}}" th:text="${i}"></a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
+                            <a class="page-link" th:with="sigPag=${paginaComentarios.number+1}"
+                               th:href="@{'?id=' + ${eventoTuristico.id} + '&page=' + ${sigPag} + '&size=' + ${paginaComentarios.size}}">Siguiente</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${paginaComentarios.last} ? 'disabled': ''">
+                            <a class="page-link" th:with="ultPag=${paginaComentarios.totalPages-1}"
+                               th:href="@{'?id=' + ${eventoTuristico.id} + '&page=' + ${ultPag} + '&size=' + ${paginaComentarios.size}}">Última</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div th:if="${paginaComentarios.content.isEmpty()}"> 
+                <p>Sé la primera persona en dejar un comentario sobre este artículo.</p>
+            </div>
+        </div>
+        <div id="alert-messages" 
+            th:data-exito="${exito != null ? exito : ''}" 
+            th:data-error="${error != null ? error : ''}">
         </div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
 </html>
-

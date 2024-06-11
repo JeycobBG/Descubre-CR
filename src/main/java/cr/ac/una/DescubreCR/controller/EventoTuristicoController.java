@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import cr.ac.una.DescubreCR.domain.EventoTuristico;
 import cr.ac.una.DescubreCR.service.IEventoTuristicoServices;
 import cr.ac.una.DescubreCR.service.ILugarService;
+import cr.ac.una.DescubreCR.service.IServiciosComentarioEventoTuristico;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,6 +36,9 @@ public class EventoTuristicoController {
     
     @Autowired
     private ILugarService lugarService;
+    
+    @Autowired
+    private IServiciosComentarioEventoTuristico comentEventSer;
     
     @GetMapping("/agregar")
     public String mostrarFormularioAgregarArticulo(Model model) throws SQLException {
@@ -235,8 +239,9 @@ public class EventoTuristicoController {
     
         
     @GetMapping("/consultaIndividual")
-    public String infoIndividual(@RequestParam("id") int id, Model modelo) throws SQLException{
+    public String infoIndividual(@RequestParam("id") int id,@PageableDefault(size=15, page=0) Pageable pageable, Model modelo) throws SQLException{
         modelo.addAttribute("eventoTuristico", evenTurisSer.getEventoPorId(id));
+        modelo.addAttribute("paginaComentarios", comentEventSer.listar(pageable, id));
         return "eventuris/eventoTuristicoIndividual";
     }
 }

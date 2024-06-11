@@ -43,6 +43,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <tr th:each="eventoTuristico :${pagina.content}">           
                     <td th:text="${eventoTuristico.codigo}"></td>
@@ -51,6 +52,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <td><a class="editar-button" th:href="@{'/eventoTuristico/actualizar?id=' + ${eventoTuristico.id}}">Editar</a></td>
                     <td><a class="eliminar-button" href="#" th:onclick="'confirmarEliminacion(this, \'' + ${eventoTuristico.id} + '\')'">Eliminar</a></td>
                     <td><a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesEventoTuristico(\'' + ${eventoTuristico.id} + '\')'">Ver Detalles</a></td>
+                    <td><a class="ver-opiniones" th:href="@{'/comentariosEventoTuristico/listar?idEventoTuristico=' + ${eventoTuristico.id}}" th:text="'Ver Opiniones'"></a></td>
+
                 </tr>
             </table>
            

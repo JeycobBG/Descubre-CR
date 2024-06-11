@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Módulo Comentario Articulo</title>
+        <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+    <h2>Actualizar Comentario</h2>
+    <a href="/usuarios/menuPrincipal" class="boton-volver">
+    <img src="/img/home.png" alt="Volver" width="20" height="20">
+    </a>
+        <div class="container">
+            <form id="formRegistrar" method="post" th:action="@{/comentariosEventoTuristico/actualizar}" enctype="multipart/form-data"> 
+                <textarea name="contenido" th:value="${comentario.contenido}" required form="formRegistrar"></textarea><br/><br/>
+                
+                <p>Visibilidad del comentario:</p>
+                <input type="radio" id="publico" name="visible" value="true" th:checked="${comentario.visibilidad}" required>
+                <label for="publico">Público</label>
+
+                <input type="radio" id="privado" name="visible" value="false" th:checked="${!comentario.visibilidad}" required>
+                <label for="privado">Privado</label><br><br>
+                
+                <input type="text" name="etiquetas" th:value="${comentario.etiquetas}" required><br>
+                
+                <input type="hidden" name="codigo" th:value="${comentario.codigo}">
+                <input type="hidden" name="id" th:value="${comentario.eventoTuristico.id}">
+                <input type="hidden" name="nombreUsuario" th:value="${comentario.nombreUsuario}">
+                <input type="hidden" name="likes" th:value="${comentario.cantidadLikes}">
+                <input type="hidden" name="dislikes" th:value="${comentario.cantidadDislikes}"><br><br>
+                <input type="submit" value="Guardar comentario">
+            </form>
+        </div>
+    </body>
+</html>
