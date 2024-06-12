@@ -6,32 +6,58 @@ package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.domain.RutaRecomendada;
 import cr.ac.una.DescubreCR.jpa.RutaRecomendadaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+/**
+ *
+ * @author kvene
+ */
 @Service
-public class RutaRecomendadaServices {
-
+@Primary
+public class RutaRecomendadaServices implements IRutaRecomendadaServices{
+    
     @Autowired
-    private RutaRecomendadaRepository repository;
+    private RutaRecomendadaRepository servRuta;
 
-    public List<RutaRecomendada> findAll() {
-        return repository.findAll();
+    @Override
+    public List<RutaRecomendada> getServicios() {
+        return servRuta.findAll();
     }
 
-    public Optional<RutaRecomendada> findById(Integer id) {
-        return repository.findById(id);
+    @Override
+    public boolean eliminar(int codigo) {
+        try {
+            servRuta.deleteById(codigo);
+            return true; 
+        } catch (EmptyResultDataAccessException e) {
+            return false; 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; 
+        }
     }
 
-    public RutaRecomendada save(RutaRecomendada ruta) {
-        return repository.save(ruta);
+    @Override
+    public void guardar(RutaRecomendada ruta) {
+        servRuta.save(ruta);
     }
 
-    public void deleteById(Integer id) {
-        repository.deleteById(id);
+    @Override
+    public Page<RutaRecomendada> listar(Pageable pageable) {
+        return servRuta.findAll(pageable);
     }
+
+    @Override
+    public RutaRecomendada obtenerPorCodigoRuta(int codigo) {
+        Optional<RutaRecomendada> optionalEvento = servRuta.findById(codigo);
+        return optionalEvento.orElse(null);
+    }
+    
 }
-

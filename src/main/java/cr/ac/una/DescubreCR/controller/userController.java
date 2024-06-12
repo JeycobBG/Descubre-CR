@@ -42,9 +42,6 @@ public class userController {
     @Autowired
     private IUsuariosServices usuariosServices;
     
-    //@Autowired
-    //private IPersonaService personaServices;
-    
     @GetMapping("/menuPrincipal")
     public String menuPrincipal(){
         return "index";
@@ -52,12 +49,13 @@ public class userController {
     
     @GetMapping("/listaUsuarios")
     public String listar(@PageableDefault(size=5, page=0) Pageable pageable, Model model) throws SQLException {
-        Page<Usuario> page = usuariosServices.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
-        model.addAttribute("page", page);
+        Page<Usuario> pagina = usuariosServices.listar(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        
+        model.addAttribute("pagina", pagina);
 
         List<Integer> opcionesCantidadPorPagina = Arrays.asList(5, 10, 25, 50, 100);
-        int paginasTotal = page.getTotalPages();
-        int paginaActual = page.getNumber();
+        int paginasTotal = pagina.getTotalPages();
+        int paginaActual = pagina.getNumber();
         int inicio = Math.max(1, paginaActual);
         int termina = Math.min(paginaActual + 5, paginasTotal);
         
@@ -66,9 +64,9 @@ public class userController {
             for (int i = inicio; i <= termina; i++) {
                 numPaginas.add(i);
             }
-            model.addAttribute("pageNumbers", numPaginas);
+            model.addAttribute("numPaginas", numPaginas);
         }
-        model.addAttribute("pageSizeOptions", opcionesCantidadPorPagina);
+        model.addAttribute("opcionesCantidadPorPagina", opcionesCantidadPorPagina);
 
         return "usuario/lista_usuarios";
     }
@@ -157,6 +155,11 @@ public class userController {
         flash.addFlashAttribute("exito","Se elimino con exito un usuario");
         return "redirect:/usuarios/listaUsuarios";
   
+    }
+    
+    @GetMapping("/buscarId/{id}")
+    public Usuario obtenerDetallesDeUsuario(@RequestParam("id") int id) throws SQLException, JsonProcessingException {
+        return usuariosServices.obtenerPorId(id);
     }
     
     @GetMapping("/buscarUsuario")

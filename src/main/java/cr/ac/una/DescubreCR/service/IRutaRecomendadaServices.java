@@ -18,4 +18,3 @@ public interface IRutaRecomendadaServices {
     
     RutaRecomendada obtenerPorCodigoRuta(int codigo);
 }
-
