@@ -48,7 +48,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         th:data-codigo="${comentario.codigo}"
                         th:data-url-eliminar="@{'/comentariosLugar/eliminar?codigoLugar=' + ${comentario.lugar.codigo} + '&codigo='}"
                         th:data-url-listar="@{'/comentariosLugar/listar?codigoLugar=' + ${comentario.lugar.codigo}}"
-                        onclick="eliminar(this)">Eliminar</a>
+                        onclick="eliminarComentario(this)">Eliminar</a>
                     </td>
                     <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesComentarioLugar(\'' + ${comentario.codigo} + '\')'">Ver Detalles</a></td>
                 </tr>

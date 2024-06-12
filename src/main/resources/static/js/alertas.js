@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+ddocument.addEventListener("DOMContentLoaded", function() {
     var alertMessagesDiv = document.getElementById('alert-messages');
     
     var exito = alertMessagesDiv.getAttribute('data-exito');
@@ -100,6 +100,77 @@ function eliminar(element) {
                         stopKeydownPropagation: false
                     });
                 }
+            });
+        }
+    });
+}
+
+function eliminarComentario(element) {
+    const codigo = element.getAttribute('data-codigo');
+    const urlEliminar = element.getAttribute('data-url-eliminar');
+    const urlListar = element.getAttribute('data-url-listar');
+    
+    Swal.fire({
+        title: "¡CUIDADO!",
+        text: "¿Confirma que desea eliminar el elemento?",
+        icon: "warning",
+        backdrop: false,
+        toast: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        stopKeydownPropagation: false,
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "¡Sí, quiero eliminarlo!",
+        cancelButtonText: "Cancelar"
+    })
+    .then((OK) => {
+        if (OK.isConfirmed) {
+            fetch(urlEliminar + codigo, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                Swal.fire({
+                    title: "¡Eliminado!",
+                    text: "El elemento ha sido eliminado.",
+                    icon: "success",
+                    timer: 5000,
+                    timerProgressBar: true,
+                    backdrop: false,
+                    toast: true,
+                    position: 'top-end',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    stopKeydownPropagation: false
+                });
+                
+                setTimeout(function() {
+                    location.href = urlListar;
+                }, 5000);
+            })
+            .catch(error => {
+                console.error('There was a problem with the DELETE operation:', error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Hubo un problema al eliminar el elemento.",
+                    icon: "error",
+                    backdrop: false,
+                    toast: true,
+                    position: 'top-end',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    stopKeydownPropagation: false
+                });
             });
         }
     });
