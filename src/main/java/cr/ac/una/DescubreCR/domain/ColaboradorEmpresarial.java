@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
  * @author Jordi
  */
 @Entity
-@Table(name = "tb_colaboradorEmpresarial")
+@Table(name = "tb_colaborador_empresarial")
 public class ColaboradorEmpresarial {
     @Id
     private String ide;
