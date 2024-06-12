@@ -1,11 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cr.ac.una.DescubreCR.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  *
  * @author Jordi
  */
+@Entity
+@Table(name = "tb_colaboradorEmpresarial")
 public class ColaboradorEmpresarial {
-    
+    @Id
     private String ide;
     private String nombreEmpresa;
     private String descripcionEmpresa;

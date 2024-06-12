@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
     <script text="text/javascript" th:src="@{/js/listados.js}"></script>
     <title>Lista de Colaboradores</title>
-    <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
-
 </head>
 <body>
     <header>
@@ -15,96 +15,113 @@
     
     <div class="container">
         <div class="search-filter">
-            <input type="text" id="searchInput" placeholder="Buscar por identificador" onkeyup="searchByCedula()">
+            <input type="text" id="searchInput" placeholder="Buscar por Identificador" onkeyup="searchByCedula()">
         </div>
-        
-        <table id="colaboradoresTable">
-            <thead>
-                <tr>
-                    <th>Identificador</th>
-                    <th>Nombre de la Empresa</th> 
-                    <th>Tipo de Colaborador</th>
-                   
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="colaborador : ${colaboradores}">
-                    <td th:text="${colaborador.ide}"></td>
-                    <td th:text="${colaborador.nombreEmpresa}"></td>          
-                    <td th:text="${colaborador.tipoColaborador}"></td>
-                   
-   
-                    <td>
-                        
-                        <a class="editar-button" th:href="@{'/colaboradores/actualizar/' + ${colaborador.ide}}">Actualizar</a>
-                        <a class="eliminar-button"th:href="@{'/colaboradores/eliminar/' + ${colaborador.ide}}"onclick="showDeleteMessage()">Eliminar</a>
-                        <a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesColaborador(\'' + ${colaborador.ide} + '\')'">Ver Detalles</a>
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="pagination">
-            <button onclick="previousPage()">Anterior</button>
-            <span id="currentPage">1</span>
-            <button onclick="nextPage()">Siguiente</button>
+        <div th:each="colaborador : ${pagina.content}" class="info">
+            <p><strong>Identificador:</strong> <span th:text="${colaborador.ide}"></span></p>
+            <p><strong>Nombre de la Empresa:</strong> <span th:text="${colaborador.nombreEmpresa}"></span></p>
+            <p><strong>Descripción de la Empresa:</strong> <span th:text="${colaborador.descripcionEmpresa}"></span></p>
+            <a th:href="@{'/colaboradores/actualizar?ide=' + ${colaborador.ide}}" th:text="'Actualizar'"></a>
+             
+                 <td>
+    <a href="#" th:text="'Eliminar'"
+       onclick="eliminar(this)"
+       th:data-codigo="${colaborador.ide}"
+       th:data-url-eliminar="@{'/colaboradores/eliminar?ide='}"
+       th:data-url-listar="@{'/colaboradores/listaColaboradores'}">Eliminar</a>
+</td>
+
+
+            
+
+            <a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesColaborador(\'' + ${colaborador.ide} + '\')'">Ver Detalles</a>
         </div>
+
+        <div class="pagination-container">
+            <p>
+                Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros
+            </p>
+
+            <div>
+                <select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
+                    <option th:each="item : ${opcionesCantidadPorPagina}" th:value="${item}" th:text="${item}" th:selected="${pagina.size == size}"></option>
+                </select>
+            </div>
+
+            <ul class="pagination mb-0">
+                <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+                    <a class="page-link" th:href="@{(${searchInput} != null) ? '/colaboradores/buscar?search=' + ${searchInput} + '&page=0&size=' + ${pagina.size} : '/colaboradores/listaColaboradores' + '?page=0&size=' + ${pagina.size}}">Primera</a>
+                </li>
+                <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+                    <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${searchInput} != null) ? '/colaboradores/buscar?search=' + ${searchInput} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/colaboradores/listaColaboradores' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
+                </li>
+                <li class="page-item" th:each="i : ${numPaginas}" th:classappend="${i == pagina.number + 1} ? 'active' : ''">
+                    <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${searchInput} != null) ? '/colaboradores/buscar?search=' + ${searchInput} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/colaboradores/listaColaboradores' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
+                </li>
+                <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+                    <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${searchInput} != null) ? '/colaboradores/buscar?search=' + ${searchInput} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/colaboradores/listaColaboradores' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
+                </li>
+                <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+                    <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${searchInput} != null) ? '/colaboradores/buscar?search=' + ${searchInput} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/colaboradores/listaColaboradores' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
+                </li>
+            </ul>
+        </div>
+        <p>Página actual: <span id="currentPage"></span></p> <!-- Añadir este elemento -->
     </div>
+    
     <div id="verDetalles"></div>
     <footer>
         <p>© 2024 - Todos los derechos reservados</p>
     </footer>
     
-    
-    
+    <div id="alert-messages"></div>
+
     <script>
-        
-        function showDeleteMessage() {
-            alert("El colaborador se eliminó correctamente.");
-        }
-        // Función para buscar por cédula
         function searchByCedula() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("colaboradoresTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
+            const input = document.getElementById("searchInput").value.trim();
+            const infoDivs = document.getElementsByClassName("info");
+
+            for (let i = 0; i < infoDivs.length; i++) {
+                const identificadorSpan = infoDivs[i].getElementsByTagName("span")[0];
+                if (identificadorSpan) {
+                    const identificadorTexto = identificadorSpan.textContent || identificadorSpan.innerText;
+                    if (identificadorTexto.includes(input)) {
+                        infoDivs[i].style.display = "";
                     } else {
-                        tr[i].style.display = "none";
+                        infoDivs[i].style.display = "none";
                     }
                 }
             }
         }
 
-        // Función para filtrar alfabéticamente (simulación)
-        function filterAlphabetically() {
-            alert("Función de filtro alfabético aún no implementada");
+        function cambiarPagTam() {
+            paginateTable();
         }
 
-        // Función para ir a la página anterior
-        function previousPage() {
-            var currentPage = parseInt(document.getElementById("currentPage").innerText);
-            if (currentPage > 1) {
-                document.getElementById("currentPage").innerText = currentPage - 1;
+        function paginateTable() {
+            const infoDivs = document.getElementsByClassName("info");
+            const pageSize = parseInt(document.getElementById("pageSize").value, 10) || 5;
+            const totalPages = Math.ceil(infoDivs.length / pageSize);
+
+            let currentPage = 1;
+            for (let i = 0; i < infoDivs.length; i++) {
+                if (i < (currentPage - 1) * pageSize || i >= currentPage * pageSize) {
+                    infoDivs[i].style.display = "none";
+                } else {
+                    infoDivs[i].style.display = "";
+                }
+            }
+
+            const currentPageElement = document.getElementById("currentPage");
+            if (currentPageElement) {
+                currentPageElement.innerText = currentPage;
             }
         }
 
-        // Función para ir a la página siguiente
-        function nextPage() {
-            var currentPage = parseInt(document.getElementById("currentPage").innerText);
-            var lastPage = document.getElementById("colaboradoresTable").rows.length / 5;
-            if (currentPage < lastPage) {
-                document.getElementById("currentPage").innerText = currentPage + 1;
-            }
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            paginateTable();
+        });
     </script>
 </body>
 </html>

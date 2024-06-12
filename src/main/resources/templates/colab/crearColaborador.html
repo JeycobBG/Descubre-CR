@@ -2,14 +2,12 @@
 <html>
 <head>
     <title>Crear Nuevo Colaborador Empresarial</title>
-    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <h2>Crear Nuevo Colaborador Empresarial</h2>
-<div class="container">
-    <div>
+
     <form id="formCrearColaborador" action="/colaboradores/crearColaborador" method="get" onsubmit="return validarFormulario()">
         <label for="nombreEmpresa">Nombre de la Empresa:</label>
         <input type="text" id="nombreEmpresa" name="nombreEmpresa" required><br>
@@ -32,12 +30,10 @@
         <input type="text" id="tipoColaborador" name="tipoColaborador" required><br>
 
         <label for="redesSociales">Redes Sociales:</label>
-        <input type="text" id="redesSociales" name="redesSociales"><br>
+        <textarea id="redesSociales" name="redesSociales" required></textarea><br>
 
         <input type="submit" value="Registrarse">
     </form>
-    </div>
-</div>
 
     <script>
         function validarFormulario() {

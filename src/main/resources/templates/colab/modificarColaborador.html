@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Modificar Colaborador</title>
-    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+    <title>Modificar Colaborador</title>
 </head>
 <body>
+    <h1>Modificar Empresa</h1>
     
-    <div>Modificar Empresa</div>
-<div class="container">
-    <div>
-    <form method="post" th:action="@{/colaboradores/modificarColaborador}">
+    <form action="/colaboradores/modificarColaborador" method="post">
         <input type="hidden" name="ide" th:value="${colaboradorEmpresarial.ide}" />
-        Nombre de la Empresa: <input type="text" name="nombreEmpresa" th:value="${colaboradorEmpresarial.nombreEmpresa}" /><br />
-        Descripción de la Empresa: <input type="text" name="descripcionEmpresa" th:value="${colaboradorEmpresarial.descripcionEmpresa}" /><br />
-        Dirección de la Empresa: <input type="text" name="direccionEmpresa" th:value="${colaboradorEmpresarial.direccionEmpresa}" /><br />
-        Teléfono de la Empresa: <input type="text" name="telefonoEmpresa" th:value="${colaboradorEmpresarial.telefonoEmpresa}" /><br />
-        Sitio Web: <input type="text" name="sitioWeb" th:value="${colaboradorEmpresarial.sitioWeb}" /><br />
-        Estado de Aprobación: <input type="text" name="estadoAprobacion" th:value="${colaboradorEmpresarial.estadoAprobacion}" /><br />
-        Tipo de Colaborador: <input type="text" name="tipoColaborador" th:value="${colaboradorEmpresarial.tipoColaborador}" /><br />
-        Redes Sociales: <input type="text" name="redesSociales" th:value="${colaboradorEmpresarial.redesSociales}" /><br />
+
+        <label for="nombreEmpresa">Nombre de la Empresa:</label><br>
+        <input type="text" id="nombreEmpresa" name="nombreEmpresa" th:value="${colaboradorEmpresarial.nombreEmpresa}" required><br><br>
+
+        <label for="descripcionEmpresa">Descripción de la Empresa:</label><br>
+        <input type="text" id="descripcionEmpresa" name="descripcionEmpresa" th:value="${colaboradorEmpresarial.descripcionEmpresa}" required><br><br>
+
+        <label for="direccionEmpresa">Dirección de la Empresa:</label><br>
+        <input type="text" id="direccionEmpresa" name="direccionEmpresa" th:value="${colaboradorEmpresarial.direccionEmpresa}" required><br><br>
+
+        <label for="telefonoEmpresa">Teléfono de la Empresa:</label><br>
+        <input type="text" id="telefonoEmpresa" name="telefonoEmpresa" th:value="${colaboradorEmpresarial.telefonoEmpresa}" required><br><br>
+
+        <label for="sitioWeb">Sitio Web:</label><br>
+        <input type="text" id="sitioWeb" name="sitioWeb" th:value="${colaboradorEmpresarial.sitioWeb}" required><br><br>
+
+        <label for="estadoAprobacion">Estado de Aprobación:</label><br>
+        <input type="text" id="estadoAprobacion" name="estadoAprobacion" th:value="${colaboradorEmpresarial.estadoAprobacion}" required><br><br>
+
+        <label for="tipoColaborador">Tipo de Colaborador:</label><br>
+        <input type="text" id="tipoColaborador" name="tipoColaborador" th:value="${colaboradorEmpresarial.tipoColaborador}" required><br><br>
+
+        <label for="redesSociales">Redes Sociales:</label><br>
+        <input type="text" id="redesSociales" name="redesSociales" th:value="${colaboradorEmpresarial.redesSociales}" required><br><br>
+
         <input type="submit" value="Guardar cambios">
     </form>
-    </div>
-</div>
+
+    <script>
+    </script>
 </body>
 </html>
