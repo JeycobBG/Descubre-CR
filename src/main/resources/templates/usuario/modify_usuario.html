@@ -1,40 +1,63 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html xmls:th="http://thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Formulario de usuario</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/form_user.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/Registrar_Form.css">
+    <script type="text/javascript" th:src="@{/js/funciones.js}"></script>
 </head>
 <body>
-    <div>Modificar usuario</div>
-    
-    
-    <form method="post" th:action="@{/usuarios/modificar}">
-        <input type="hidden" name="cedula" th:value="${usuario.cedula}" />
-        Nombre: <input type="text" name="nombre" th:value="${usuario.nombre}" /><br />
-        Apellido: <input type="text" name="apellido" th:value="${usuario.apellido}" /><br />
-        Idioma: <input type="text" name="idioma" th:value="${usuario.idioma}" /><br />
-        Nacionalidad: <input type="text" name="nacionalidad" th:value="${usuario.nacionalidad}" /><br />
-        Fecha Nacimiento: <input type="date" name="fechaNacimiento" th:value="${usuario.fechaNacimiento}" /><br />
-        Teléfono: <input type="text" name="telefono" th:value="${usuario.telefono}" /><br />
-        Nombre Usuario: <input type="text" name="nombreUsuario" th:value="${usuario.nombreUsuario}" /><br />
-        Contraseña: <input type="text" name="contraseña" th:value="${usuario.contrasena}" /><br />
-        Tipo Usuario: 
-        <select name="tipoUsuario" th:value="${usuario.tipoUsuario}">
-            <option value="administrador">Administrador</option>
-            <option value="colaborador">Colaborador</option>
-            <option value="invitado">Invitado </option>
-        </select><br />
-        Correo: <input type="text" name="correo" th:value="${usuario.correo}" /><br />
-        Fecha Registro: <input type="date" name="fechaRegistro" th:value="${usuario.fechaRegistro}" /><br />
-        <input type="submit" value="Guardar cambios">
-    </form>
+    <h2>Modificar usuario</h2>
+    <div class="containerUser">
+        <form method="post" th:action="@{/usuarios/modificar}" name="userForm" onsubmit="return validateForm()">
+            <label for="cedula">Cédula</label>
+            <input type="text" name="cedula" th:value="${usuario.cedula}" readonly />
+
+            
+            <label for="nombre">Nombre:</label>
+            <input required type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" /><br />
+            
+            <label for="apellido">Apellido:</label>
+            <input required type="text" id="apellido" name="apellido" th:value="${usuario.apellido}" /><br />
+            
+            <label for="idioma">Idioma:</label>
+            <select id="idioma" name="idioma" th:value="${usuario.idioma}">
+                <option value="español" th:selected="${usuario.idioma == 'español'}">Español</option>
+                <option value="ingles" th:selected="${usuario.idioma == 'ingles'}">Inglés</option>
+            </select><br />
+            
+            <label for="nacionalidad">Nacionalidad:</label>
+            <input required type="text" id="nacionalidad" name="nacionalidad" th:value="${usuario.nacionalidad}" /><br />
+            
+            <label for="fechaNacimiento">Fecha Nacimiento:</label>
+            <input required type="date" id="fechaNacimiento" name="fechaNacimiento" th:value="${usuario.fechaNacimiento}" /><br />
+            
+            <label for="telefono">Teléfono:</label>
+            <input required type="text" id="telefono" name="telefono" th:value="${usuario.telefono}" /><br />
+            
+            <label for="nombreUsuario">Nombre Usuario:</label>
+            <input required type="text" id="nombreUsuario" name="nombreUsuario" th:value="${usuario.nombreUsuario}" /><br />
+            
+            <label for="password">Contraseña:</label>
+            <input required type="password" id="password" name="password" placeholder="Nueva Contraseña" /><br />
+            <button type="button" onclick="togglePassword()">Mostrar/Ocultar contraseña</button><br />
+
+            <label for="tipoUsuario">Tipo Usuario:</label>
+            <select id="tipoUsuario" name="tipoUsuario" th:value="${usuario.tipoUsuario}">
+                <option value="administrador" th:selected="${usuario.tipoUsuario == 'administrador'}">Administrador</option>
+                <option value="colaborador" th:selected="${usuario.tipoUsuario == 'colaborador'}">Colaborador</option>
+                <option value="invitado" th:selected="${usuario.tipoUsuario == 'invitado'}">Invitado</option>
+            </select><br />
+            
+            <label for="correo">Correo:</label>
+            <input required type="text" id="correo" name="correo" th:value="${usuario.correo}" /><br />
+            
+            <input type="submit" value="Guardar cambios">
+        </form>
+    </div>
+
+    <div class="alert alert-success" th:if="${exito != null}" th:text="${exito}"></div>
+    <div class="alert alert-error" th:if="${error != null}" th:text="${error}"></div>
 </body>
-        <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
-        <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </html>

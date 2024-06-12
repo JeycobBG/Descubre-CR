@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/CSS/Registrar_Form.css">
-    <script text="text/javascript" th:src="@{/js/funciones.js}"></script>
+    <script src="/js/funciones.js"></script> <!-- Corrigiendo el tipo de atributo script -->
 </head>
 <body onload="setMaxDate()">
     <h2>Agregar usuario</h2>
     <div class="containerUser">
         <div>    
-            <form method="get" th:action="@{/usuarios/registrar}" name="userForm" onsubmit="return validateForm()">
+            <form method="get" th:action="@{/usuarios/registrar}" name="userForm" onsubmit="return validateForm(event)">
                 <label for="nombre">Nombre:</label>
                 <input required type="text" id="nombre" name="nombre"><br />
                 
@@ -57,9 +57,11 @@
                 <input type="submit" value="Registrarse">
             </form>
         </div>
+        <div id="errorMessages" style="color: red;"></div>
     </div>
 
     <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
     <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
+
 </body>
 </html>

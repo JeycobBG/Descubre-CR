@@ -1,96 +1,110 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
     <script text="text/javascript" th:src="@{/js/listados.js}"></script>
-    <link href="/CSS/ADMIN_STYLES.css" rel="stylesheet" type="text/css"/>
     <title>Lista de Datos Climáticos</title>
 </head>
 <body>
-    <header>
-        <h1>Lista de Datos Climáticos</h1>
-    </header>
-    
-    <div class="container">
-        <div class="search-filter">
-            <input type="text" id="searchInput" placeholder="Buscar por código" onkeyup="searchByCodigo()">
-            <!-- No se aplica el filtro alfabético ya que no es relevante para los datos climáticos -->
-        </div>
-        
-        <table id="climasTable">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Temperatura</th>
-                    <th>Tipo de Clima</th>
-                    <th>Fecha</th>
-             
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="clima : ${climas}">
-                    <td th:text="${clima.codigo}"></td>
-                    <td th:text="${clima.temperatura}"></td>
-                    <td th:text="${clima.tipoClima}"></td>
-                    <td th:text="${#dates.format(clima.fecha, 'dd-MM-yyyy')}"></td>
-                   
-                    <td>
-                        <a class="editar-button" th:href="@{'/climas/actualizar/' + ${clima.codigo}}">Modificar</a>
-                        <a class="eliminar-button" th:href="@{'/climas/eliminar/' + ${clima.codigo}}" onclick="showDeleteMessage()">Eliminar</a>
-                        <a href="#" class="ver-detalles" th:attr="onclick='cargarDetallesClima(\'' + ${clima.codigo} + '\')'">Ver Detalles</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <!-- No se incluye paginación ya que no se especifica en el diseño original -->
+    <h2>Lista de Datos Climáticos</h2>
+
+    <div class="search-filter">
+        <input type="text" id="searchInput" placeholder="Buscar por fecha (yyyy-MM-dd)" onkeyup="searchByFecha()">
     </div>
+
+    <div th:each="clima : ${pagina.content}" class="info">
+        <p><strong>Código:</strong> <span th:text="${clima.codigo}"></span></p>
+        <p><strong>Tipo de temperatura: </strong> <span th:text="${clima.tipoClima}"></span></p>
+        <p><strong>Fecha:</strong> <span th:text="${clima.fecha}"></span></p>
+
+        <a th:href="@{'/climas/actualizar?codigo=' + ${clima.codigo}}" th:text="'Modificar'"></a>
+        <a th:href="@{'/climas/eliminar?codigo=' + ${clima.codigo}}" th:text="'Eliminar'"></a>
+        <a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesClima(\'' + ${clima.codigo} + '\')'">Ver Detalles</a>
+    </div>
+
+    <div class="pagination-container">
+        <p>
+            Mostrando <span th:text="${pagina.size}"></span> de <span th:text="${pagina.totalElements}"></span> registros
+        </p>
+
+        <div>
+            <select id="pageSize" name="size" class="form-control" onchange="cambiarPagTam()">
+                <option th:each="item : ${opcionesCantidadPorPagina}" th:value="${item}" th:text="${item}" th:selected="${pagina.size == size}"></option>
+            </select>
+        </div>
+
+        <ul class="pagination mb-0">
+            <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+                <a class="page-link" th:href="@{(${fecha} != null) ? '/climas/buscarPorFecha?fecha=' + ${fecha} + '&page=0&size=' + ${pagina.size} : '/climas/listarClimas' + '?page=0&size=' + ${pagina.size}}">Primera</a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.first} ? 'disabled': ''">
+                <a class="page-link" th:with="prevPag=${pagina.number-1}" th:href="@{(${fecha} != null) ? '/climas/buscarPorFecha?fecha=' + ${fecha} + '&page='+${prevPag}+'&size=' + ${pagina.size} : '/climas/listarClimas' + '?page='+${prevPag}+'&size=' + ${pagina.size}}">Anterior</a>
+            </li>
+            <li class="page-item" th:each="i : ${numPaginas}" th:classappend="${i == pagina.number + 1} ? 'active' : ''">
+                <a class="page-link" th:with="pagNum=${i-1}" th:href="@{(${fecha} != null) ? '/climas/buscarPorFecha?fecha=' + ${fecha} + '&page='+${pagNum}+'&size=' + ${pagina.size} : '/climas/listarClimas' + '?page='+${pagNum}+'&size=' + ${pagina.size}}" th:text="${i}"></a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+                <a class="page-link" th:with="sigPag=${pagina.number+1}" th:href="@{(${fecha} != null) ? '/climas/buscarPorFecha?fecha=' + ${fecha} + '&page='+${sigPag}+'&size=' + ${pagina.size} : '/climas/listarClimas' + '?page='+${sigPag}+'&size=' + ${pagina.size}}">Siguiente</a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.last} ? 'disabled': ''">
+                <a class="page-link" th:with="ultPag=${pagina.totalPages-1}" th:href="@{(${fecha} != null) ? '/climas/buscarPorFecha?fecha=' + ${fecha} + '&page='+${ultPag}+'&size=' + ${pagina.size} : '/climas/listarClimas' + '?page='+${ultPag}+'&size=' + ${pagina.size}}">Última</a>
+            </li>
+        </ul>
+    </div>
+
     <div id="verDetalles"></div>
-</body>
-</html>
-    
+
+    <div id="alert-messages" th:data-exito="${exito != null ? exito : ''}" th:data-error="${error != null ? error : ''}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
     <script>
-        
-        function showDeleteMessage() {
-            alert("El clima se eliminó correctamente.");
-        }
-        // Función para buscar por cédula
-        function searchByCodigo() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("climasTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
+        function searchByFecha() {
+            const input = document.getElementById("searchInput").value.trim();
+            const infoDivs = document.getElementsByClassName("info");
+
+            for (let i = 0; i < infoDivs.length; i++) {
+                const fechaSpan = infoDivs[i].getElementsByTagName("span")[2];
+                if (fechaSpan) {
+                    const fechaTexto = fechaSpan.textContent || fechaSpan.innerText;
+                    if (fechaTexto.includes(input)) {
+                        infoDivs[i].style.display = "";
                     } else {
-                        tr[i].style.display = "none";
+                        infoDivs[i].style.display = "none";
                     }
                 }
             }
         }
-        // Función para ir a la página anterior
-        function previousPage() {
-            var currentPage = parseInt(document.getElementById("currentPage").innerText);
-            if (currentPage > 1) {
-                document.getElementById("currentPage").innerText = currentPage - 1;
-            }
+
+        function cambiarPagTam() {
+            paginateTable();
         }
 
-        // Función para ir a la página siguiente
-        function nextPage() {
-            var currentPage = parseInt(document.getElementById("currentPage").innerText);
-            var lastPage = document.getElementById("climasTable").rows.length / 5;
-            if (currentPage < lastPage) {
-                document.getElementById("currentPage").innerText = currentPage + 1;
+        function paginateTable() {
+            const infoDivs = document.getElementsByClassName("info");
+            const pageSize = parseInt(document.getElementById("pageSize").value, 10) || 5;
+            const totalPages = Math.ceil(infoDivs.length / pageSize);
+
+            let currentPage = 1;
+            for (let i = 0; i < infoDivs.length; i++) {
+                if (i < (currentPage - 1) * pageSize || i >= currentPage * pageSize) {
+                    infoDivs[i].style.display = "none";
+                } else {
+                    infoDivs[i].style.display = "";
+                }
             }
+            document.getElementById("currentPage").innerText = currentPage;
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            paginateTable();
+        });
     </script>
+
+    <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
+    <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </body>
 </html>

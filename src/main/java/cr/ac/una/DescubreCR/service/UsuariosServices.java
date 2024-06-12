@@ -64,4 +64,10 @@ public class UsuariosServices implements IUsuariosServices {
     public Usuario buscar(String cedula) {
         return usuarioRepository.findByCedula(cedula).orElse(null);
     }
+    
+    @Override
+    public Usuario buscarUsuario(String nombreUsuario) {
+        return usuarioRepository.findByNombreUsuario(nombreUsuario).orElse(null);
+    }
+    
 }

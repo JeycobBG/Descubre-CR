@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css">
-    <!-- Añadir los scripts de Bootstrap 4 -->
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
+    <script text="text/javascript" th:src="@{/js/listados.js}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
@@ -46,6 +47,7 @@
                     <td th:text="${#dates.format(usuario.fechaNacimiento, 'dd-MM-yyyy')}"></td>
                     <td><a class="editar-button" th:href="@{'/usuarios/buscarUsuario?per_id=' + ${usuario.per_id}}" th:text="'Editar'"></a></td>
                     <td><a class="eliminar-button" th:href="@{'/usuarios/eliminar?per_id=' + ${usuario.per_id}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesUsuario(\'' + ${usuario.per_id} + '\')'">Ver Detalles</a></td>
                 </tr>
             </tbody>
         </table>
@@ -82,48 +84,31 @@
     </ul>
 
 
-    </div>
+    <div id="verDetalles"></div>
 
-    <script>
-        function cambiarPagTam() {
+    <div id="alert-messages" th:data-exito="${exito != null ? exito : ''}" th:data-error="${error != null ? error : ''}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
+	<script>
+        
+        function cambiarPagTam(){
             const pageSize = document.getElementById("pageSize").value;
-            const currentPage = [[${page.number}]];
+            const currentPage = [[${pagina.number}]];
 
-            // Verificar si el nombre existe
-            const descripcion = "[[${cedula}]]";
-            let url = "";
-            if (titulo.trim() !== "") {
-                url = "/usuarios/buscarUsuario?cedula=" + cedula + "&page=" + currentPage + "&size=" + pageSize;
-            } else {
-                url = "?page=" + currentPage + "&size=" + pageSize;
+                // Verificar si el nombre existe
+                const descripcion = "[[${per_id}]]";
+                let url = "";
+                if (titulo.trim() !== "") {
+                    url = "/usuarios/buscarId?per_id=" + cedula + "&page=" + currentPage + "&size=" + pageSize;
+                } else {
+                    url = "?page=" + currentPage + "&size=" + pageSize;
+                }
+
+                window.location.href = url;
             }
+            
+	</script>
 
-            window.location.href = url;
-        }
-
-        function cargarDetallesUsuario(id) {
-            // Aquí puedes hacer una solicitud AJAX para obtener los detalles del usuario por ID
-            // Suponiendo que tienes una URL para obtener los detalles del usuario:
-            const url = `/usuarios/detalles/${id}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // Llenar los campos del modal con los datos obtenidos
-                    document.getElementById('detalle-id').textContent = data.per_id;
-                    document.getElementById('detalle-nombre').textContent = data.nombre;
-                    document.getElementById('detalle-apellido').textContent = data.apellido;
-                    document.getElementById('detalle-cedula').textContent = data.cedula;
-                    document.getElementById('detalle-usuario').textContent = data.nombreUsuario;
-                    document.getElementById('detalle-tipoUsuario').textContent = data.tipoUsuario;
-                    document.getElementById('detalle-correo').textContent = data.correo;
-                    document.getElementById('detalle-telefono').textContent = data.telefono;
-                    document.getElementById('detalle-fechaNacimiento').textContent = data.fechaNacimiento;
-                })
-                .catch(error => console.error('Error al cargar los detalles del usuario:', error));
-        }
-    </script>
-
-    <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
 </body>
 </html>

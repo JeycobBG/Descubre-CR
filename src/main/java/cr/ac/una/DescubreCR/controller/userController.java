@@ -119,8 +119,8 @@ public class userController {
         );
 
         
-        if(usuariosServices.buscar(cedula) != null){
-            flash.addFlashAttribute("error","Cédula ya existe");
+        if(usuariosServices.buscar(cedula) != null || usuariosServices.buscarUsuario(nombreUsuario) != null){
+            flash.addFlashAttribute("error","Cédula o Nombre Usuario ya existe");
         }else{
             if(usuariosServices.guardar(user)){
                 flash.addFlashAttribute("exito","Se a registrado con éxito un usuario");
@@ -131,20 +131,21 @@ public class userController {
         
         
 
-        return "redirect:/usuarios/formRegistrar"; // Redirigir a la página del formulario
+        return "/usuarios/formRegistrar"; // Redirigir a la página del formulario
     }
 
-
-    
     @PostMapping("/login")
     public String login(@RequestParam("usuario") String usuario,
-                        @RequestParam("password") String contrasena) throws SQLException{
-        
-        if(!usuariosServices.login(usuario,usuariosServices.encriptar(contrasena))){
-            return "redirect:login";
+                        @RequestParam("password") String contrasena,
+                        Model model) throws SQLException {
+
+        if (!usuariosServices.login(usuario, usuariosServices.encriptar(contrasena))) {
+            model.addAttribute("error", "Usuario o contraseña incorrectos");
+            return "login";
         }
         return "index";
     }
+
     
     @GetMapping("/eliminar")
     public String eliminar(@RequestParam("per_id") int per_id, RedirectAttributes flash){
@@ -157,8 +158,8 @@ public class userController {
   
     }
     
-    @GetMapping("/buscarId/{id}")
-    public Usuario obtenerDetallesDeUsuario(@RequestParam("id") int id) throws SQLException, JsonProcessingException {
+    @GetMapping("/verDetallesUsuario/{per_id}")
+    public Usuario obtenerDetallesDeUsuario(@RequestParam("per_id") int id) throws SQLException, JsonProcessingException {
         return usuariosServices.obtenerPorId(id);
     }
     
@@ -173,7 +174,6 @@ public class userController {
         
         return "usuario/modify_usuario"; 
     }
-
     
     @PostMapping("/modificar")
     public String modificarUsuario(
@@ -186,37 +186,43 @@ public class userController {
         @RequestParam("fechaNacimiento") @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaNacimiento,
         @RequestParam("telefono") String telefono,
         @RequestParam("nombreUsuario") String nombreUsuario,
-        @RequestParam("contraseña") String contraseña,
+        @RequestParam("contrasena") String contrasena,
         @RequestParam("tipoUsuario") String tipoUsuario,
         @RequestParam("correo") String correo,
-        @RequestParam("fechaRegistro") @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaRegistro){
+        @RequestParam("fechaRegistro") @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaRegistro) {
 
-        Usuario usuarioExistente = usuariosServices.buscar(cedula);
+        Usuario usuarioExistente = new Usuario();
 
-        if (usuarioExistente != null) {
-            usuarioExistente.setNombre(nombre);
-            usuarioExistente.setApellido(apellido);
-            usuarioExistente.setIdioma(idioma);
-            usuarioExistente.setNacionalidad(nacionalidad);
-            usuarioExistente.setFechaNacimiento(fechaNacimiento);
-            usuarioExistente.setTelefono(telefono);
+            Usuario usuarioPorNombreUsuario = usuariosServices.buscarUsuario(nombreUsuario);
 
-            usuarioExistente.setNombreUsuario(nombreUsuario);
-            usuarioExistente.setContrasena(contraseña);
-            usuarioExistente.setTipoUsuario(tipoUsuario);
-            usuarioExistente.setCorreo(correo);
-            usuarioExistente.setFechaRegistro(fechaRegistro);
+            if (usuarioPorNombreUsuario == null) {
 
-            if (usuariosServices.guardar(usuarioExistente)) {
-                flash.addFlashAttribute("exito", "Usuario modificado");
-                return "redirect:/usuarios/listaUsuarios";
+                // Actualizar los datos del usuario
+                usuarioExistente.setNombre(nombre);
+                usuarioExistente.setApellido(apellido);
+                usuarioExistente.setIdioma(idioma);
+                usuarioExistente.setNacionalidad(nacionalidad);
+                usuarioExistente.setFechaNacimiento(fechaNacimiento);
+                usuarioExistente.setTelefono(telefono);
+                usuarioExistente.setNombreUsuario(nombreUsuario);
+                usuarioExistente.setContrasena(usuariosServices.encriptar(contrasena));
+                usuarioExistente.setTipoUsuario(tipoUsuario);
+                usuarioExistente.setCorreo(correo);
+                usuarioExistente.setFechaRegistro(fechaRegistro);
+
+                // Guardar el usuario actualizado
+                if (usuariosServices.guardar(usuarioExistente)) {
+                    flash.addFlashAttribute("exito", "Usuario modificado");
+                    return "redirect:/usuarios/listaUsuarios";
+                } else {
+                    flash.addFlashAttribute("error", "Error al guardar el usuario");
+                }
+            } else {
+                flash.addFlashAttribute("error", "Nombre de usuario ya existe");
             }
-        } else {
-            flash.addFlashAttribute("error", "No se encontró el usuario");
-        }
+        
 
         return "error";
     }
 
-    
 }

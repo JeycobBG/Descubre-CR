@@ -1,19 +1,27 @@
-<link href="/CSS/login.css" rel="stylesheet" type="text/css"/>
-<div class="container">
-    <div class="heading">Iniciar sesión</div>
-    <form method="post" th:action="@{/usuarios/login}" class="form">
-        <input required="" class="input" type="text" name="usuario" id="usuario" placeholder="Usuario">
-        <input required="" class="input" type="password" name="password" id="password" placeholder="Contraseña">
-        <input class="login-button" type="submit" value="Iniciar sesión">
-    </form>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-		crossorigin="anonymous"></script>
-</div>
-
-
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Iniciar sesión</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/CSS/login.css" rel="stylesheet" type="text/css"/>
+    <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="heading">Iniciar sesión</div>
+        <form method="post" th:action="@{/usuarios/login}" class="form">
+            <input required class="input" type="text" name="usuario" id="usuario" placeholder="Usuario">
+            <input required class="input" type="password" name="password" id="password" placeholder="Contraseña">
+            <input class="login-button" type="submit" value="Iniciar sesión">
+        </form>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    </div>
+</body>
+</html>
 
 
 

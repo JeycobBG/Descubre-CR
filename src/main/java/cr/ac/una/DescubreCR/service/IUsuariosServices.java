@@ -28,4 +28,6 @@ public interface IUsuariosServices {
     
     Usuario buscar(String cedula);
     
+    Usuario buscarUsuario(String nombreUsuario);
+    
 }

@@ -255,3 +255,35 @@ function cargarDetallesClima(codigo) {
     };
     xhr.send();
 }
+
+function cargarDetallesUsuario(per_id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./verDetallesUsuario?per_id=" + per_id, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                var detallesHtml = `
+                    <h2>DETALLES DEL USUARIO</h2>
+                    <p><strong>ID:</strong> <span>${response.per_id}</span></p>
+                    <p><strong>Nombre:</strong> <span>${response.nombre}</span></p>
+                    <p><strong>Apellido:</strong> <span>${response.apellido}</span></p>
+                    <p><strong>Cédula:</strong> <span>${response.cedula}</span></p>
+                    <p><strong>Nombre de Usuario:</strong> <span>${response.nombreUsuario}</span></p>
+                    <p><strong>Tipo de Usuario:</strong> <span>${response.tipoUsuario}</span></p>
+                    <p><strong>Correo:</strong> <span>${response.correo}</span></p>
+                    <p><strong>Teléfono:</strong> <span>${response.telefono}</span></p>
+                    <p><strong>Fecha de Nacimiento:</strong> <span>${response.fechaNacimiento}</span></p>
+                `;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
+            } else {
+                console.error("Error al cargar los detalles del usuario. Estado de la solicitud:", xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error("Error de red al cargar los detalles del usuario.");
+    };
+    xhr.send();
+}

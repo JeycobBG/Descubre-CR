@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>, JpaSpecificationExecutor<Usuario> {
     Optional<Usuario> findByCedula(String cedula);
-    Optional<Usuario> findByNombreUsuarioAndContrasena(String nombre, String contrasena);
+    Optional<Usuario> findByNombreUsuario(String nombreUsuario);
+    Optional<Usuario> findByNombreUsuarioAndContrasena(String nombreUsuario, String contrasena);
 }
 
