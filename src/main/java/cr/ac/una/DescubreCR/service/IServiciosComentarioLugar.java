@@ -5,6 +5,8 @@
 package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.domain.ComentarioLugar;
+import cr.ac.una.DescubreCR.domain.Lugar;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,6 +18,7 @@ public interface IServiciosComentarioLugar{
 
     public void guardar(ComentarioLugar comentario);
     public Page<ComentarioLugar> listar(Pageable pageable, int idLugar);
+    public List<ComentarioLugar> listar(Lugar lugar);
     public boolean eliminar(String codigo);
     public boolean existe(String codigo);
     public ComentarioLugar buscar(String codigo);

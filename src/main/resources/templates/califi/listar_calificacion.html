@@ -97,6 +97,28 @@
         input[type="submit"]:hover {
             background-color: #4cae4c; /* Cambiar color de fondo al pasar el ratón */
         }
+
+        /* Estilos para los enlaces de Editar y Eliminar */
+        a.editar,
+        a.eliminar {
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: #fff;
+            text-decoration: none;
+            margin-right: 5px;
+        }
+        a.editar {
+            background-color: #007bff; /* Azul */
+        }
+        a.editar:hover {
+            background-color: #0056b3; /* Azul oscuro */
+        }
+        a.eliminar {
+            background-color: #dc3545; /* Rojo */
+        }
+        a.eliminar:hover {
+            background-color: #c82333; /* Rojo oscuro */
+        }
     </style>
 </head>
 <body>
@@ -120,6 +142,7 @@
                 <th>Utilidad</th>
                 <th>Tipo de Usuario</th>
                 <th>Etiquetas Asociadas</th>
+                <th>Acciones</th> <!-- Nueva columna para los botones -->
             </tr>
         </thead>
         <tbody>
@@ -130,11 +153,15 @@
                 <td th:text="${calificacion.utilidad}"></td>
                 <td th:text="${calificacion.tipoUsuario}"></td>
                 <td th:text="${calificacion.etiquetasAsociadas}"></td>
+                <td>
+                    <a th:href="@{/calificaciones/consulta_actualizar(id_calificacion=${calificacion.id})}" class="editar">Editar</a>
+                    <a th:href="@{/calificaciones/eliminar(id_calificacion=${calificacion.id})}" class="eliminar">Eliminar</a>
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <!-- comment  <div class="pagination-container">
+    <div class="pagination-container">
         <ul class="pagination">
             <li><a href="#">Anterior</a></li>
             <li class="active"><a href="#">1</a></li>
@@ -143,8 +170,7 @@
             <li><a href="#">Siguiente</a></li>
         </ul>
     </div>
-</div>-->
-
+</div>
 
 <!-- JQUERY -->
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -158,10 +184,10 @@
             language: {
                 processing: "Tratamiento en curso...",
                 search: "Buscar:",
-                lengthMenu: "Mostrar _MENU_ registros por página",
-                info: "Mostrando del _START_ al _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar MENU registros por página",
+                info: "Mostrando del START al END de TOTAL registros",
                 infoEmpty: "No hay registros disponibles",
-                infoFiltered: "(filtrado de _MAX_ registros en total)",
+                infoFiltered: "(filtrado de MAX registros en total)",
                 infoPostFix: "",
                 loadingRecords: "Cargando...",
                 zeroRecords: "No se encontraron registros coincidentes",

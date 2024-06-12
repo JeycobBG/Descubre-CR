@@ -17,7 +17,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </a>
         <div class="container">
  
-            <form id="formRegistrar" method="post" th:action="@{/comentariosLugar/actualizar}" enctype="multipart/form-data"> 
+            <form id="formRegistrar" method="post" th:action="@{/comentariosLugar/actualizar}"> 
                 <textarea name="contenido" th:value="${comentario.contenido}" required form="formRegistrar"></textarea><br/><br/>
                 
                 <p>Visibilidad del comentario:</p>
@@ -38,4 +38,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </form>
         </div>
     </body>
+    <script>
+        document.getElementById("formRegistrar").addEventListener("submit", function(event) {
+            event.preventDefault(); 
+
+            const formData = new FormData(this); 
+
+            fetch(this.getAttribute("action"), {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Comentario actualizado correctamente.");
+                } else {
+                    console.error("Error al actualizar comentario.");
+                }
+            })
+            .catch(error => {
+                console.error("Error de red:", error);
+            });
+        });
+    </script>
 </html>

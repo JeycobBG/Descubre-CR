@@ -1,11 +1,13 @@
 package cr.ac.una.DescubreCR.service;
 
 import cr.ac.una.DescubreCR.domain.ComentarioLugar;
+import cr.ac.una.DescubreCR.domain.Lugar;
 import cr.ac.una.DescubreCR.jpa.RepositoryComentarioLugar;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -43,6 +45,11 @@ public class ServiciosComentarioLugar implements IServiciosComentarioLugar{
         };
         
         return repComentarioLugar.findAll(spec, pageable);
+    }
+    
+    @Override
+    public List<ComentarioLugar> listar(Lugar lugar){
+        return repComentarioLugar.findByLugar(lugar);
     }
     
     @Override
