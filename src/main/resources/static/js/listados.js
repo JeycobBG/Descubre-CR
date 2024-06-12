@@ -319,3 +319,65 @@ function cargarDetallesColaborador(ide) {
     };
     xhr.send();
 }
+function cargarDetallesClima(codigo) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./verDetallesClima?codigo=" + codigo, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+               var response = JSON.parse(xhr.responseText);
+               var detallesHtml = `
+                    <h2>DETALLES DEL CLIMA</h2>
+
+                    <p><strong>Codigo:</strong> <span>${response.codigo}</span></p>
+                    <p><strong>Temperatura:</strong> <span>${response.temperatura}</span></p>
+                    <p><strong>Tipo de Clima:</strong> <span>${response.tipoClima}</span></p>
+                    <p><strong>Fecha:</strong> <span>${response.fecha}</span></p>
+                    <p><strong>Unidad Centigrados:</strong> <span>${response.unidadC}</span></p>
+                    <p><strong>IndiceUV:</strong> <span>${response.indiceUV}</span></p>
+                    <p><strong>Porcentaje Humedad :</strong> <span>${response.porcentajeHumedad}</span></p>
+                    
+                  `;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
+            } else {
+                console.error("Error al cargar los detalles del Clima. Estado de la solicitud:", xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error("Error de red al cargar los detalles del clima.");
+    };
+    xhr.send();
+}
+
+function cargarDetallesRuta(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./verDetallesRuta?id=" + id, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                var detallesHtml = `
+                    <h2>DETALLES DE LA RUTA RECOMENDADA</h2>
+                    <p><strong>Código:</strong> <span>${response.id}</span></p>
+                    <p><strong>Comentario:</strong> <span>${response.comentario}</span></p>
+                    <p><strong>Monto de Entradas (colones):</strong> <span>${response.montoEntradas}</span></p>
+                    <p><strong>Puntuación de la ruta:</strong> <span>${response.puntuacion}</span></p>
+                    <p><strong>Dificultad:</strong> <span>${response.dificultad}</span></p>
+                    <p><strong>Tipo de ruta:</strong> <span>${response.tipo}</span></p>
+                    <p><strong>Transporte recomendado:</strong> <span>${response.transporte}</span></p>
+                    <p><strong>Cantidad de Lugares:</strong> <span>${response.cantidadLugares}</span></p>
+                    <p><strong>Lugares:</strong> ${response.lugares.join(', ')}</p>
+                `;
+                document.getElementById("verDetalles").innerHTML = detallesHtml;
+                document.getElementById("verDetalles").classList.add("active");
+            } else {
+                console.error("Error al cargar los detalles de la ruta. Estado de la solicitud:", xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error("Error de red al cargar los detalles de la ruta.");
+    };
+    xhr.send();
+}

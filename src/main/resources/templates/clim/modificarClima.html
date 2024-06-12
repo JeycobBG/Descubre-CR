@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Modificar Clima</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/CSS/Registrar_Form.css" rel="stylesheet" type="text/css"/>
+    <title>Actualizar Datos Climáticos</title>
 </head>
 <body>
-    <h2> Modificar Clima</h2>
-    <div class="container">
-    <div>
-    <form method="post" th:action="@{/climas/modificarClima}">
-        <input type="hidden" name="codigo" th:value="${clima.codigo}" />
-        Temperatura:        <input type="text" name="temperatura" th:value="${clima.temperatura}" /><br />
-        Tipo de clima:      <input type="text" name="tipoClima" th:value="${clima.tipoClima}" /><br />
-        Fecha:              <input type="date" name="fecha" th:value="${#dates.format(clima.fecha, 'yyyy-MM-dd')}" /><br />
-        Unidad Centígrados: <input type="text" name="unidadC" th:value="${clima.unidadC}" /><br />
-        Índice UV:          <input type="number" name="indiceUV" th:value="${clima.indiceUV}" /><br />
-        Porcentaje Humedad: <input type="text" name="porcentajeHumedad" th:value="${clima.porcentajeHumedad}" /><br />
-        <input type="submit" value="Guardar cambios">
+    <h1>Actualizar Datos Climáticos</h1>
+    
+    <form action="/climas/actualizar-clima" method="post">
+        <label for="codigo">Código:</label><br>
+        <input type="text" id="codigo" th:value="${clima.codigo}" name="codigo" readonly /><br><br>
+
+        <label for="temperatura">Temperatura:</label><br>
+        <input type="text" id="temperatura" th:value="${clima.temperatura}" name="temperatura" required><br><br>
+
+        <label for="tipoClima">Tipo de Clima:</label><br>
+        <input type="text" id="tipoClima" th:value="${clima.tipoClima}" name="tipoClima" required><br><br>
+
+        <label for="fecha">Fecha:</label><br>
+        <input type="date" id="fecha" name="fecha" required><br><br>
+
+        <label for="unidadC">Unidad de Centigrados:</label><br>
+        <input type="text" id="unidadC" th:value="${clima.unidadC}" name="unidadC" required><br><br>
+
+        <label for="indiceUV">Índice UV:</label><br>
+        <input type="number" id="indiceUV" th:value="${clima.indiceUV}" name="indiceUV" required><br><br>
+
+        <label for="porcentajeHumedad">Porcentaje de Humedad:</label><br>
+        <input type="text" id="porcentajeHumedad" th:value="${clima.porcentajeHumedad}" name="porcentajeHumedad" required><br><br>
+
+        <input type="submit" value="Guardar">
     </form>
-    </div>
-  </div>
+
+    <script>
+
+    </script>
 </body>
 </html>

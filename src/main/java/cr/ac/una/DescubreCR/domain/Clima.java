@@ -1,31 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.DescubreCR.domain;
 
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 
-/**
- *
- * @author Jordi
- */
+
+@Entity
+@Table(name = "tb_clima")
 public class Clima {
-    
+    @Id
     private String codigo;
+
     private String temperatura;
+
     private String tipoClima;
-    private Date fecha;
+
+    @Temporal(TemporalType.DATE)
+    private LocalDate fecha;
+
     private String unidadC;
+
     private int indiceUV;
+
     private String porcentajeHumedad;
 
     public Clima() {
     }
 
-    
-    
-    public Clima(String codigo,String temperatura, String tipoClima, Date fecha, String unidadC, int indiceUV, String porcentajeHumedad) {
+    public Clima(String codigo, String temperatura, String tipoClima, LocalDate fecha, String unidadC, int indiceUV, String porcentajeHumedad) {
         this.codigo = codigo;
         this.temperatura = temperatura;
         this.tipoClima = tipoClima;
@@ -35,6 +43,7 @@ public class Clima {
         this.porcentajeHumedad = porcentajeHumedad;
     }
 
+    // Getters y setters...
     public String getCodigo() {
         return codigo;
     }
@@ -59,11 +68,11 @@ public class Clima {
         this.tipoClima = tipoClima;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -90,5 +99,4 @@ public class Clima {
     public void setPorcentajeHumedad(String porcentajeHumedad) {
         this.porcentajeHumedad = porcentajeHumedad;
     }
-            
 }

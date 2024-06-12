@@ -6,6 +6,7 @@ package cr.ac.una.DescubreCR.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cr.ac.una.DescubreCR.domain.Clima;
 import cr.ac.una.DescubreCR.domain.Persona;
 import cr.ac.una.DescubreCR.domain.Usuario;
 import cr.ac.una.DescubreCR.service.IUsuariosServices;
@@ -29,6 +30,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -131,7 +133,7 @@ public class userController {
         
         
 
-        return "/usuarios/formRegistrar"; // Redirigir a la página del formulario
+        return "index";
     }
 
     @PostMapping("/login")
@@ -158,7 +160,8 @@ public class userController {
   
     }
     
-    @GetMapping("/verDetallesUsuario/{per_id}")
+    @GetMapping("/verDetallesUsuario")
+    @ResponseBody
     public Usuario obtenerDetallesDeUsuario(@RequestParam("per_id") int id) throws SQLException, JsonProcessingException {
         return usuariosServices.obtenerPorId(id);
     }

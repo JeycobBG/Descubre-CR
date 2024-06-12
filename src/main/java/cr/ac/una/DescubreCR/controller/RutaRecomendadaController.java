@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -94,10 +95,11 @@ public class RutaRecomendadaController {
         } else {
             flash.addFlashAttribute("error", "No existe la ruta con código " + id + ".");
         }
-        return "redirect:/usuarios/menuPrincipal";
+        return "redirect:/rutasRecomendadas/listarRutas";
     }
 
-    @GetMapping("/buscarPorCodigo/{id}")
+    @GetMapping("/verDetallesRuta")
+    @ResponseBody
     public RutaRecomendada obtenerDetallesRutaRecomendada(@RequestParam("id") int id) throws SQLException, JsonProcessingException {
         return rutasServ.obtenerPorCodigoRuta(id);
     }
@@ -124,7 +126,7 @@ public class RutaRecomendadaController {
     @PostMapping("/actualizar-rutaRecomendada")
     public String actualizarRutaRecomendada(@ModelAttribute RutaRecomendada ruta) throws SQLException {
         rutasServ.guardar(ruta);
-        return "redirect:/usuarios/menuPrincipal";
+        return "redirect:/rutasRecomendadas/listarRutas";
     }
     
 }

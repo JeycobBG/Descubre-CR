@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" th:href="@{/CSS/REVISTA_ARTICULOS.css}" />
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Revista de Rutas Recomendadas</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/ADMIN_STYLES.css">
+    <script text="text/javascript" th:src="@{/js/alertas.js}"></script>
+    <script text="text/javascript" th:src="@{/js/listados.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-    <h2>Rutas Recomendadas</h2>
+    <h1>Lista de rutas recomendadas</h1>
+    <div class="container mt-4">
+        <h1>Datos de rutas</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Comentario</th>
+                    <th>Dificultad</th>
+                    <th>Tipo</th>
+                    <th>Transporte recomendado</th>
+                    <th>Lugares</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ruta : ${pagina.content}">
+                    <td th:text="${ruta.id}"></td>
+                    <td th:text="${ruta.comentario}"></td>
+                    <td th:text="${ruta.dificultad}"></td>
+                    <td th:text="${ruta.tipo}"></td>
+                    <td th:text="${ruta.transporte}"></td>
+                    <td th:text="${ruta.lugares}"></td>
+                    <td><a th:href="@{'/rutasRecomendadas/actualizar/' + ${ruta.id}}" th:text="'Editar'"></a></td>
+                    <td><a th:href="@{'/rutasRecomendadas/eliminar/' + ${ruta.id}}" th:text="'Eliminar'"></a></td>
+                    <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesRuta(\'' + ${ruta.id} + '\')'">Ver Detalles</a></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div th:each="ruta : ${pagina.content}">
-        <div class="info">
-            <p><strong>Codigo: </strong> <span th:text="${ruta.id}"></span></p>
-            <p><strong>Comentario: </strong> <span th:text="${ruta.comentario}"></span></p>
-            <p><strong>Dificultad:</strong> <span th:text="${ruta.dificultad}"></span></p>
-            <p><strong>Tipo:</strong> <span th:text="${ruta.tipo}"></span></p>
-            <p><strong>Transporte recomendado:</strong> <span th:text="${ruta.transporte}"></span></p>
-            <p><strong>Lugares:</strong> <span th:text="${ruta.lugares}"></span></p>
-          
-            <td><a th:href="@{'/rutasRecomendadas/actualizar/' + ${ruta.id}}" th:text="'Editar'"></a></td>
-            <td><a th:href="@{'/rutasRecomendadas/eliminar/' + ${ruta.id}}" th:text="'Eliminar'"></a></td>
-            <td><a class="ver-detalles" href="#" th:attr="onclick='cargarDetallesLugar(' + ${ruta.id} + ')'" th:text="'Ver detalles'"></a></td>
-        </div>
-    </div>
     
     <div class="pagination-container">
         <p>
@@ -54,17 +79,22 @@
         </li>
     </ul>
 
+    <div id="verDetalles"></div>
+
+    <div id="alert-messages" th:data-exito="${exito != null ? exito : ''}" th:data-error="${error != null ? error : ''}"></div>
 
     </div>
-        
-    <script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
         function cambiarPagTam(){
             const pageSize = document.getElementById("pageSize").value;
             const currentPage = [[${pagina.number}]];
 
+            // Verificar si el código existe
             const codigo = "[[${codigoRuta}]]";
             let url = "";
-            if (titulo.trim() !== "") {
+            if (codigo.trim() !== "") {
                 url = "/rutasRecomendadas/buscarPorCodigo?codigoRuta=" + codigo + "&page=" + currentPage + "&size=" + pageSize;
             } else {
                 url = "?page=" + currentPage + "&size=" + pageSize;
@@ -72,13 +102,7 @@
 
             window.location.href = url;
         }
-      </script>
+	</script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@bootstrap@4.5.2/dist/js/bootstrap.min.js"> </script>
-
-    <div class="alert alert-success" th:if="${exito!=null}" th:text="${exito}"></div>
-    <div class="alert alert-error" th:if="${error!=null}" th:text="${error}"></div>
 </body>
 </html>
