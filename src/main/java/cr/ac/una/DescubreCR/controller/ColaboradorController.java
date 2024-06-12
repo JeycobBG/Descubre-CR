@@ -71,7 +71,7 @@ public class ColaboradorController {
         
         
         
-        return "redirect:/index";
+        return "redirect:/usuarios/menuPrincipal";
     }
     
     @GetMapping({"/formColaborador"})
@@ -116,7 +116,7 @@ public class ColaboradorController {
             flash.addFlashAttribute("error", "No existe el colaborador con código " + ide + ".");
         }
         
-        return "index";
+        return "redirect:/usuarios/menuPrincipal";
     }
     
     @GetMapping("/actualizar")
@@ -127,14 +127,16 @@ public class ColaboradorController {
             return "colab/modificarColaborador";
         } else {
             flash.addFlashAttribute("error", "No existe un colaborador con ese codigo ");
-        return "index";
+
+        return "redirect:/usuarios/menuPrincipal";
         }
     }
     
-    @PostMapping("/actualizar-colaborador")
+    @PostMapping("/modificarColaborador")
     public String actualizarColaborador(@ModelAttribute ColaboradorEmpresarial colab) throws SQLException {
         colabServ.guardar(colab);
-        return "index";
+
+        return "redirect:/usuarios/menuPrincipal";
     }
  
 }

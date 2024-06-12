@@ -61,7 +61,7 @@ public class RutaRecomendadaController {
         rutasServ.guardar(ruta);
         flash.addFlashAttribute("exito", "Se ha registrado una ruta.");
         
-        return "redirect:/rutasRecomendadas/form_RutaRecomendada";
+        return "redirect:/usuarios/menuPrincipal";
     }
     
     @GetMapping("/listarRutas")
@@ -94,7 +94,7 @@ public class RutaRecomendadaController {
         } else {
             flash.addFlashAttribute("error", "No existe la ruta con código " + id + ".");
         }
-        return "index";
+        return "redirect:/usuarios/menuPrincipal";
     }
 
     @GetMapping("/buscarPorCodigo/{id}")
@@ -117,14 +117,14 @@ public class RutaRecomendadaController {
             return "rutaRecomendada/actualizarRutaRecomendada";
         } else {
             flash.addFlashAttribute("error", "No existe una ruta con ese código.");
-            return "redirect:/index";
+        return "redirect:/usuarios/menuPrincipal";
         }
     }
 
     @PostMapping("/actualizar-rutaRecomendada")
     public String actualizarRutaRecomendada(@ModelAttribute RutaRecomendada ruta) throws SQLException {
         rutasServ.guardar(ruta);
-        return "index";
+        return "redirect:/usuarios/menuPrincipal";
     }
     
 }
